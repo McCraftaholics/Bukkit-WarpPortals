@@ -1,0 +1,73 @@
+name: WarpPortals
+main: com.alexwendland.warpportals.bukkit.PortalPlugin
+version: 1.27
+
+commands:
+  phelp:
+    description: List all Portal related commands
+    usage: /pcommands
+    permissions: warpportals.admin
+    permission-message: You are not authorized to see these commands!
+  pcreate:
+    description: Equip the current item as a Portal Creation tool
+    usage: /pcreate [portalname] [destName|(World,x,y,z)]
+    permissions: warpportals.admin
+    permission-message: You are not authorized to create a Portal!
+  pdelete:
+    description: Delete a Portal by name
+    usage: /pdelete [portalName]
+    permissions: warpportals.admin
+    permission-message: You are not authorized to delete Portals!
+  pdeltool:
+    description: Bind the Portal Deletion tool to the current item
+    usage: /pdeltool
+    permissions: warpportals.admin
+    permission-message: You are not authorized to delete Portals!
+  pdest:
+    description: Save your current location as a WarpPortal Destination
+    usage: /pdest [destName]
+    permissions: warpportals.admin
+    permission-message: You are not authorized to create Portal destinations!
+  pdestdel:
+    description: Remove the Portal Destination
+    usage: /pdestdel [destName]
+    permissions: warpportals.admin
+    permission-message: You are not authorized to remove Portal destinations!
+  plist:
+    description: List all Portals
+    usage: /plist
+    permissions: warpportals.admin
+    permission-message: You are not authorized to list all of the portals!
+  pdestlist:
+    description: List all saved Portal Destinations
+    usage: /pdestlist
+    permissions: warpportals.admin
+    permission-message: You are not authorized to list all Portal destinations!
+  pgoto:
+    description: Teleport to a Portal or Destination
+    usage: /pgoto [p|d] [destName|portalName]
+    permissions: warpportals.admin
+    permission-message: You are not authorized to teleport to a Portal managed location!
+  psave:
+    description: Force save all Portal data
+    usage: /psave
+    permissions: warpportals.admin
+    permission-message: You are not authorized to force save all Portal data!
+  pload:
+    description: Force load Portal data from portals.yml
+    usage: /pload
+    permissions: warpportals.admin
+    permission-message: You are not authorized to force load Portal data!
+  pbackup:
+    description: Backup the current Portal data to "portals.yml_yyyy-MM-ddTkk-mm-ss.bac"
+    usage: /backup
+    permissions: warpportals.admin
+    permission-message: You are not authorized to backup Portal data!
+
+permissions:
+  warpportal.*:
+    description: Gives access to all WarpPortal commands
+    default: op
+  warpportal.enter:
+    description: Allows a player to travel through Warp Portals
+    default: true

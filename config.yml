@@ -1,0 +1,10 @@
+# Mess with these all you want!
+
+portals:
+  general:
+    textColor: §c
+  create: # For everything related to portal creation
+    maxSize: 1000 # A limit to make sure that an accidental attempt to turn an entire ocean into a portal doesn't succeed and kill your server.
+  teleport:
+    message: Wooooooosh!
+    messageColor: §d
