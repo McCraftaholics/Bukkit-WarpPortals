@@ -5,10 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Scanner;
 
 import org.bukkit.Location;
 
@@ -18,8 +16,14 @@ import com.alexwendland.warpportals.objects.CoordsPY;
 public class Utils {
 
 	public static String readFile(String path, Charset encoding) throws IOException {
-		byte[] encoded = Files.readAllBytes(Paths.get(path));
-		return encoding.decode(ByteBuffer.wrap(encoded)).toString();
+		Scanner scn = null;
+		try {
+			scn = new Scanner(new File(path));
+			return scn.useDelimiter("\\Z").next();
+		} finally {
+			if (scn != null)
+				scn.close();
+		}
 	}
 
 	public static void copy(InputStream in, File file) throws IOException {
@@ -49,14 +53,14 @@ public class Utils {
 		}
 		return comb;
 	}
-	
+
 	public static void coordsToLoc(Coords coords, Location loc) {
 		loc.setWorld(coords.world);
 		loc.setX(coords.x);
 		loc.setY(coords.y);
 		loc.setZ(coords.z);
 	}
-	
+
 	public static void coordsToLoc(CoordsPY coords, Location loc) {
 		loc.setWorld(coords.world);
 		loc.setX(coords.x);

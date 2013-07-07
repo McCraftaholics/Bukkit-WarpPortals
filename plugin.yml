@@ -1,6 +1,6 @@
 name: WarpPortals
 main: com.alexwendland.warpportals.bukkit.PortalPlugin
-version: 1.27
+version: 1.31
 
 commands:
   phelp:
