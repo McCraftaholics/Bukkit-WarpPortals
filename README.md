@@ -5,11 +5,11 @@ A Bukkit Plugin that allows users to create any shape/sized portals for use in t
 
 Here is **WarpPortals**! This plugin was created due to an inability to find a **robust**, **functional**, and **endlessly customizable** portals plugin.
 
-//You can test out the plugin in action at// **play.mc-craftaholics.com:25662**
+*You can test out the plugin in action at* **play.mc-craftaholics.com:25662**
 
-== Features ==
+## Features
 
-* Portals of //any// shape or size!
+* Portals of *any* shape or size!
 * Portals without frames or with frames of any material
 * Portals that work between any worlds
 * Easy to create Portals
@@ -17,8 +17,8 @@ Here is **WarpPortals**! This plugin was created due to an inability to find a *
 * Custom teleportation message
 * Precise teleportations
 
-== Commands ==
-
+## Commands ##
+```
 * /phelp: List all Portal related commands
 * /pcreate [portalname] [destName|(World,x,y,z)]: Equip the current item as a Portal Creation tool
 * /pdelete [portalName]: Delete a Portal by name
@@ -31,8 +31,9 @@ Here is **WarpPortals**! This plugin was created due to an inability to find a *
 * /psave: Force save all Portal data
 * /pload: Force load Portal data from portals.yml
 * /pbackup: Backup the current Portal data to "portals.yml_yyyy-MM-ddTkk-mm-ss.bac"
+```
+## FAQ
 
-== FAQ ==
 **How do you create a Portal?**
 
 First choose the Portal destination and set it using "/pdest [name]". *This command will set the destination to your current location, world AND angle of view.*
@@ -55,10 +56,10 @@ Only players who are ops or have the "warpportal.*" permission.
 
 **What settings are there?**
 
-# You can change the general Text Color used by the plugin. By default Yellow.
-# You can adjust the max portal size. This limit exists so that a Portal so large that it would eternally crash the server can't be created. By default 1000.
-# You can change the teleportation message. By default it is "Wooooooooosh!"
-# You can change the teleportation message Text Color. By default Purple.
+1. You can change the general Text Color used by the plugin. By default Yellow.
+2. You can adjust the max portal size. This limit exists so that a Portal so large that it would eternally crash the server can't be created. By default 1000.
+3. You can change the teleportation message. By default it is "Wooooooooosh!"
+4. You can change the teleportation message Text Color. By default Purple.
 
 **Is there Economy support?**
 
@@ -67,23 +68,24 @@ No. Portals are always active and currently don't support any form of Economy pl
 **What bugs are there?**
 
 Ghost Portals:
-//Currently, anyone can break the Portal Blocks that make up the Portal and that will cause the PORTAL_ENTERED event to never fire. This means that to the plugin the Portal still exists but realistically it isn't there anymore. To keep this from happening something like WorldGuard should be used to protect the Portals (though this protection may be a built-in feature in the future). To deal with the possibility of all the Portal blocks getting broken in a Portal, you can use the "/pdelete [portalName]" command to return the Portal to its original Gold Block form. If only a few blocks get broken, simply replacing them with new Portal Blocks should work.//
+*Currently, anyone can break the Portal Blocks that make up the Portal and that will cause the PORTAL_ENTERED event to never fire. This means that to the plugin the Portal still exists but realistically it isn't there anymore. To keep this from happening something like WorldGuard should be used to protect the Portals (though this protection may be a built-in feature in the future). To deal with the possibility of all the Portal blocks getting broken in a Portal, you can use the "/pdelete [portalName]" command to return the Portal to its original Gold Block form. If only a few blocks get broken, simply replacing them with new Portal Blocks should work.*
 
 Bad Text Colors:
-//Also, the Text Color settings don't appear to be cross OS Compatible. By default they are setup for Windows but if they don't work for you (if you get white text from the plugin) all Text Color Codes are editable in the Plugin's settings file.//
+*Also, the Text Color settings don't appear to be cross OS Compatible. By default they are setup for Windows but if they don't work for you (if you get white text from the plugin) all Text Color Codes are editable in the Plugin's settings file.*
 
-== Install ==
+## Install
 # Download the latest version right here!
 # Drop it into the Plugins folder in your CraftBukkit install.
 # Go create some spiffy, funky, wild, seriously fun Portals!
 
-== Source Code and Downloads ==
+## Source Code and Downloads
 
 The latest version to install an be found attached to this page!
 
-Source code can be found at [[https://github.com/McCraftaholics/Bukkit-WarpPortals|https://github.com/McCraftaholics/Bukkit-WarpPortals]]
+Source code can be found at https://github.com/McCraftaholics/Bukkit-WarpPortals
 * Please feel free to make changes!
 * Pull requests are awesome.
-Issues can be posted at [[https://github.com/McCraftaholics/Bukkit-WarpPortals/issues|https://github.com/McCraftaholics/Bukkit-WarpPortals/issues]]
+Issues can be posted at https://github.com/McCraftaholics/Bukkit-WarpPortals/issues
+The bukkit-dev page is located at http://dev.bukkit.org/bukkit-plugins/warp-portals/
 
 Enjoy :)
