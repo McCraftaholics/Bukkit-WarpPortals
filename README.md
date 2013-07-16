@@ -85,7 +85,9 @@ The latest version to install an be found attached to this page!
 Source code can be found at https://github.com/McCraftaholics/Bukkit-WarpPortals
 * Please feel free to make changes!
 * Pull requests are awesome.
+
 Issues can be posted at https://github.com/McCraftaholics/Bukkit-WarpPortals/issues
+
 The bukkit-dev page is located at http://dev.bukkit.org/bukkit-plugins/warp-portals/
 
 Enjoy :)
