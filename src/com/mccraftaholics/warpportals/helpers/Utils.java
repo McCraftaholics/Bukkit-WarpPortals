@@ -1,12 +1,13 @@
 package com.mccraftaholics.warpportals.helpers;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
-import java.util.Scanner;
 
 import org.bukkit.Location;
 
@@ -16,14 +17,19 @@ import com.mccraftaholics.warpportals.objects.CoordsPY;
 public class Utils {
 
 	public static String readFile(String path, Charset encoding) throws IOException {
-		Scanner scn = null;
+		byte[] buffer = new byte[(int) new File(path).length()];
+		BufferedInputStream f = null;
 		try {
-			scn = new Scanner(new File(path));
-			return scn.useDelimiter("\\Z").next();
+			f = new BufferedInputStream(new FileInputStream(path));
+			f.read(buffer);
 		} finally {
-			if (scn != null)
-				scn.close();
+			if (f != null)
+				try {
+					f.close();
+				} catch (IOException ignored) {
+				}
 		}
+		return new String(buffer);
 	}
 
 	public static void copy(InputStream in, File file) throws IOException {

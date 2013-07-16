@@ -29,7 +29,7 @@ public class PersistanceManager {
 	public void loadDataFile(HashMap<String, PortalInfo> portalMap, HashMap<String, CoordsPY> destMap, File dataFile) {
 		try {
 			String data = Utils.readFile(dataFile.getAbsolutePath(), StandardCharsets.UTF_8);
-			if (!data.matches("")) {
+			if (data != null && !data.matches("")) {
 				String[] initS = data.split("\n");
 				String[] groups = Utils.ymlLevelCleanup(initS, "  ");
 				for (String group : groups) {
