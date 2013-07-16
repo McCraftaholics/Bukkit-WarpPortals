@@ -1,10 +1,9 @@
 # Mess with these all you want!
-
 portals:
   general:
-    textColor: §c
-  create: # For everything related to portal creation
+    textColor: §c # The color of Portal admin commands. Use & for Linux and § for Windows.
+  create: # For everything related to Portal creation
     maxSize: 1000 # A limit to make sure that an accidental attempt to turn an entire ocean into a portal doesn't succeed and kill your server.
-  teleport:
-    message: Wooooooosh!
-    messageColor: §d
+  teleport: # For everything related to Portal teleportation
+    message: Wooooooosh! # The message that is shown when a user teleports
+    messageColor: §d # The color of the teleportation message. Use & for Linux and § for Windows.
