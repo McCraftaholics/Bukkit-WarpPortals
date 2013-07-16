@@ -74,9 +74,9 @@ Bad Text Colors:
 *Also, the Text Color settings don't appear to be cross OS Compatible. By default they are setup for Windows but if they don't work for you (if you get white text from the plugin) all Text Color Codes are editable in the Plugin's settings file.*
 
 ## Install
-# Download the latest version right here!
-# Drop it into the Plugins folder in your CraftBukkit install.
-# Go create some spiffy, funky, wild, seriously fun Portals!
+1. Download the latest version right here!
+2. Drop it into the Plugins folder in your CraftBukkit install.
+3. Go create some spiffy, funky, wild, seriously fun Portals!
 
 ## Source Code and Downloads
 
