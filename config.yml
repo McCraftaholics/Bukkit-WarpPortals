@@ -1,6 +1,7 @@
 # Mess with these all you want!
 portals:
   general:
+    allowNormalPortals: false # Enables/Disables normal Nether/End portals from functioning.
     textColor: §c # The color of Portal admin commands. Use & for Linux and § for Windows.
   create: # For everything related to Portal creation
     maxSize: 1000 # A limit to make sure that an accidental attempt to turn an entire ocean into a portal doesn't succeed and kill your server.
