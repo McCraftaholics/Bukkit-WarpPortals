@@ -29,7 +29,7 @@ public class PortalPlugin extends JavaPlugin {
 		loadConfigs();
 		mPortalManager = new PortalManager(getLogger(), mPortalConfig, mPortalDataFile);
 		mCommandHandler = new CommandHandler(this, mPortalManager, mPortalConfig);
-		getServer().getPluginManager().registerEvents(new PlayerListener(this, mPortalManager, mPortalConfig), this);
+		getServer().getPluginManager().registerEvents(new BukkitEventListener(this, mPortalManager, mPortalConfig), this);
 	}
 
 	private void initiateConfigFiles() {
