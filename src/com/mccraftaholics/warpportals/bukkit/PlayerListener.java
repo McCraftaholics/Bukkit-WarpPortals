@@ -37,43 +37,21 @@ public class PlayerListener implements Listener {
 	long mSartTime = 0;
 	long mTimeTaken = 0;
 
-	/*
-	 * @EventHandler public void onPlayerMove(final PlayerMoveEvent e) { long
-	 * startTime = System.nanoTime(); Player player = e.getPlayer(); Coords
-	 * tpCoords = mPortalManager.checkPlayer(player.getLocation()); if (tpCoords
-	 * != null) mPlugin.getLogger().info("\n\nWoohoo!\n\n"); mTimeTaken +=
-	 * System.nanoTime() - startTime; if (System.currentTimeMillis() - mSartTime
-	 * > 10 * 1000) { mPlugin.getLogger().info( "Portal has added " +
-	 * String.valueOf(mTimeTaken / 1000000f / 1000f) +
-	 * "sec of load in the past " + String.valueOf((System.currentTimeMillis() -
-	 * mSartTime) / 1000) + " of server runtime."); mTimeTaken = 0; mSartTime =
-	 * System.currentTimeMillis(); } }
-	 */
-
-	/*
-	 * @EventHandler public void onPortalCreate(PortalCreateEvent event,
-	 * PlayerEvent player) { event.setCancelled(true); }
-	 */
-
 	@EventHandler
 	public void onPortalEnter(PlayerPortalEvent event) {
 		Player player = event.getPlayer();
-		event.setCancelled(true);
 		CoordsPY tpCoords = mPortalManager.checkPlayerLoose(player.getLocation());
-		if (tpCoords == null) {
-			if (player.hasPermission("warpportal.admin"))
-				player.sendMessage(mCC + "Use \"/pcreate [portalname] [dest]\" to create a portal.");
-		} else {
+		if (tpCoords != null) {
 			if (player.hasPermission("warpportal.enter")) {
+				// So event doesn't propagate to default handling
+				event.setCancelled(true);
+				// Handle WarpPortal Teleportation
 				player.sendMessage(mTPC + mTPMessage);
 				Location tpLoc = new Location(tpCoords.world, tpCoords.x, tpCoords.y, tpCoords.z);
 				tpLoc.setPitch(tpCoords.pitch);
 				tpLoc.setYaw(tpCoords.yaw);
 				player.teleport(tpLoc);
 			}
-			// } else
-			// player.sendMessage(mCC +
-			// "You don't have permission to enter Portals!");
 		}
 	}
 
