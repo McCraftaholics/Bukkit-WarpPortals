@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPhysicsEvent;
@@ -39,7 +40,7 @@ public class BukkitEventListener implements Listener {
 	long mSartTime = 0;
 	long mTimeTaken = 0;
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPortalEnter(PlayerPortalEvent event) {
 		Player player = event.getPlayer();
 		CoordsPY tpCoords = mPortalManager.checkPlayerLoose(player.getLocation());
