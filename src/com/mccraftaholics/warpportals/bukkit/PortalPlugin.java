@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.MetricsLite;
 
 import com.mccraftaholics.warpportals.helpers.Utils;
 import com.mccraftaholics.warpportals.manager.PortalManager;
@@ -30,6 +31,16 @@ public class PortalPlugin extends JavaPlugin {
 		mPortalManager = new PortalManager(getLogger(), mPortalConfig, mPortalDataFile);
 		mCommandHandler = new CommandHandler(this, mPortalManager, mPortalConfig);
 		getServer().getPluginManager().registerEvents(new BukkitEventListener(this, mPortalManager, mPortalConfig), this);
+		initMCStats();
+	}
+
+	private void initMCStats() {
+		try {
+			MetricsLite metrics = new MetricsLite(this);
+			metrics.start();
+		} catch (IOException e) {
+			// Failed to submit the stats :-(
+		}
 	}
 
 	private void initiateConfigFiles() {
