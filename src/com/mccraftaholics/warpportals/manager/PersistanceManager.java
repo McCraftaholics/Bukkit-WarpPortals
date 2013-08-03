@@ -4,7 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -28,7 +28,7 @@ public class PersistanceManager {
 
 	public void loadDataFile(HashMap<String, PortalInfo> portalMap, HashMap<String, CoordsPY> destMap, File dataFile) {
 		try {
-			String data = Utils.readFile(dataFile.getAbsolutePath(), StandardCharsets.UTF_8);
+			String data = Utils.readFile(dataFile.getAbsolutePath(), Charset.forName("UTF-8"));
 			if (data != null && !data.matches("")) {
 				String[] initS = data.split("\n");
 				String[] groups = Utils.ymlLevelCleanup(initS, "  ");

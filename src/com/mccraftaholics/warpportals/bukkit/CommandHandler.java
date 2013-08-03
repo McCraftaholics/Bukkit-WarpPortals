@@ -37,32 +37,30 @@ public class CommandHandler {
 	public boolean handleCommand(CommandSender sender, Command command, String label, String[] args) {
 		String cmdName = command.getName().toLowerCase();
 		if (sender.hasPermission("warpportal.admin") || !(sender instanceof Player)) {
-			switch (cmdName) {
-			case "phelp":
+			if (cmdName.equals("phelp"))
 				return CmdHelp.handle(sender, args, this);
-			case "pcreate":
+			else if (cmdName.equals("pcreate"))
 				return CmdCreate.handle(sender, args, this);
-			case "pdelete":
+			else if (cmdName.equals("pdelete"))
 				return CmdDelete.handle(sender, args, this);
-			case "pdeltool":
+			else if (cmdName.equals("pdeltool"))
 				return CmdDelTool.handle(sender, args, this);
-			case "pdest":
+			else if (cmdName.equals("pdest"))
 				return CmdDest.handle(sender, args, this);
-			case "pdestdel":
+			else if (cmdName.equals("pdestdel"))
 				return CmdDestDel.handle(sender, args, this);
-			case "plist":
+			else if (cmdName.equals("plist"))
 				return CmdList.handle(sender, args, this);
-			case "pdestlist":
+			else if (cmdName.equals("pdestlist"))
 				return CmdDestList.handle(sender, args, this);
-			case "pgoto":
+			else if (cmdName.equals("pgoto"))
 				return CmdGoTo.handle(sender, args, this);
-			case "psave":
+			else if (cmdName.equals("psave"))
 				return CmdSave.handle(sender, args, this);
-			case "pload":
+			else if (cmdName.equals("pload"))
 				return CmdLoad.handle(sender, args, this);
-			case "pbackup":
+			else if (cmdName.equals("pbackup"))
 				return CmdBackup.handle(sender, args, this);
-			}
 		} else {
 			sender.sendMessage("You do not have permission to use a Warp Portal command");
 			return true;

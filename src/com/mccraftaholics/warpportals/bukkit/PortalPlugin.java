@@ -68,7 +68,7 @@ public class PortalPlugin extends JavaPlugin {
 	private void loadConfigs() {
 		try {
 			mPortalConfig.load(mPortalConfigFile);
-		} catch (IOException | InvalidConfigurationException e) {
+		} catch (Exception e) {
 			getLogger().severe("Can't load Portal's config file!");
 		}
 	}
