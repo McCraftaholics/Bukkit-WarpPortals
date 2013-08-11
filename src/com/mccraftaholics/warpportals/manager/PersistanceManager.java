@@ -110,13 +110,17 @@ public class PersistanceManager {
 							bw.write("\n  " + portalName + ":");
 							bw.write("\n    tpCoords: " + portal.tpCoords.toString());
 							bw.write("\n    blocks: " + portal.blockCoordArrToString());
+						} catch (IOException e) {
+							throw e;
 						} catch (Exception e) {
-							mLogger.severe("Error saving Portal named " + String.valueOf(portalName));
+							mLogger.severe("Error saving Portal named " + String.valueOf(portalName) + ". Error Message:\n" + e.getMessage());
+							e.printStackTrace();
 							rtn = false;
 						}
 					}
 				} catch (Exception e) {
 					mLogger.severe("Error saving Portals!");
+					e.printStackTrace();
 					rtn = false;
 				}
 				try {
@@ -126,7 +130,7 @@ public class PersistanceManager {
 						try {
 							bw.write("\n  " + destName + ": " + destMap.get(destName).toString());
 						} catch (Exception e) {
-							mLogger.severe("Error saving Portal Destination named " + String.valueOf(destName));
+							mLogger.severe("Error saving Portal Destination named " + String.valueOf(destName) + ". Error Message:\n" + e.getMessage());
 							rtn = false;
 						}
 					}

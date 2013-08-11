@@ -1,6 +1,7 @@
 package com.mccraftaholics.warpportals.bukkit;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.bukkit.command.Command;
@@ -52,6 +53,7 @@ public class PortalPlugin extends JavaPlugin {
 				Utils.copy(getResource("config.yml"), mPortalConfigFile);
 			} catch (IOException e) {
 				getLogger().severe("Error creating the default Portal config file!");
+				e.printStackTrace();
 			}
 		}
 		// Initiate portal data file
@@ -60,7 +62,8 @@ public class PortalPlugin extends JavaPlugin {
 			try {
 				mPortalDataFile.createNewFile();
 			} catch (IOException e) {
-				getLogger().severe("Error creating Portal's save fil");
+				getLogger().severe("Error creating Portal's save file!");
+				e.printStackTrace();
 			}
 		}
 	}
@@ -68,13 +71,18 @@ public class PortalPlugin extends JavaPlugin {
 	private void loadConfigs() {
 		try {
 			mPortalConfig.load(mPortalConfigFile);
-		} catch (Exception e) {
+		} catch (InvalidConfigurationException e) {
+			getLogger().severe("The WarpPortal config file is invalid.");
+		} catch (FileNotFoundException e) {
+			getLogger().severe("No config file found for WarpPortals!");
+		} catch (IOException e) {
 			getLogger().severe("Can't load Portal's config file!");
+			e.printStackTrace();
 		}
 	}
 
 	private void saveConfigs() {
-		// Why save the vonfig? That's for the user to edit.
+		// Why save the config? That's for the user to edit.
 		/*
 		 * try { mPortalConfig.save(mPortalConfigFile); } catch (IOException e)
 		 * { getLogger().severe("Can't save Portal's config file!"); }
