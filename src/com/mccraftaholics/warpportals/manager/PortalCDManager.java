@@ -55,7 +55,7 @@ public class PortalCDManager {
 	}
 
 	private void possibleDeletePortal(Block block, Player player) {
-		if (block.getType() == Material.PORTAL) {
+		if (block.getType() == Material.PORTAL || block.getType() == Material.ENDER_PORTAL) {
 			deletePortal(block.getLocation());
 			mPlayerPortalDeleteMap.remove(player.getName());
 		} else
@@ -71,7 +71,9 @@ public class PortalCDManager {
 					loc.setX(crd.x);
 					loc.setY(crd.y);
 					loc.setZ(crd.z);
-					loc.getBlock().setType(Material.GOLD_BLOCK);
+					Block block = loc.getBlock();
+					Material replace = block.getType() == Material.ENDER_PORTAL ? Material.QUARTZ_BLOCK : Material.GOLD_BLOCK;
+					block.setType(replace);
 				} catch (Exception e) {
 					// Error changing portal block
 				}
@@ -97,15 +99,18 @@ public class PortalCDManager {
 	}
 
 	private void possibleCreatePortal(Block block, Player player, PortalCreate portalCreate) {
-		if (block.getType() == Material.GOLD_BLOCK || block.getType() == Material.PORTAL) {
+		if ((block.getType() == Material.GOLD_BLOCK || block.getType() == Material.PORTAL)
+				|| (block.getType() == Material.QUARTZ_BLOCK || block.getType() == Material.ENDER_PORTAL)) {
 			if (mPIM.mPortalMap.get(portalCreate.portalName) == null) {
 				boolean isCreationSuccess = createPortal(player, block, portalCreate.portalName, portalCreate.tpCoords);
 				if (isCreationSuccess)
 					mPlayerPortalCreateMap.remove(player.getName());
-			} else
+			} else {
 				player.sendMessage("A Portal with the name \"" + portalCreate.portalName + "\" already exists.");
+				mPlayerPortalCreateMap.remove(player.getName());
+			}
 		} else {
-			player.sendMessage("The Portal should be made out of Gold Blocks or Portal Blocks originally");
+			player.sendMessage("The Portal should be made out of either Gold/Silver/Ender Portal/Portal Blocks originally");
 		}
 	}
 
@@ -118,17 +123,17 @@ public class PortalCDManager {
 			try {
 				blockSpider.start(block, newPortalInfo.blockCoordArray);
 				Location loc = block.getLocation();
+				/*
+				 * for (Coords crd : newPortalInfo.blockCoordArray) {
+				 * loc.setX(crd.x); loc.setY(crd.y); loc.setZ(crd.z);
+				 * loc.getBlock().setType(Material.GLOWSTONE); }
+				 */
+				boolean isEnder = (block.getType() == Material.QUARTZ_BLOCK || block.getType() == Material.ENDER_PORTAL);
 				for (Coords crd : newPortalInfo.blockCoordArray) {
 					loc.setX(crd.x);
 					loc.setY(crd.y);
 					loc.setZ(crd.z);
-					loc.getBlock().setType(Material.GLOWSTONE);
-				}
-				for (Coords crd : newPortalInfo.blockCoordArray) {
-					loc.setX(crd.x);
-					loc.setY(crd.y);
-					loc.setZ(crd.z);
-					loc.getBlock().setType(Material.PORTAL);
+					loc.getBlock().setType(isEnder ? Material.ENDER_PORTAL : Material.PORTAL);
 				}
 				mPIM.addPortal(portalName, newPortalInfo);
 				sender.sendMessage(mCC + "\"" + portalName + "\" created and linked to " + tpCoords.toNiceString());
