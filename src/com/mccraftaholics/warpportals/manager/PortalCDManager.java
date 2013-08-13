@@ -99,8 +99,9 @@ public class PortalCDManager {
 	private void possibleCreatePortal(Block block, Player player, PortalCreate portalCreate) {
 		if (block.getType() == Material.GOLD_BLOCK || block.getType() == Material.PORTAL) {
 			if (mPIM.mPortalMap.get(portalCreate.portalName) == null) {
-				createPortal(player, block, portalCreate.portalName, portalCreate.tpCoords);
-				mPlayerPortalCreateMap.remove(player.getName());
+				boolean isCreationSuccess = createPortal(player, block, portalCreate.portalName, portalCreate.tpCoords);
+				if (isCreationSuccess)
+					mPlayerPortalCreateMap.remove(player.getName());
 			} else
 				player.sendMessage("A Portal with the name \"" + portalCreate.portalName + "\" already exists.");
 		} else {
@@ -108,7 +109,7 @@ public class PortalCDManager {
 		}
 	}
 
-	public void createPortal(CommandSender sender, Block block, String portalName, CoordsPY tpCoords) {
+	public boolean createPortal(CommandSender sender, Block block, String portalName, CoordsPY tpCoords) {
 		if (portalName.matches(Regex.PORTAL_DEST_NAME)) {
 			PortalInfo newPortalInfo = new PortalInfo();
 			newPortalInfo.tpCoords = tpCoords;
@@ -131,6 +132,7 @@ public class PortalCDManager {
 				}
 				mPIM.addPortal(portalName, newPortalInfo);
 				sender.sendMessage(mCC + "\"" + portalName + "\" created and linked to " + tpCoords.toNiceString());
+				return true;
 			} catch (MaxRecursionException e) {
 				sender.sendMessage(mCC + "Portal \"" + portalName + "\" could not be created because it was larger than the max Portal size of "
 						+ String.valueOf(maxPortalSize) + ".");
@@ -138,5 +140,6 @@ public class PortalCDManager {
 		} else {
 			sender.sendMessage(mCC + "There was an error using the Portal name. It wasn't a valid alpha-numeric string.");
 		}
+		return false;
 	}
 }
