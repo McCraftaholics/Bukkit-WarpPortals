@@ -72,7 +72,7 @@ public class PortalPlugin extends JavaPlugin {
 		try {
 			mPortalConfig.load(mPortalConfigFile);
 		} catch (InvalidConfigurationException e) {
-			getLogger().severe("The WarpPortal config file is invalid.");
+			getLogger().severe("The WarpPortal config file has invalid markup.");
 		} catch (FileNotFoundException e) {
 			getLogger().severe("No config file found for WarpPortals!");
 		} catch (IOException e) {
