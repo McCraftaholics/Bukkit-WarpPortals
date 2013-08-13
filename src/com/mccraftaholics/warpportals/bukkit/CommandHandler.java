@@ -1,5 +1,6 @@
 package com.mccraftaholics.warpportals.bukkit;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -24,14 +25,14 @@ public class CommandHandler {
 	public PortalPlugin mPortalPlugin;
 	public PortalManager mPortalManager;
 	public YamlConfiguration mPortalConfig;
-	public String mCC;
+	public ChatColor mCC;
 
 	public CommandHandler(PortalPlugin mainPlugin, PortalManager portalManager, YamlConfiguration portalConfig) {
 		mPortalPlugin = mainPlugin;
 		mPortalManager = portalManager;
 		mPortalConfig = portalConfig;
 
-		mCC = mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR);
+		mCC = ChatColor.getByChar(mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR));
 	}
 
 	public boolean handleCommand(CommandSender sender, Command command, String label, String[] args) {

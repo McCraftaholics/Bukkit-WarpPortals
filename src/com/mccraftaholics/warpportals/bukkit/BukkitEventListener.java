@@ -1,5 +1,6 @@
 package com.mccraftaholics.warpportals.bukkit;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -23,7 +24,7 @@ public class BukkitEventListener implements Listener {
 	YamlConfiguration mPortalConfig;
 	String mCC;
 	String mTPMessage;
-	String mTPC;
+	ChatColor mTPC;
 	boolean mAllowNormalPortals;
 
 	public BukkitEventListener(JavaPlugin plugin, PortalManager portalManager, YamlConfiguration portalConfig) {
@@ -33,7 +34,7 @@ public class BukkitEventListener implements Listener {
 
 		mCC = mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR);
 		mTPMessage = mPortalConfig.getString("portals.teleport.message", Defaults.TP_MESSAGE);
-		mTPC = mPortalConfig.getString("portals.teleport.messageColor", Defaults.TP_MSG_COLOR);
+		mTPC = ChatColor.getByChar(mPortalConfig.getString("portals.teleport.messageColor", Defaults.TP_MSG_COLOR));
 		mAllowNormalPortals = mPortalConfig.getBoolean("portals.general.allowNormalPortals", Defaults.ALLOW_NORMAL_PORTALS);
 	}
 
