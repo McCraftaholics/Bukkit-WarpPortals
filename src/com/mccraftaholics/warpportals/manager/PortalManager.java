@@ -28,23 +28,27 @@ public class PortalManager {
 		mPortalConfig = portalConfig;
 
 		mPersistanceManager = new PersistanceManager(mLogger, dataFile);
-		mPortalInteractManager = new PortalInteractManager(mLogger);
+		mPortalInteractManager = new PortalInteractManager(this, mLogger);
 		mPortalCDManager = new PortalCDManager(mPortalInteractManager, mPortalConfig);
-		mPortalDestManager = new PortalDestManager(mLogger);
+		mPortalDestManager = new PortalDestManager(this, mLogger);
 
-		loadDataFromYML();
+		loadData();
 	}
 
 	public void onDisable() {
-		saveDataToYML();
+		saveDataFile();
 	}
 
-	public void loadDataFromYML() {
+	public void loadData() {
 		mPersistanceManager.loadDataFile(mPortalInteractManager.mPortalMap, mPortalDestManager.mPortalDestMap);
 	}
 
-	public void saveDataToYML() {
-		mPersistanceManager.saveDataFile(mPortalInteractManager.mPortalMap, mPortalDestManager.mPortalDestMap);
+	public boolean saveDataFile() {
+		return mPersistanceManager.saveDataFile(mPortalInteractManager.mPortalMap, mPortalDestManager.mPortalDestMap);
+	}
+
+	public boolean saveDataFile(File mPortalDataFile) {
+		return mPersistanceManager.saveDataFile(mPortalInteractManager.mPortalMap, mPortalDestManager.mPortalDestMap, mPortalDataFile);
 	}
 
 	public void playerItemRightClick(PlayerInteractEvent e) {
@@ -81,14 +85,6 @@ public class PortalManager {
 
 	public void removeDestination(String destName) {
 		mPortalDestManager.removeDestination(destName);
-	}
-
-	public boolean saveDataFile(File mPortalDataFile) {
-		return mPersistanceManager.saveDataFile(mPortalInteractManager.mPortalMap, mPortalDestManager.mPortalDestMap, mPortalDataFile);
-	}
-
-	public boolean saveDataFile() {
-		return mPersistanceManager.saveDataFile(mPortalInteractManager.mPortalMap, mPortalDestManager.mPortalDestMap);
 	}
 
 	public CoordsPY getDestCoords(String destName) {

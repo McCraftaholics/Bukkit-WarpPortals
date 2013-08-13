@@ -13,10 +13,12 @@ import com.mccraftaholics.warpportals.objects.PortalInfo;
 public class PortalInteractManager {
 
 	Logger mLogger;
+	PortalManager mPM;
 
 	public HashMap<String, PortalInfo> mPortalMap = new HashMap<String, PortalInfo>();
 
-	public PortalInteractManager(Logger logger) {
+	public PortalInteractManager(PortalManager pm, Logger logger) {
+		mPM = pm;
 		mLogger = logger;
 	}
 
@@ -59,6 +61,7 @@ public class PortalInteractManager {
 	
 	public void addPortal(String portalName, PortalInfo portalInfo) {
 		mPortalMap.put(portalName, portalInfo);
+		mPM.saveDataFile();
 	}
 
 	public Set<String> getPortalNames() {
@@ -70,7 +73,9 @@ public class PortalInteractManager {
 	}
 
 	public PortalInfo removePortal(String portalName) {
-		return mPortalMap.remove(portalName);
+		PortalInfo rtn = mPortalMap.remove(portalName);
+		mPM.saveDataFile();
+		return rtn;
 	}
 
 }

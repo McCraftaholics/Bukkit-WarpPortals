@@ -9,19 +9,24 @@ import com.mccraftaholics.warpportals.objects.CoordsPY;
 public class PortalDestManager {
 
 	Logger mLogger;
+	
+	private PortalManager mPM;
 
 	public HashMap<String, CoordsPY> mPortalDestMap = new HashMap<String, CoordsPY>();
 
-	public PortalDestManager(Logger logger) {
+	public PortalDestManager(PortalManager pm, Logger logger) {
+		mPM = pm;
 		mLogger = logger;
 	}
 
 	public void addDestination(String destname, CoordsPY coords) {
 		mPortalDestMap.put(destname, coords);
+		mPM.saveDataFile();
 	}
 
 	public void removeDestination(String destName) {
 		mPortalDestMap.remove(destName);
+		mPM.saveDataFile();
 	}
 
 	public CoordsPY getDestCoords(String destname) {
