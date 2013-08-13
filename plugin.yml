@@ -1,6 +1,6 @@
 name: WarpPortals
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
-version: 1.81
+version: 1.93
 
 commands:
   phelp:
