@@ -9,6 +9,12 @@ public class CoordsPY {
 	public double x, y, z;
 	public float pitch, yaw;
 	public World world;
+	
+	public String getWorldName() {
+		if (world != null)
+			return world.getName();
+		return null;
+	}
 
 	public CoordsPY(World world, double i, double j, double k, float pitch, float yaw) {
 		this.world = world;
@@ -45,7 +51,7 @@ public class CoordsPY {
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder(17, 31).append(world.getName()).append(x).append(y).append(z).append(pitch).append(yaw).toHashCode();
+		return new HashCodeBuilder(17, 31).append(getWorldName()).append(x).append(y).append(z).append(pitch).append(yaw).toHashCode();
 	}
 
 	@Override
@@ -56,7 +62,7 @@ public class CoordsPY {
 			return false;
 		else {
 			CoordsPY crd = (CoordsPY) obj;
-			if (crd.world.getName().equals(this.world.getName()) && crd.x == this.x && crd.y == this.y && crd.z == this.z && crd.pitch == this.pitch
+			if (crd.getWorldName().equals(this.getWorldName()) && crd.x == this.x && crd.y == this.y && crd.z == this.z && crd.pitch == this.pitch
 					&& crd.yaw == this.yaw)
 				return true;
 			return false;
@@ -64,12 +70,12 @@ public class CoordsPY {
 	}
 
 	public String toString() {
-		return "(" + world.getName() + "," + String.valueOf(x) + "," + String.valueOf(y) + "," + String.valueOf(z) + "," + String.valueOf(pitch) + ","
+		return "(" + getWorldName() + "," + String.valueOf(x) + "," + String.valueOf(y) + "," + String.valueOf(z) + "," + String.valueOf(pitch) + ","
 				+ String.valueOf(yaw) + ")";
 	}
 
 	public String toNiceString() {
-		return "(" + world.getName() + ", " + String.valueOf(Math.floor(x)) + ", " + String.valueOf(Math.floor(y)) + ", " + String.valueOf(Math.floor(z)) + ")";
+		return "(" + getWorldName() + ", " + String.valueOf(Math.floor(x)) + ", " + String.valueOf(Math.floor(y)) + ", " + String.valueOf(Math.floor(z)) + ")";
 	}
 
 }

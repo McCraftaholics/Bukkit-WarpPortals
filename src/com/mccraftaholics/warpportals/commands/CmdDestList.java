@@ -13,7 +13,7 @@ public class CmdDestList {
 		for (String destName : main.mPortalManager.getDestinations()) {
 			CoordsPY destCoords = main.mPortalManager.getDestCoords(destName);
 			try {
-				sbdest.append("\n - " + destName + " in " + destCoords.world.getName());
+				sbdest.append("\n - " + destName + " in " + destCoords.getWorldName());
 			} catch (Exception e) {
 				// Catch when destCoords == null
 			}
