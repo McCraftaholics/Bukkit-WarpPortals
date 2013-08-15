@@ -113,7 +113,7 @@ public class PersistanceManager {
 						} catch (IOException e) {
 							throw e;
 						} catch (Exception e) {
-							mLogger.severe("Error saving Portal named " + String.valueOf(portalName) + ". Error Message:\n" + e.getMessage());
+							mLogger.severe("Error saving Portal named " + String.valueOf(portalName) + ". Error Message:\n" + String.valueOf(e));
 							e.printStackTrace();
 							rtn = false;
 						}
