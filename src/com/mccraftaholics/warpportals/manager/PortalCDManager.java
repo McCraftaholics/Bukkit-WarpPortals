@@ -3,6 +3,7 @@ package com.mccraftaholics.warpportals.manager;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,7 +26,7 @@ public class PortalCDManager {
 	Logger mLogger;
 	PortalInteractManager mPIM;
 	YamlConfiguration mPortalConfig;
-	String mCC;
+	ChatColor mCC;
 
 	public HashMap<String, PortalCreate> mPlayerPortalCreateMap = new HashMap<String, PortalCreate>();
 	public HashMap<String, Material> mPlayerPortalDeleteMap = new HashMap<String, Material>();
@@ -33,7 +34,7 @@ public class PortalCDManager {
 	public PortalCDManager(PortalInteractManager pim, YamlConfiguration portalConfig) {
 		mPIM = pim;
 		mPortalConfig = portalConfig;
-		mCC = mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR);
+		mCC = ChatColor.getByChar(mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR));
 	}
 
 	public void addCreating(String playerName, PortalCreate portalCreate) {
@@ -101,7 +102,7 @@ public class PortalCDManager {
 	private void possibleCreatePortal(Block block, Player player, PortalCreate portalCreate) {
 		if ((block.getType() == Material.GOLD_BLOCK || block.getType() == Material.PORTAL)
 				|| (block.getType() == Material.QUARTZ_BLOCK || block.getType() == Material.ENDER_PORTAL)) {
-			if (mPIM.mPortalMap.get(portalCreate.portalName) == null) {
+			if (mPIM.getPortalInfo(portalCreate.portalName) == null) {
 				boolean isCreationSuccess = createPortal(player, block, portalCreate.portalName, portalCreate.tpCoords);
 				if (isCreationSuccess)
 					mPlayerPortalCreateMap.remove(player.getName());

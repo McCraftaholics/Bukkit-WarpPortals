@@ -40,15 +40,15 @@ public class PortalManager {
 	}
 
 	public void loadData() {
-		mPersistanceManager.loadDataFile(mPortalInteractManager.mPortalMap, mPortalDestManager.mPortalDestMap);
+		mPersistanceManager.loadDataFile(mPortalInteractManager.getPortalMap(), mPortalDestManager.mPortalDestMap);
 	}
 
 	public boolean saveDataFile() {
-		return mPersistanceManager.saveDataFile(mPortalInteractManager.mPortalMap, mPortalDestManager.mPortalDestMap);
+		return mPersistanceManager.saveDataFile(mPortalInteractManager.getPortalMap(), mPortalDestManager.mPortalDestMap);
 	}
 
 	public boolean saveDataFile(File mPortalDataFile) {
-		return mPersistanceManager.saveDataFile(mPortalInteractManager.mPortalMap, mPortalDestManager.mPortalDestMap, mPortalDataFile);
+		return mPersistanceManager.saveDataFile(mPortalInteractManager.getPortalMap(), mPortalDestManager.mPortalDestMap, mPortalDataFile);
 	}
 
 	public void playerItemRightClick(PlayerInteractEvent e) {

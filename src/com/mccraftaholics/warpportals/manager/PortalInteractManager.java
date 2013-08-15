@@ -15,7 +15,7 @@ public class PortalInteractManager {
 	Logger mLogger;
 	PortalManager mPM;
 
-	public HashMap<String, PortalInfo> mPortalMap = new HashMap<String, PortalInfo>();
+	private HashMap<String, PortalInfo> mPortalMap = new HashMap<String, PortalInfo>();
 
 	public PortalInteractManager(PortalManager pm, Logger logger) {
 		mPM = pm;
@@ -62,6 +62,14 @@ public class PortalInteractManager {
 	public void addPortal(String portalName, PortalInfo portalInfo) {
 		mPortalMap.put(portalName, portalInfo);
 		mPM.saveDataFile();
+	}
+	
+	public HashMap<String, PortalInfo> getPortalMap() {
+		return mPortalMap;
+	}
+	
+	public void clearPortalMap() {
+		mPortalMap.clear();
 	}
 
 	public Set<String> getPortalNames() {
