@@ -30,5 +30,10 @@ public class PortalInfo {
 			}
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return String.valueOf(tpCoords) + "\n" + String.valueOf(blockCoordArray);
+	}
 
 }
