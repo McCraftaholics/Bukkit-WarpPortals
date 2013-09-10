@@ -1,6 +1,8 @@
 name: WarpPortals
+version: 2.05dev1
+
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
-version: 2.01
+softdepend: [WorldGuard, Multiverse, Multiworld]
 
 commands:
   phelp:
