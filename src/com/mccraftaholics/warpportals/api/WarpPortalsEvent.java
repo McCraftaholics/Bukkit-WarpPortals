@@ -2,6 +2,7 @@ package com.mccraftaholics.warpportals.api;
 
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -116,5 +117,15 @@ public class WarpPortalsEvent extends Event implements Cancellable {
      */
     public void setTeleportCoordsPY(CoordsPY newTPC) {
         tpCoords = newTPC;
+    }
+
+    /**
+     * Modify the player's teleport destination.
+     * The Location supplied to this method will override the original teleport destination, and WarpPortals will teleport the player to this new location.
+     *
+     * @param newLoc - CoordsPY of the new destination
+     */
+    public void setTeleportCoordsPY(Location newLoc) {
+        setTeleportCoordsPY(new CoordsPY(newLoc));
     }
 }
