@@ -114,7 +114,7 @@ public class WarpPortalsEvent extends Event implements Cancellable {
      *
      * @param newTPC - CoordsPY of the new destination
      */
-    public void setTPCoords(CoordsPY newTPC) {
+    public void setTeleportCoordsPY(CoordsPY newTPC) {
         tpCoords = newTPC;
     }
 }
