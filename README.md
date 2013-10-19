@@ -1,4 +1,5 @@
 WarpPortals - A Bukkit plugin
+
 ==================
 
 A Bukkit Plugin that allows users to create any shape/sized portals for use in the Minecraft game
@@ -12,6 +13,7 @@ Here is **WarpPortals**! This plugin was created due to an inability to find a *
 *   **NOW SUPPORTS ENDER PORTALS**
 
     *   Create Horizontal portals using Ender Portal material OR Vertical portals using Normal Portal material
+
 *   Portals without frames or with frames of any material
 
 *   Portals that work between any worlds
@@ -57,9 +59,13 @@ Here is **WarpPortals**! This plugin was created due to an inability to find a *
 **How do you create a Portal?**
 
 First choose the Portal destination and set it using "/pdest [name]". *This command will set the destination to your current location, world AND angle of view.*
+
 Second, build a portal of any shape out of Gold Blocks. These will make up the Portal's body.
+
 Third, hold a non-block item and run the command "/pcreate [portalName] [destName]". This will make it so the next Gold Block you click will turn them into a Portal.
+
 Fourth, right-click any one of the Gold Blocks you built. The plugin will find all adjacent Gold Blocks and turn them all into a Portal!
+
 Fifth, profit.
 
 **Who can use Portals?**
@@ -93,12 +99,15 @@ No. Portals are always active and currently don't support any form of Economy pl
 **What bugs are there?**
 
 Ghost Portals:
+
 _Currently, anyone can break the Portal Blocks that make up the Portal and that will cause the PORTAL_ENTERED event to never fire. This means that to the plugin the Portal still exists but realistically it isn't there anymore. To keep this from happening something like WorldGuard should be used to protect the Portals (though this protection may be a built-in feature in the future). To deal with the possibility of all the Portal blocks getting broken in a Portal, you can use the "/pdelete [portalName]" command to return the Portal to its original Gold Block form. If only a few blocks get broken, simply replacing them with new Portal Blocks should work._
 
 Bad Text Colors:
+
 _Also, the Text Color settings don't appear to be cross OS Compatible. By default they are setup for Windows but if they don't work for you (if you get white text from the plugin) all Text Color Codes are editable in the Plugin's settings file._
 
 Single Width Portals:
+
 _Single width portals can only face East or West. This is a very weird bug but it is an unfortunately un-fixable problem. Portal block orientation is decided off of the adjacent portal blocks. Therefore, if two portal blocks are side-by-side, they will connect and face the right way. (Side Note: Even this was a hack and required overriding portal block physics). Sadly, a single portal block doesn't have anything to base it's orientation upon and will then default to East/West. This forum thread details the problem [https://forums.bukkit.org/threads/rotating-portal-blocks.12598/forums.bukkit.org/threads/rotating-portal-blocks.12598/](https://forums.bukkit.org/threads/rotating-portal-blocks.12598/forums.bukkit.org/threads/rotating-portal-blocks.12598/)_
 
 ## Install
@@ -112,6 +121,7 @@ _Single width portals can only face East or West. This is a very weird bug but i
 ## Source Code and Downloads
 
 The latest Bukkit approved version to can be found attached to this page!
+
 Though you can always find the absolute latest version at [Latest Version](https://github.com/McCraftaholics/Bukkit-WarpPortals/raw/master/WarpPortals_latest.jar)
 
 Source code can be found at [github.com/McCraftaholics/Bukkit-WarpPortals](https://github.com/McCraftaholics/Bukkit-WarpPortals)
@@ -119,6 +129,7 @@ Source code can be found at [github.com/McCraftaholics/Bukkit-WarpPortals](https
 *   Please feel free to make changes!
 
 *   Pull requests are awesome.
+
 Issues can be posted at [github.com/McCraftaholics/Bukkit-WarpPortals/issues](https://github.com/McCraftaholics/Bukkit-WarpPortals/issues)
 
 ## Changelog
@@ -136,6 +147,7 @@ Chat/Message colors have a different format in the config file! Replace the two 
         *   Instead of using Gold Block to create the portal, use Quartz Block.
 
         *   Unlike Normal Portals which are vertical, Ender Portals are horizontal beasts.
+
 *   BugFix: Chat Colors are now used for portal creation.
 
 *   BugFix: Portal Creation Tools stay active for retries when a portal fails to create due to MaxRecursionLimit or similar.
@@ -149,6 +161,7 @@ Chat/Message colors have a different format in the config file! Replace the two 
     *   Setting a Chat Color doesn't require any special characters in the config file anymore! Just the color code. (eg. '3' instead of '&amp;3')
 
         *   In addition to convenience, this should fix all of the config problems! @R4m8o, @DarkenInsanity, @SpookyPirate
+
 *   Portals now also save their state to disk on creation. This should fix any lost portal errors. @getnjr, @iDazzah
 
 **1.81**
