@@ -13,9 +13,15 @@ local.properties
 .classpath
 .settings/
 .loadpath
+
+# OS Specifics
+*~ #Linux temp files
+*.DS_STORE #OSX Files
+
 #IntelliJ
 out/
 .idea/
+.iml
 
 # External tool builders
 .externalToolBuilders/
