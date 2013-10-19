@@ -33,6 +33,10 @@ public class CoordsPY {
 		this(crd.world, crd.x, crd.y, crd.z, 0, 0);
 	}
 
+    public CoordsPY(CoordsPY crd) {
+        this(crd.world, crd.x, crd.y, crd.z, crd.pitch, crd.yaw);
+    }
+
 	public CoordsPY(String coordsString) throws Exception {
 		String t = coordsString.trim();
 		if (t.matches("\\(.+,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*\\)")) {
