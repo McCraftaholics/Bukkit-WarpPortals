@@ -22,28 +22,28 @@ public class PortalInteractManager {
 		mLogger = logger;
 	}
 
-	public CoordsPY checkPlayer(Location loc) {
+	public PortalInfo checkPlayer(Location loc) {
 		return checkPlayer(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 	}
 
-	public CoordsPY checkPlayer(double x, double y, double z) {
+	public PortalInfo checkPlayer(double x, double y, double z) {
 		// Loop through each portal
 		for (String portalName : mPortalMap.keySet()) {
 			// Coordinates making up this portal
 			PortalInfo portal = mPortalMap.get(portalName);
 			for (Coords crd : portal.blockCoordArray) {
 				if (Math.floor(x) == crd.x && Math.floor(y) == crd.y && Math.floor(z) == crd.z)
-					return portal.tpCoords;
+					return portal;
 			}
 		}
 		return null;
 	}
 
-	public CoordsPY checkPlayerLoose(Location loc) {
+	public PortalInfo checkPlayerLoose(Location loc) {
 		return checkPlayerLoose(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 	}
 
-	public CoordsPY checkPlayerLoose(double x, double y, double z) {
+	public PortalInfo checkPlayerLoose(double x, double y, double z) {
 		// Loop through each portal
 		for (String portalName : mPortalMap.keySet()) {
 			// Coordinates making up this portal
@@ -53,7 +53,7 @@ public class PortalInteractManager {
 				y = Math.floor(y);
 				z = Math.floor(z);
 				if ((x <= crd.x + 1 && x >= crd.x - 1) && (y <= crd.y + 1 && y >= crd.y - 1) && (z <= crd.z + 1 && z >= crd.z - 1))
-					return portal.tpCoords;
+					return portal;
 			}
 		}
 		return null;

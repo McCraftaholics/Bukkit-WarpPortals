@@ -55,7 +55,7 @@ public class PortalManager {
 		mPortalCDManager.playerItemRightClick(e);
 	}
 
-	public CoordsPY checkPlayerLoose(Location location) {
+	public PortalInfo checkPlayerLoose(Location location) {
 		return mPortalInteractManager.checkPlayerLoose(location);
 	}
 
