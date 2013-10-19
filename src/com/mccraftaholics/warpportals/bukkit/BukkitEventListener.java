@@ -39,9 +39,6 @@ public class BukkitEventListener implements Listener {
         mAllowNormalPortals = mPortalConfig.getBoolean("portals.general.allowNormalPortals", Defaults.ALLOW_NORMAL_PORTALS);
     }
 
-    long mSartTime = 0;
-    long mTimeTaken = 0;
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPortalEnter(PlayerPortalEvent event) {
         // Get player involved in the event
@@ -110,7 +107,7 @@ public class BukkitEventListener implements Listener {
     }
 
     @EventHandler
-    public void o(BlockPhysicsEvent e) {
+    public void onBlockPhysicsEvent(BlockPhysicsEvent e) {
         if (e.getBlock().getType() == Material.PORTAL) {
             e.setCancelled(true);
         }
