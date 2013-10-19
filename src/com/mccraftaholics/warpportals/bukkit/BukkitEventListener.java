@@ -1,5 +1,10 @@
 package com.mccraftaholics.warpportals.bukkit;
 
+import com.mccraftaholics.warpportals.api.WarpPortalEnterEvent;
+import com.mccraftaholics.warpportals.api.WarpPortalEvent;
+import com.mccraftaholics.warpportals.api.WarpPortalTeleportEvent;
+import com.mccraftaholics.warpportals.objects.PortalInfo;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,26 +52,57 @@ public class BukkitEventListener implements Listener {
         Player player = event.getPlayer();
         // Check if player is in a WarpPortal or normal portal
         /* Must be one of the two because this is triggered on the Bukkit PortalEnter event */
-        CoordsPY tpCoords = mPortalManager.checkPlayerLoose(player.getLocation());
-        // If the player entered a WarpPortal
-        if (tpCoords != null) {
-            // Check player permissions to use the portal
-            if (player.hasPermission("warpportal.enter")) {
-                // Cancel event so that it doesn't propagate to default handling
+        PortalInfo portal = mPortalManager.checkPlayerLoose(player.getLocation());
+        boolean isWarpPortal = portal != null;
+
+        // Create WarpPortalEnterEvent
+        WarpPortalEnterEvent wpee = new WarpPortalEnterEvent(player, isWarpPortal);
+        // Call WarpPortalEnterEvent
+        Bukkit.getPluginManager().callEvent(wpee);
+
+        /* Check if event has been cancelled */
+        // If not, then continue on
+        if (!wpee.isCancelled()) {
+            // If the player entered a WarpPortal
+            if (isWarpPortal) {
+                // Cancel Bukkit's PortalEnterEvent so that it doesn't propagate to default handling
                 event.setCancelled(true);
-                /* Handle WarpPortal teleportation */
-                player.sendMessage(mTPC + mTPMessage);
-                Location tpLoc = new Location(tpCoords.world, tpCoords.x, tpCoords.y, tpCoords.z);
-                tpLoc.setPitch(tpCoords.pitch);
-                tpLoc.setYaw(tpCoords.yaw);
-                player.teleport(tpLoc);
+
+                // Check player permissions to use portal
+                boolean hasPermission = player.hasPermission("warpportal.enter");
+
+                // Create WarpPortalEvent
+                WarpPortalEvent wpEvent = new WarpPortalEvent(player, portal, hasPermission);
+                // Call WarpPortalEvent
+                Bukkit.getPluginManager().callEvent(wpEvent);
+
+                // Check if event has been cancelled
+                // Event status defaults to player permissions to use the portal
+                if (wpEvent.isCancelled()) {
+                    // Get (possibly modified) teleportation data
+                    CoordsPY tpCoords = wpEvent.getTeleportCoordsPY();
+
+                    // Save player's current location
+                    Location preTPLocation = player.getLocation();
+
+                    /* Teleport player */
+                    Location tpLoc = new Location(tpCoords.world, tpCoords.x, tpCoords.y, tpCoords.z);
+                    tpLoc.setPitch(tpCoords.pitch);
+                    tpLoc.setYaw(tpCoords.yaw);
+                    player.teleport(tpLoc);
+
+                    WarpPortalTeleportEvent wpTPEvent = new WarpPortalTeleportEvent(player, preTPLocation);
+                    // Call WarpPortalTeleportEvent
+                    Bukkit.getPluginManager().callEvent(wpTPEvent);
+
+                }
+            } else {
+                // The player did not enter a WarpPortal
+                // Check to see if the server is configured to allow normal portal events
+                if (!mAllowNormalPortals)
+                    // If not allowed, cancel the event
+                    event.setCancelled(true);
             }
-        } else {
-            // The player did not enter a WarpPortal
-            // Check to see if the server is configured to allow normal portal events
-            if (!mAllowNormalPortals)
-                // If not allowed, cancel the event
-                event.setCancelled(true);
         }
     }
 
