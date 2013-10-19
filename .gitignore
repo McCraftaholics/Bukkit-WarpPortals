@@ -1,7 +1,7 @@
 /.gitignore~
 *.pydevproject
-.project
-.metadata
+*.project
+*.metadata
 bin/**
 tmp/**
 tmp/**/*
@@ -21,7 +21,7 @@ local.properties
 #IntelliJ
 out/
 .idea/
-.iml
+*.iml
 
 # External tool builders
 .externalToolBuilders/
@@ -30,7 +30,7 @@ out/
 *.launch
 
 # CDT-specific
-.cproject
+*.cproject
 
 # PDT-specific
-.buildpath
+*.buildpath
