@@ -118,6 +118,7 @@ public class PortalCDManager {
 	public boolean createPortal(CommandSender sender, Block block, String portalName, CoordsPY tpCoords) {
 		if (portalName.matches(Regex.PORTAL_DEST_NAME)) {
 			PortalInfo newPortalInfo = new PortalInfo();
+            newPortalInfo.name = portalName;
 			newPortalInfo.tpCoords = tpCoords;
 			int maxPortalSize = mPortalConfig.getInt("portals.create.maxSize", BlockCrawler.DEFAULT_MAX_SIZE);
 			BlockCrawler blockSpider = new BlockCrawler(maxPortalSize);

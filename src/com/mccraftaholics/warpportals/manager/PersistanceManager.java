@@ -42,7 +42,6 @@ public class PersistanceManager {
 								if (item != null) {
 									if (!item.contains("portals:")) {
 										String[] attrs = item.split("\n");
-										String portalName = "";
 										PortalInfo portalInfo = new PortalInfo();
 										for (String attr : attrs) {
 											String attrT = attr.trim();
@@ -52,12 +51,12 @@ public class PersistanceManager {
 												else if (attrT.contains("blocks"))
 													portalInfo.parseBlockCoordArr(attrT.split(":")[1].trim());
 												else
-													portalName = attrT.replace(":", "").trim();
+													portalInfo.name = attrT.replace(":", "").trim();
 											} catch (Exception e) {
 												mLogger.info("Error in Portal's data file with String \"" + attrT + "\".");
 											}
 										}
-										portalMap.put(portalName, portalInfo);
+										portalMap.put(portalInfo.name, portalInfo);
 									}
 								}
 							}
