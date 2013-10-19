@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import com.mccraftaholics.warpportals.api.example.WarpPortalsEventListener;
+import com.mccraftaholics.warpportals.helpers.Defaults;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -33,6 +36,11 @@ public class PortalPlugin extends JavaPlugin {
 		mCommandHandler = new CommandHandler(this, mPortalManager, mPortalConfig);
 		getServer().getPluginManager().registerEvents(new BukkitEventListener(this, mPortalManager, mPortalConfig), this);
 		initMCStats();
+
+        // Register example WarpPortals Event API Listener
+        String tpMessage = mPortalConfig.getString("portals.teleport.message", Defaults.TP_MESSAGE);
+        ChatColor tpChatColor = ChatColor.getByChar(mPortalConfig.getString("portals.teleport.messageColor", Defaults.TP_MSG_COLOR));
+        getServer().getPluginManager().registerEvents(new WarpPortalsEventListener(tpMessage, tpChatColor), this);
 	}
 
 	private void initMCStats() {

@@ -28,8 +28,6 @@ public class BukkitEventListener implements Listener {
     PortalManager mPortalManager;
     YamlConfiguration mPortalConfig;
     ChatColor mCC;
-    String mTPMessage;
-    ChatColor mTPC;
     boolean mAllowNormalPortals;
 
     public BukkitEventListener(JavaPlugin plugin, PortalManager portalManager, YamlConfiguration portalConfig) {
@@ -38,8 +36,6 @@ public class BukkitEventListener implements Listener {
         mPortalConfig = portalConfig;
 
         mCC = ChatColor.getByChar(mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR));
-        mTPMessage = mPortalConfig.getString("portals.teleport.message", Defaults.TP_MESSAGE);
-        mTPC = ChatColor.getByChar(mPortalConfig.getString("portals.teleport.messageColor", Defaults.TP_MSG_COLOR));
         mAllowNormalPortals = mPortalConfig.getBoolean("portals.general.allowNormalPortals", Defaults.ALLOW_NORMAL_PORTALS);
     }
 
