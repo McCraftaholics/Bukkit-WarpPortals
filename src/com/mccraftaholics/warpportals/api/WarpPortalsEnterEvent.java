@@ -1,6 +1,5 @@
 package com.mccraftaholics.warpportals.api;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -10,31 +9,31 @@ import org.bukkit.event.HandlerList;
  * 
  * An Event that fires when a player enters into a portal managed by WarpPortals
  * 
- * @see org.bukkit.event.Event
- *
+ * @see Event
+ * 
  */
-public class WarpPortalTeleportEvent extends Event implements Cancellable {
+public class WarpPortalsEnterEvent extends Event implements Cancellable {
 
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;
 
     // Event data
     private Player player;
-    private Location prevLocation;
+    private boolean isWarpPortal;
 
 	/**
-	 * Constructor of a WarpPortalEnterEvent. Triggered when a player has entered a WarpPortal managed portal.
-	 *
+	 * Constructor of a WarpPortalsEnterEvent. Triggered when a player has entered a WarpPortal managed portal.
+	 * 
 	 * @param p
 	 *            - Player that is entering the portal
-	 * @param prevLoc
-	 *            - Player's pre-teleport location
+	 * @param iWP
+	 *            - Is the portal a Normal portal or a WarpPortal?
 	 */
-	public WarpPortalTeleportEvent(Player p, Location prevLoc) {
+	public WarpPortalsEnterEvent(Player p, boolean iWP) {
 		this.cancelled = false;
 
         player = p;
-        prevLocation = prevLoc;
+        isWarpPortal = iWP;
 	}
 
 
@@ -71,12 +70,12 @@ public class WarpPortalTeleportEvent extends Event implements Cancellable {
     }
 
     /**
-     * Get the player's pre-teleport location.
+     * Is the portal a WarpPortal or a normal Ender/Nether portal?
      *
-     * @return Location
+     * @return boolean - True for WarpPortal, False for Normal Portal
      */
-    public Location getPreviousLocation() {
-        return prevLocation;
+    public boolean isWarpPortal() {
+        return isWarpPortal;
     }
 
 }

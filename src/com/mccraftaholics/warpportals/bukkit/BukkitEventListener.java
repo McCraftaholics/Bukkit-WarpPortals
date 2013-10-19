@@ -1,8 +1,8 @@
 package com.mccraftaholics.warpportals.bukkit;
 
-import com.mccraftaholics.warpportals.api.WarpPortalEnterEvent;
-import com.mccraftaholics.warpportals.api.WarpPortalEvent;
-import com.mccraftaholics.warpportals.api.WarpPortalTeleportEvent;
+import com.mccraftaholics.warpportals.api.WarpPortalsEnterEvent;
+import com.mccraftaholics.warpportals.api.WarpPortalsEvent;
+import com.mccraftaholics.warpportals.api.WarpPortalsTeleportEvent;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -48,9 +48,9 @@ public class BukkitEventListener implements Listener {
         PortalInfo portal = mPortalManager.checkPlayerLoose(player.getLocation());
         boolean isWarpPortal = portal != null;
 
-        // Create WarpPortalEnterEvent
-        WarpPortalEnterEvent wpee = new WarpPortalEnterEvent(player, isWarpPortal);
-        // Call WarpPortalEnterEvent
+        // Create WarpPortalsEnterEvent
+        WarpPortalsEnterEvent wpee = new WarpPortalsEnterEvent(player, isWarpPortal);
+        // Call WarpPortalsEnterEvent
         Bukkit.getPluginManager().callEvent(wpee);
 
         /* Check if event has been cancelled */
@@ -64,9 +64,9 @@ public class BukkitEventListener implements Listener {
                 // Check player permissions to use portal
                 boolean hasPermission = player.hasPermission("warpportal.enter");
 
-                // Create WarpPortalEvent
-                WarpPortalEvent wpEvent = new WarpPortalEvent(player, portal, hasPermission);
-                // Call WarpPortalEvent
+                // Create WarpPortalsEvent
+                WarpPortalsEvent wpEvent = new WarpPortalsEvent(player, portal, hasPermission);
+                // Call WarpPortalsEvent
                 Bukkit.getPluginManager().callEvent(wpEvent);
 
                 // Check if event has been cancelled
@@ -84,8 +84,8 @@ public class BukkitEventListener implements Listener {
                     tpLoc.setYaw(tpCoords.yaw);
                     player.teleport(tpLoc);
 
-                    WarpPortalTeleportEvent wpTPEvent = new WarpPortalTeleportEvent(player, preTPLocation);
-                    // Call WarpPortalTeleportEvent
+                    WarpPortalsTeleportEvent wpTPEvent = new WarpPortalsTeleportEvent(player, preTPLocation);
+                    // Call WarpPortalsTeleportEvent
                     Bukkit.getPluginManager().callEvent(wpTPEvent);
 
                 }

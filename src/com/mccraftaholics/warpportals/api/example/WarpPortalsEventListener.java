@@ -1,6 +1,6 @@
 package com.mccraftaholics.warpportals.api.example;
 
-import com.mccraftaholics.warpportals.api.WarpPortalTeleportEvent;
+import com.mccraftaholics.warpportals.api.WarpPortalsTeleportEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,7 +27,7 @@ public class WarpPortalsEventListener implements Listener {
     }
 
     @EventHandler
-    public void onTeleport(WarpPortalTeleportEvent event) {
+    public void onTeleport(WarpPortalsTeleportEvent event) {
         Player player = event.getPlayer();
         if (mTPMessage != null)
             player.sendMessage(mTPC + mTPMessage);
