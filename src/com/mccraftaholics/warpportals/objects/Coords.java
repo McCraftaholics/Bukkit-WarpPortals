@@ -28,6 +28,13 @@ public class Coords {
 		this(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
 	}
 
+    public Coords(Coords crd) {
+        world = crd.world;
+        x = crd.x;
+        y = crd.y;
+        z = crd.z;
+    }
+
 	public Coords(String coordsString) throws Exception {
 		String t = coordsString.trim();
 		if (t.matches("\\(.+,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*\\)")) {

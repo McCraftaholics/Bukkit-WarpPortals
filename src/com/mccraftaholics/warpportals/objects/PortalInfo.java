@@ -1,6 +1,7 @@
 package com.mccraftaholics.warpportals.objects;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class PortalInfo {
 
@@ -10,6 +11,14 @@ public class PortalInfo {
 	public PortalInfo() {
 		blockCoordArray = new ArrayList<Coords>();
 	}
+
+    public PortalInfo(PortalInfo oldPortal) {
+        this.tpCoords = new CoordsPY(oldPortal.tpCoords);
+        this.blockCoordArray = new ArrayList<Coords>();
+        for (Coords crds : oldPortal.blockCoordArray) {
+            this.blockCoordArray.add(new Coords(crds));
+        }
+    }
 
 	public String blockCoordArrToString() {
 		StringBuilder sb = new StringBuilder();
