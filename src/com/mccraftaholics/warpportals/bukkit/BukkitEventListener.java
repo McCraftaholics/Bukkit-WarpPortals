@@ -45,7 +45,7 @@ public class BukkitEventListener implements Listener {
         Player player = event.getPlayer();
         // Check if player is in a WarpPortal or normal portal
         /* Must be one of the two because this is triggered on the Bukkit PortalEnter event */
-        PortalInfo portal = mPortalManager.checkPlayerLoose(player.getLocation());
+        PortalInfo portal = mPortalManager.isLocationInsidePortal(player.getLocation());
         boolean isWarpPortal = portal != null;
 
         // Create WarpPortalsEnterEvent

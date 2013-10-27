@@ -22,11 +22,11 @@ public class PersistanceManager {
 		mDataFile = file;
 	}
 
-	public void loadDataFile(HashMap<String, PortalInfo> portalMap, HashMap<String, CoordsPY> destMap) {
-		loadDataFile(portalMap, destMap, mDataFile);
+	public void loadDataFile(PortalDataManager portalIM, HashMap<String, CoordsPY> destMap) {
+		loadDataFile(portalIM, destMap, mDataFile);
 	}
 
-	public void loadDataFile(HashMap<String, PortalInfo> portalMap, HashMap<String, CoordsPY> destMap, File dataFile) {
+	public void loadDataFile(PortalDataManager portalIM, HashMap<String, CoordsPY> destMap, File dataFile) {
 		try {
 			String data = Utils.readFile(dataFile.getAbsolutePath(), Charset.forName("UTF-8"));
 			if (data != null && !data.matches("")) {
@@ -56,7 +56,7 @@ public class PersistanceManager {
 												mLogger.info("Error in Portal's data file with String \"" + attrT + "\".");
 											}
 										}
-										portalMap.put(portalInfo.name, portalInfo);
+										portalIM.addPortal(portalInfo.name, portalInfo);
 									}
 								}
 							}
@@ -81,7 +81,7 @@ public class PersistanceManager {
 					}
 				}
 			}
-			mLogger.info(String.valueOf(portalMap.size()) + " Portals loaded!");
+			mLogger.info(String.valueOf(portalIM.getPortalCount()) + " Portals loaded!");
 		} catch (IOException e) {
 			mLogger.severe("Can't load data from Portal's data file");
 		}

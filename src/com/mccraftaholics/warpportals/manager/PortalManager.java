@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.mccraftaholics.warpportals.objects.Coords;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 import com.mccraftaholics.warpportals.objects.PortalCreate;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
@@ -21,6 +22,7 @@ public class PortalManager {
 	public PortalDestManager mPortalDestManager;
 	public PersistanceManager mPersistanceManager;
 	public PortalCDManager mPortalCDManager;
+	public PortalDataManager mPortalDataManager;
 	public PortalInteractManager mPortalInteractManager;
 
 	public PortalManager(Logger logger, YamlConfiguration portalConfig, File dataFile) {
@@ -28,9 +30,10 @@ public class PortalManager {
 		mPortalConfig = portalConfig;
 
 		mPersistanceManager = new PersistanceManager(mLogger, dataFile);
-		mPortalInteractManager = new PortalInteractManager(this, mLogger);
-		mPortalCDManager = new PortalCDManager(mPortalInteractManager, mPortalConfig);
+		mPortalDataManager = new PortalDataManager(this, mLogger);
+		mPortalCDManager = new PortalCDManager(mPortalDataManager, mPortalConfig);
 		mPortalDestManager = new PortalDestManager(this, mLogger);
+		mPortalInteractManager = new PortalInteractManager(this);
 
 		loadData();
 	}
@@ -40,35 +43,42 @@ public class PortalManager {
 	}
 
 	public void loadData() {
-		mPersistanceManager.loadDataFile(mPortalInteractManager.getPortalMap(), mPortalDestManager.mPortalDestMap);
+		mPersistanceManager.loadDataFile(mPortalDataManager, mPortalDestManager.mPortalDestMap);
 	}
 
 	public boolean saveDataFile() {
-		return mPersistanceManager.saveDataFile(mPortalInteractManager.getPortalMap(), mPortalDestManager.mPortalDestMap);
+		return mPersistanceManager.saveDataFile(mPortalDataManager.getPortalMap(), mPortalDestManager.mPortalDestMap);
 	}
 
 	public boolean saveDataFile(File mPortalDataFile) {
-		return mPersistanceManager.saveDataFile(mPortalInteractManager.getPortalMap(), mPortalDestManager.mPortalDestMap, mPortalDataFile);
+		return mPersistanceManager.saveDataFile(mPortalDataManager.getPortalMap(), mPortalDestManager.mPortalDestMap, mPortalDataFile);
 	}
 
 	public void playerItemRightClick(PlayerInteractEvent e) {
 		mPortalCDManager.playerItemRightClick(e);
 	}
 
-	public PortalInfo checkPlayerLoose(Location location) {
-		return mPortalInteractManager.checkPlayerLoose(location);
+	public PortalInfo isLocationInsidePortal(Location location) {
+		String portalName = mPortalInteractManager.isLocationInsidePortal(location);
+		if (portalName != null)
+			return getPortalInfo(portalName);
+		return null;
+	}
+
+	public Set<String> getPortalNames() {
+		return mPortalDataManager.getPortalNames();
+	}
+
+	public PortalInfo getPortalInfo(String portalName) {
+		return mPortalDataManager.getPortalInfo(portalName);
+	}
+	
+	public String getPortalName(Coords coords) {
+		return mPortalDataManager.getPortalName(coords);
 	}
 
 	public void addCreating(String playerName, PortalCreate portalCreate) {
 		mPortalCDManager.addCreating(playerName, portalCreate);
-	}
-
-	public Set<String> getPortalNames() {
-		return mPortalInteractManager.getPortalNames();
-	}
-
-	public PortalInfo getPortalInfo(String portalName) {
-		return mPortalInteractManager.getPortalInfo(portalName);
 	}
 
 	public void deletePortal(String portalName) {

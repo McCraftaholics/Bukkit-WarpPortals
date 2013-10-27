@@ -27,6 +27,10 @@ public class Coords {
 	public Coords(Location loc) {
 		this(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
 	}
+	
+	public static Coords createCourse(Location loc) {
+		return new Coords(loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+	}
 
     public Coords(Coords crd) {
         world = crd.world;
