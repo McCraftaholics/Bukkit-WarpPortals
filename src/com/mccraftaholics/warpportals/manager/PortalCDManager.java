@@ -126,9 +126,7 @@ public class PortalCDManager {
 				blockSpider.start(block, newPortalInfo.blockCoordArray);
 				Location loc = block.getLocation();
 				/*
-				 * for (Coords crd : newPortalInfo.blockCoordArray) {
-				 * loc.setX(crd.x); loc.setY(crd.y); loc.setZ(crd.z);
-				 * loc.getBlock().setType(Material.GLOWSTONE); }
+				 * Update blocks in Portal to either Ender or Portal blocks.
 				 */
 				boolean isEnder = (block.getType() == Material.QUARTZ_BLOCK || block.getType() == Material.ENDER_PORTAL);
 				for (Coords crd : newPortalInfo.blockCoordArray) {
