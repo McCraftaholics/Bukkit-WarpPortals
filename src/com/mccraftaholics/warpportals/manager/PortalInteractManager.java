@@ -1,8 +1,6 @@
 package com.mccraftaholics.warpportals.manager;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
 import com.mccraftaholics.warpportals.objects.Coords;
 
 public class PortalInteractManager {
