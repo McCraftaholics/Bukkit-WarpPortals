@@ -11,10 +11,12 @@ import com.mccraftaholics.warpportals.objects.CoordsPY;
 public class CmdLoad extends CommandHandlerObject {
 
 	public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
-		main.mPortalManager.mPortalDataManager.clearPortalMap();
-		main.mPortalManager.mPortalDestManager.mPortalDestMap = new HashMap<String, CoordsPY>();
-		main.mPortalManager.loadData();
-		sender.sendMessage(main.mCC + "Portal data loaded from portals.yml.");
+		if (sender.hasPermission("warpportals.admin.op.load")) {
+			main.mPortalManager.mPortalDataManager.clearPortalMap();
+			main.mPortalManager.mPortalDestManager.mPortalDestMap = new HashMap<String, CoordsPY>();
+			main.mPortalManager.loadData();
+			sender.sendMessage(main.mCC + "Portal data loaded from portals.yml.");
+		}
 		return true;
 	}
 

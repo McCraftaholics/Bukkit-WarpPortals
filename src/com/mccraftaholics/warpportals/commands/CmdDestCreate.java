@@ -10,6 +10,7 @@ import com.mccraftaholics.warpportals.objects.CoordsPY;
 public class CmdDestCreate extends CommandHandlerObject {
 
 	public static boolean handle(Player sender, String[] args, CommandHandler main) {
+		if (sender.hasPermission("warpportals.admin.destination.create")) {
 			if (args.length == 1) {
 				if (args[0].matches(Regex.PORTAL_DEST_NAME)) {
 					try {
@@ -28,6 +29,7 @@ public class CmdDestCreate extends CommandHandlerObject {
 					sender.sendMessage(main.mCC + "Destination names can only be letters and numbers.");
 			} else
 				return false;
+		}
 		return true;
 	}
 

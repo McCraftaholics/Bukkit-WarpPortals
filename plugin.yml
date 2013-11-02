@@ -9,7 +9,7 @@ commands:
     description: List all WarpPortal related commands
     usage: /wp
     aliases: [phelp, wp-help]
-    permissions: warpportals.listcommands
+    permissions: warpportals.admins.listcommands
   wp-portal-create:
     description: Bind the WarpPortal Creation tool to the current item
     usage: /wp-portal-create [portalname] [destName|(World,x,y,z)] [portalMaterial]

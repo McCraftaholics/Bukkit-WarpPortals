@@ -9,16 +9,18 @@ import com.mccraftaholics.warpportals.bukkit.CommandHandler.CommandHandlerObject
 
 public class CmdPortalDelTool extends CommandHandlerObject {
 	public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
-		try {
-			Player player = (Player) sender;
-			ItemStack curItem = player.getItemInHand();
-			if (!curItem.getType().isBlock()) {
-				main.mPortalManager.addDeleting(player.getName(), curItem.getType());
-				sender.sendMessage(main.mCC + "Portal delete tool equipped to \"" + curItem.getType() + "\"");
-			} else
-				sender.sendMessage(main.mCC + "You can't use a block for that! Try using something like the fishing rod.");
-		} catch (Exception e) {
-			sender.sendMessage(main.mCC + "Error deleting Portal");
+		if (sender.hasPermission("warpportals.admin.portal.delete.tool")) {
+			try {
+				Player player = (Player) sender;
+				ItemStack curItem = player.getItemInHand();
+				if (!curItem.getType().isBlock()) {
+					main.mPortalManager.addDeleting(player.getName(), curItem.getType());
+					sender.sendMessage(main.mCC + "Portal delete tool equipped to \"" + curItem.getType() + "\"");
+				} else
+					sender.sendMessage(main.mCC + "You can't use a block for that! Try using something like the fishing rod.");
+			} catch (Exception e) {
+				sender.sendMessage(main.mCC + "Error deleting Portal");
+			}
 		}
 		return true;
 	}

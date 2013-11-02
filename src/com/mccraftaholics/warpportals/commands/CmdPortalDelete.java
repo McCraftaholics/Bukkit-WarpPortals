@@ -8,19 +8,21 @@ import com.mccraftaholics.warpportals.objects.PortalInfo;
 
 public class CmdPortalDelete extends CommandHandlerObject {
 	public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
-		if (args.length == 1) {
-			try {
-				PortalInfo portal = main.mPortalManager.getPortalInfo(args[0]);
-				if (portal != null) {
-					main.mPortalManager.deletePortal(args[0]);
-				} else {
-					sender.sendMessage(main.mCC + args[0] + " is not a valid Portal name.");
+		if (sender.hasPermission("warpportals.admin.portal.delete.command")) {
+			if (args.length == 1) {
+				try {
+					PortalInfo portal = main.mPortalManager.getPortalInfo(args[0]);
+					if (portal != null) {
+						main.mPortalManager.deletePortal(args[0]);
+					} else {
+						sender.sendMessage(main.mCC + args[0] + " is not a valid Portal name.");
+					}
+				} catch (Exception e) {
+					sender.sendMessage(main.mCC + "Error saving Portal destination");
 				}
-			} catch (Exception e) {
-				sender.sendMessage(main.mCC + "Error saving Portal destination");
-			}
-		} else
-			return false;
+			} else
+				return false;
+		}
 		return true;
 	}
 }
