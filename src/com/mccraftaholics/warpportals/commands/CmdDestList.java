@@ -1,5 +1,6 @@
 package com.mccraftaholics.warpportals.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
@@ -14,7 +15,7 @@ public class CmdDestList extends CommandHandlerObject {
 		for (String destName : main.mPortalManager.getDestinations()) {
 			CoordsPY destCoords = main.mPortalManager.getDestCoords(destName);
 			try {
-				sbdest.append("\n - " + destName + " in " + destCoords.getWorldName());
+				sbdest.append("\n - " + ChatColor.AQUA + destName + ChatColor.WHITE + " in " + ChatColor.YELLOW + destCoords.getWorldName());
 			} catch (Exception e) {
 				// Catch when destCoords == null
 			}
