@@ -66,7 +66,7 @@ public class BukkitEventListener implements Listener {
 	public void onPlayerBlockMove(WarpPortalsPlayerBlockMoveEvent event) {
 		Player player = event.getPlayer();
 		// Check if player is in a WarpPortal
-		PortalInfo portal = mPortalManager.isLocationInsidePortal(player.getLocation());
+		PortalInfo portal = mPortalManager.isLocationInsidePortal(event.getTo());
 		// If player is in a WarpPortal
 		if (portal != null) {
 			// Check player permissions to use portal
