@@ -1,5 +1,5 @@
 name: WarpPortals
-version: 4.0.0b5
+version: 4.0.0b7
 
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
 softdepend: [WorldGuard, Multiverse-Core, Multiverse, Multiworld, My Worlds]
@@ -14,62 +14,62 @@ commands:
     description: Bind the WarpPortal Creation tool to the current item
     usage: /wp-portal-create [portalname] [destName|(World,x,y,z)]
     aliases: [pcreate, wppc]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.portal.create
   wp-portal-delete:
     description: Delete a WarpPortal by name.
     usage: /wp-portal-delete [portalName]
     aliases: [pdelete, wppd]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.portal.delete.command
   wp-portal-deltool:
     description: Bind the Portal Deletion tool to the current item
     usage: /wp-portal-deltool
     aliases: [pdeltool, wppdt]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.portal.delete.tool
   wp-portal-list:
     description: List all WarpPortals
     usage: /wp-portal list
     aliases: [plist, wp-portals, wppl]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.portal.list
   wp-portal-teleport:
     description: Teleport to a WarpPortal
     usage: /wp-portal-teleport [portalName]
     aliases: [wp-portal-tp, wpptp]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.portal.teleport
   wp-location-create:
     description: Create a WarpPortal Location using your current location and point-of-view
     usage: /wp-location-create [locationName]
     aliases: [pdest, wplc]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.location.create
   wp-location-delete:
     description: Remove a WarpPortal Location by name
     usage: /wp-location-delete [locationName]
     aliases: [pdestdel, wpld]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.location.delete
   wp-location-list:
     description: List all saved WarpPortal Locations
     usage: /wp-location-list
     aliases: [pdestlist, wp-locations, wpll]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.location.list
   wp-location-teleport:
     description: Teleport to a WarpPortal Location
     usage: /wp-location-teleport [locationName]
     aliases: [wp-location-tp, wpltp]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.location.teleport
   wp-save:
     description: Force save all WarpPortal data
     usage: /wp-save
     aliases: [psave, wps]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.op.save
   wp-load:
     description: Force load WarpPortal data from portals.yml
     usage: /wp-load
     aliases: [pload, wpl]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.op.load
   wp-backup:
     description: Backup the current WarpPortal data to "portals.yml_yyyy-MM-ddTkk-mm-ss.bac"
     usage: /wp-backup
     aliases: [pbackup, wpb]
-    permissions: warpportals.admin
+    permissions: warpportals.admin.op.backup
 
 permissions:
   warpportal.*:
