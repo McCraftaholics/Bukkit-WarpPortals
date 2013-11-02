@@ -3,6 +3,7 @@ package com.mccraftaholics.warpportals.helpers;
 import java.util.ArrayList;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import com.mccraftaholics.warpportals.objects.Coords;
@@ -25,11 +26,11 @@ public class BlockCrawler {
 	public void start(Block origBlock, ArrayList<Coords> blockCoordsArr) throws MaxRecursionException {
 		mOrigBlock = origBlock;
 		mProcessedBlocks = blockCoordsArr;
-		processAdjacent(mOrigBlock, mOrigBlock.getTypeId());
+		processAdjacent(mOrigBlock, mOrigBlock.getType());
 	}
 
-	private void processAdjacent(Block block, int typeID) throws MaxRecursionException {
-		if (block != null && block.getTypeId() == typeID) {
+	private void processAdjacent(Block block, Material type) throws MaxRecursionException {
+		if (block != null && block.getType() == type) {
 			if (!mProcessedBlocks.contains(new Coords(block))) {
 				mProcessedBlocks.add(new Coords(block));
 				for (int i = 0; i < ADJ_LOC.length; i++) {
@@ -38,7 +39,7 @@ public class BlockCrawler {
 					nextLoc.setY(block.getY() + ADJ_LOC[i][1]);
 					nextLoc.setZ(block.getZ() + ADJ_LOC[i][2]);
 					if (mProcessedBlocks.size() < mMaxPortalSize)
-						processAdjacent(nextLoc.getBlock(), block.getTypeId());
+						processAdjacent(nextLoc.getBlock(), block.getType());
 					else
 						throw new MaxRecursionException("Max Block");
 				}
