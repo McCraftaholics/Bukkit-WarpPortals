@@ -19,6 +19,7 @@ import com.mccraftaholics.warpportals.commands.CmdPortalCreate;
 import com.mccraftaholics.warpportals.commands.CmdPortalDelTool;
 import com.mccraftaholics.warpportals.commands.CmdPortalDelete;
 import com.mccraftaholics.warpportals.commands.CmdPortalList;
+import com.mccraftaholics.warpportals.commands.CmdPortalMaterial;
 import com.mccraftaholics.warpportals.commands.CmdPortalTeleport;
 import com.mccraftaholics.warpportals.commands.CmdSave;
 import com.mccraftaholics.warpportals.helpers.Defaults;
@@ -57,6 +58,8 @@ public class CommandHandler {
 		// For commands that a server or player can run
 		else if (cmd.test("wp", "wp-help", "phelp"))
 			return CmdHelp.handle(sender, args, this);
+		else if (cmd.test("wp-portal-material", "wppm"))
+			return CmdPortalMaterial.handle(sender, args, this);
 		else if (cmd.test("wp-portal-delete", "wppd", "pdelete"))
 			return CmdPortalDelete.handle(sender, args, this);
 		else if (cmd.test("wp-portal-list", "wppl", "plist"))
