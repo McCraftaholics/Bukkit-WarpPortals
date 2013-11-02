@@ -1,6 +1,5 @@
 package com.mccraftaholics.warpportals.bukkit;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.bukkit.ChatColor;
@@ -10,12 +9,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.mccraftaholics.warpportals.commands.CmdBackup;
+import com.mccraftaholics.warpportals.commands.CmdDestCreate;
+import com.mccraftaholics.warpportals.commands.CmdDestDelete;
+import com.mccraftaholics.warpportals.commands.CmdDestList;
+import com.mccraftaholics.warpportals.commands.CmdDestTeleport;
 import com.mccraftaholics.warpportals.commands.CmdHelp;
 import com.mccraftaholics.warpportals.commands.CmdLoad;
-import com.mccraftaholics.warpportals.commands.CmdLocationCreate;
-import com.mccraftaholics.warpportals.commands.CmdLocationDelete;
-import com.mccraftaholics.warpportals.commands.CmdLocationList;
-import com.mccraftaholics.warpportals.commands.CmdLocationTeleport;
 import com.mccraftaholics.warpportals.commands.CmdPortalCreate;
 import com.mccraftaholics.warpportals.commands.CmdPortalDelTool;
 import com.mccraftaholics.warpportals.commands.CmdPortalDelete;
@@ -43,8 +42,6 @@ public class CommandHandler {
 		// Wrap the command argument for easy filtering
 		WPCommand cmd = new WPCommand(command);
 
-		Player player = sender instanceof Player ? (Player) sender : null;
-
 		// For commands that require the sender to be a player
 		if (cmd.test("wp-portal-create", "wppc", "pcreate")) {
 			return requirePlayer(sender, args, this, CmdPortalCreate.class);
@@ -52,10 +49,10 @@ public class CommandHandler {
 			return requirePlayer(sender, args, this, CmdPortalDelTool.class);
 		} else if (cmd.test("wp-portal-teleport", "wp-portal-tp", "wpptp")) {
 			return requirePlayer(sender, args, this, CmdPortalTeleport.class);
-		} else if (cmd.test("wp-location-create", "wplc")) {
-			return requirePlayer(sender, args, this, CmdLocationCreate.class);
-		} else if (cmd.test("wp-location-teleport", "wp-location-tp", "wpltp")) {
-			return requirePlayer(sender, args, this, CmdLocationTeleport.class);
+		} else if (cmd.test("wp-destination-create", "wpdc")) {
+			return requirePlayer(sender, args, this, CmdDestCreate.class);
+		} else if (cmd.test("wp-destination-teleport", "wp-destination-tp", "wp-dest-teleport", "wp-dest-tp", "wpdtp")) {
+			return requirePlayer(sender, args, this, CmdDestTeleport.class);
 		}
 		// For commands that a server or player can run
 		else if (cmd.test("wp", "wp-help", "phelp"))
@@ -64,10 +61,10 @@ public class CommandHandler {
 			return CmdPortalDelete.handle(sender, args, this);
 		else if (cmd.test("wp-portal-list", "wppl", "plist"))
 			return CmdPortalList.handle(sender, args, this);
-		else if (cmd.test("wp-location-delete", "wpld", "pdestdel"))
-			return CmdLocationDelete.handle(sender, args, this);
-		else if (cmd.test("wp-location-list", "wpll", "pdestlist"))
-			return CmdLocationList.handle(sender, args, this);
+		else if (cmd.test("wp-destination-delete", "wp-dest-delete", "wpdd", "pdestdel"))
+			return CmdDestDelete.handle(sender, args, this);
+		else if (cmd.test("wp-destination-list", "wp-dest-list", "wp-dests", "wpdl", "pdestlist"))
+			return CmdDestList.handle(sender, args, this);
 		else if (cmd.test("wp-save", "wps", "psave"))
 			return CmdSave.handle(sender, args, this);
 		else if (cmd.test("wp-load", "wpl", "pload"))
@@ -84,28 +81,16 @@ public class CommandHandler {
 		}
 	}
 
-	boolean requirePlayer(CommandSender sender, String[] args, CommandHandler main, Class<?> cho) {
-		if (sender instanceof Player) {
+	boolean requirePlayer(CommandSender sender, String[] args, CommandHandler main, Class<? extends CommandHandlerObject> cho) {
+		if (!(sender instanceof Player)) {
 			sender.sendMessage("This command must be run from an active player");
 			return true;
 		} else {
 			try {
 				Method m = cho.getMethod("handle", CommandSender.class, String[].class, CommandHandler.class);
 				return (Boolean) m.invoke(null, sender, args, main);
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {
+				sender.sendMessage("THIS ERROR SHOULD NEVER OCCUR");
 				e.printStackTrace();
 			}
 		}
