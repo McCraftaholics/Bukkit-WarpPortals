@@ -1,6 +1,7 @@
 package com.mccraftaholics.warpportals.manager;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -35,6 +36,15 @@ public class PortalDestManager {
 
 	public Set<String> getDestinations() {
 		return mPortalDestMap.keySet();
+	}
+
+	public String getDestinationName(CoordsPY coords) {
+		for (Entry<String, CoordsPY> dest : mPortalDestMap.entrySet()) {
+			if (dest.getValue().equals(coords)) {
+				return dest.getKey();
+			}
+		}
+		return null;
 	}
 
 }

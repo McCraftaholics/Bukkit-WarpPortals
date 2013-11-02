@@ -104,5 +104,9 @@ public class PortalManager {
 	public Set<String> getDestinations() {
 		return mPortalDestManager.getDestinations();
 	}
+	
+	public String getDestinationName(CoordsPY coords) {
+		return mPortalDestManager.getDestinationName(coords);
+	}
 
 }
