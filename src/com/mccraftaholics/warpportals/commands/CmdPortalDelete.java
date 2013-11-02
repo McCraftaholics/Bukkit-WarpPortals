@@ -20,7 +20,7 @@ public class CmdPortalDelete extends CommandHandlerObject {
 				sender.sendMessage(main.mCC + "Error saving Portal destination");
 			}
 		} else
-			sender.sendMessage(main.mCC + "/pdelete [portalName]");
+			return false;
 		return true;
 	}
 }
