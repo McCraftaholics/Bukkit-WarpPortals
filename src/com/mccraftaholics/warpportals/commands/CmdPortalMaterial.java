@@ -32,12 +32,12 @@ public class CmdPortalMaterial extends CommandHandlerObject {
 							 * Test to see if the block is solid, recommend to
 							 * the player that they don't use it
 							 */
-							if (!blockType.isSolid()) {
-								main.mPortalManager.changeMaterial(blockType, portal.blockCoordArray, new Location(portal.tpCoords.world, 0, 0, 0));
-								sender.sendMessage(ChatColor.RED + portal.name + ChatColor.WHITE + " portal material changed to " + ChatColor.AQUA + blockType);
-							} else
+							if (blockType.isSolid()) {
 								sender.sendMessage(main.mCC + "" + blockType
 										+ " is solid. You can create a WarpPortal using it but that may not be the best idea.");
+							}
+							main.mPortalManager.changeMaterial(blockType, portal.blockCoordArray, new Location(portal.tpCoords.world, 0, 0, 0));
+							sender.sendMessage(ChatColor.RED + portal.name + ChatColor.WHITE + " portal material changed to " + ChatColor.AQUA + blockType);
 						} else
 							sender.sendMessage(main.mCC + "WarpPortals can only be created out of blocks, you can't use other items.");
 					} else
