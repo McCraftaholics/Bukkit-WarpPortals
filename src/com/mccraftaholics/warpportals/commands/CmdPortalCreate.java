@@ -1,5 +1,6 @@
 package com.mccraftaholics.warpportals.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -58,8 +59,10 @@ public class CmdPortalCreate extends CommandHandlerObject {
 											portalCreate.tpCoords = tpCoords;
 											portalCreate.blockType = blockType;
 											main.mPortalManager.addCreating(sender.getName(), portalCreate);
-											sender.sendMessage(main.mCC + "Right-click on a Gold Block wall\n - Tool: \"" + curItem.getType().name()
-													+ "\"\n - WarpPortal Name: " + portalCreate.portalName + "\n - WarpPortal Dest: " + args[1]);
+											sender.sendMessage(ChatColor.AQUA + "Right-click on a Gold Block wall\n - Tool: \"" + curItem.getType().name()
+													+ "\"\n " + ChatColor.WHITE + "-" + ChatColor.AQUA + " WarpPortal Name: " + ChatColor.RED
+													+ portalCreate.portalName + ChatColor.WHITE + "\n - " + ChatColor.AQUA + "WarpPortal Dest: "
+													+ ChatColor.YELLOW + args[1]);
 										} else
 											sender.sendMessage(main.mCC + "You can't use a block for that! Try using something like the fishing rod.");
 									} else

@@ -15,7 +15,7 @@ public class CmdDestList extends CommandHandlerObject {
 		for (String destName : main.mPortalManager.getDestinations()) {
 			CoordsPY destCoords = main.mPortalManager.getDestCoords(destName);
 			try {
-				sbdest.append("\n - " + ChatColor.AQUA + destName + ChatColor.WHITE + " in " + ChatColor.YELLOW + destCoords.getWorldName());
+				sbdest.append(ChatColor.WHITE + "\n - " + ChatColor.AQUA + destName + ChatColor.WHITE + " in " + ChatColor.YELLOW + destCoords.getWorldName());
 			} catch (Exception e) {
 				// Catch when destCoords == null
 			}
