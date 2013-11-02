@@ -79,6 +79,10 @@ public class CommandHandler {
 		public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
 			return false;
 		}
+
+		public static boolean handle(Player sender, String[] args, CommandHandler main) {
+			return false;
+		}
 	}
 
 	boolean requirePlayer(CommandSender sender, String[] args, CommandHandler main, Class<? extends CommandHandlerObject> cho) {
@@ -87,7 +91,7 @@ public class CommandHandler {
 			return true;
 		} else {
 			try {
-				Method m = cho.getMethod("handle", CommandSender.class, String[].class, CommandHandler.class);
+				Method m = cho.getMethod("handle", Player.class, String[].class, CommandHandler.class);
 				return (Boolean) m.invoke(null, sender, args, main);
 			} catch (Exception e) {
 				sender.sendMessage("THIS ERROR SHOULD NEVER OCCUR");
