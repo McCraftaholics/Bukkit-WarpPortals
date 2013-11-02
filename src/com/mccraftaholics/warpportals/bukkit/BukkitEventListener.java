@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -148,6 +149,15 @@ public class BukkitEventListener implements Listener {
 		Block block = event.getBlock();
 		if (mPortalManager.isLocationInsidePortal(block.getLocation()) != null) {
 			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onBlockBreak(BlockBreakEvent event) {
+		Block block = event.getBlock();
+		if (mPortalManager.isLocationInsidePortal(block.getLocation()) != null) {
+			if (!event.getPlayer().hasPermission("warpportals.admin.breakblock"))
+				event.setCancelled(true);
 		}
 	}
 

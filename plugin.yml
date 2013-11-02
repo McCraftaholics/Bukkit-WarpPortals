@@ -1,5 +1,5 @@
 name: WarpPortals
-version: 4.2.1.1
+version: 4.2.2.0
 
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
 softdepend: [WorldGuard, Multiverse-Core, Multiverse, Multiworld, My Worlds]
@@ -77,9 +77,12 @@ commands:
     permissions: warpportals.admin.op.backup
 
 permissions:
-  warpportal.*:
+  warpportal.admin:
     description: Gives access to all WarpPortal commands
     default: op
   warpportal.enter:
     description: Allows a player to travel through Warp Portals
     default: true
+  warpportal.admin.breakblock:
+    description: Allows a player to break blocks within a WarpPortal
+    default: false
