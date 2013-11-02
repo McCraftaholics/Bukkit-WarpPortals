@@ -5,9 +5,10 @@ import java.util.HashMap;
 import org.bukkit.command.CommandSender;
 
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
+import com.mccraftaholics.warpportals.bukkit.CommandHandler.CommandHandlerObject;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 
-public class CmdLoad {
+public class CmdLoad extends CommandHandlerObject {
 
 	public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
 		main.mPortalManager.mPortalDataManager.clearPortalMap();

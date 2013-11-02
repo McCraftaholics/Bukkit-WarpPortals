@@ -3,8 +3,9 @@ package com.mccraftaholics.warpportals.commands;
 import org.bukkit.command.CommandSender;
 
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
+import com.mccraftaholics.warpportals.bukkit.CommandHandler.CommandHandlerObject;
 
-public class CmdHelp {
+public class CmdHelp extends CommandHandlerObject {
 
 	public static final String[] CMD_USAGES = { "/pcreate [portalname] [destName|(World,x,y,z)]", "/pdelete [portalName]", "/pdeltool", "/pdest [destName]",
 			"/pdestdel [destName]", "/plist", "/pdestlist", "/pgoto [p|d] [portalName|destName]", "/psave", "/pload", "/pbackup" };

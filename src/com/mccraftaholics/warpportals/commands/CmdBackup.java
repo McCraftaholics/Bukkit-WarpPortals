@@ -7,8 +7,9 @@ import java.util.Date;
 import org.bukkit.command.CommandSender;
 
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
+import com.mccraftaholics.warpportals.bukkit.CommandHandler.CommandHandlerObject;
 
-public class CmdBackup {
+public class CmdBackup extends CommandHandlerObject {
 
 	public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
 		try {
