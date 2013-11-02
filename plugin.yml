@@ -1,70 +1,75 @@
 name: WarpPortals
-version: 3.0.0
+version: 4.0.0b5
 
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
 softdepend: [WorldGuard, Multiverse-Core, Multiverse, Multiworld, My Worlds]
 
 commands:
-  phelp:
-    description: List all Portal related commands
-    usage: /pcommands
+  wp:
+    description: List all WarpPortal related commands
+    usage: /wp
+    aliases: [phelp, wp-help]
+    permissions: warpportals.listcommands
+  wp-portal-create:
+    description: Bind the WarpPortal Creation tool to the current item
+    usage: /wp-portal-create [portalname] [destName|(World,x,y,z)]
+    aliases: [pcreate, wppc]
     permissions: warpportals.admin
-    permission-message: You are not authorized to see these commands!
-  pcreate:
-    description: Equip the current item as a Portal Creation tool
-    usage: /pcreate [portalname] [destName|(World,x,y,z)]
+  wp-portal-delete:
+    description: Delete a WarpPortal by name.
+    usage: /wp-portal-delete [portalName]
+    aliases: [pdelete, wppd]
     permissions: warpportals.admin
-    permission-message: You are not authorized to create a Portal!
-  pdelete:
-    description: Delete a Portal by name
-    usage: /pdelete [portalName]
-    permissions: warpportals.admin
-    permission-message: You are not authorized to delete Portals!
-  pdeltool:
+  wp-portal-deltool:
     description: Bind the Portal Deletion tool to the current item
-    usage: /pdeltool
+    usage: /wp-portal-deltool
+    aliases: [pdeltool, wppdt]
     permissions: warpportals.admin
-    permission-message: You are not authorized to delete Portals!
-  pdest:
-    description: Save your current location as a WarpPortal Destination
-    usage: /pdest [destName]
+  wp-portal-list:
+    description: List all WarpPortals
+    usage: /wp-portal list
+    aliases: [plist, wp-portals, wppl]
     permissions: warpportals.admin
-    permission-message: You are not authorized to create Portal destinations!
-  pdestdel:
-    description: Remove the Portal Destination
-    usage: /pdestdel [destName]
+  wp-portal-teleport:
+    description: Teleport to a WarpPortal
+    usage: /wp-portal-teleport [portalName]
+    aliases: [wp-portal-tp, wpptp]
     permissions: warpportals.admin
-    permission-message: You are not authorized to remove Portal destinations!
-  plist:
-    description: List all Portals
-    usage: /plist
+  wp-location-create:
+    description: Create a WarpPortal Location using your current location and point-of-view
+    usage: /wp-location-create [locationName]
+    aliases: [pdest, wplc]
     permissions: warpportals.admin
-    permission-message: You are not authorized to list all of the portals!
-  pdestlist:
-    description: List all saved Portal Destinations
-    usage: /pdestlist
+  wp-location-delete:
+    description: Remove a WarpPortal Location by name
+    usage: /wp-location-delete [locationName]
+    aliases: [pdestdel, wpld]
     permissions: warpportals.admin
-    permission-message: You are not authorized to list all Portal destinations!
-  pgoto:
-    description: Teleport to a Portal or Destination
-    usage: /pgoto [p|d] [destName|portalName]
+  wp-location-list:
+    description: List all saved WarpPortal Locations
+    usage: /wp-location-list
+    aliases: [pdestlist, wp-locations, wpll]
     permissions: warpportals.admin
-    permission-message: You are not authorized to teleport to a Portal managed location!
-  psave:
-    description: Force save all Portal data
-    usage: /psave
+  wp-location-teleport:
+    description: Teleport to a WarpPortal Location
+    usage: /wp-location-teleport [locationName]
+    aliases: [wp-location-tp, wpltp]
     permissions: warpportals.admin
-    permission-message: You are not authorized to force save all Portal data!
-  pload:
-    description: Force load Portal data from portals.yml
-    usage: /pload
+  wp-save:
+    description: Force save all WarpPortal data
+    usage: /wp-save
+    aliases: [psave, wps]
     permissions: warpportals.admin
-    permission-message: You are not authorized to force load Portal data!
-  pbackup:
-    description: Backup the current Portal data to "portals.yml_yyyy-MM-ddTkk-mm-ss.bac"
-    usage: /backup
+  wp-load:
+    description: Force load WarpPortal data from portals.yml
+    usage: /wp-load
+    aliases: [pload, wpl]
     permissions: warpportals.admin
-    permission-message: You are not authorized to backup Portal data!
+  wp-backup:
+    description: Backup the current WarpPortal data to "portals.yml_yyyy-MM-ddTkk-mm-ss.bac"
+    usage: /wp-backup
+    aliases: [pbackup, wpb]
+    permissions: warpportals.admin
 
 permissions:
   warpportal.*:
