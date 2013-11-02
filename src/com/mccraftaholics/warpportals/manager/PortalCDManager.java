@@ -3,6 +3,7 @@ package com.mccraftaholics.warpportals.manager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -69,19 +70,7 @@ public class PortalCDManager {
 	public void deletePortal(String name) {
 		try {
 			Location loc = new Location(mPDM.getPortalInfo(name).tpCoords.world, 0, 0, 0);
-			for (Coords crd : mPDM.getPortalInfo(name).blockCoordArray) {
-				try {
-					loc.setWorld(crd.world);
-					loc.setX(crd.x);
-					loc.setY(crd.y);
-					loc.setZ(crd.z);
-					Block block = loc.getBlock();
-					Material replace = block.getType() == Material.ENDER_PORTAL ? Material.QUARTZ_BLOCK : Material.GOLD_BLOCK;
-					block.setType(replace);
-				} catch (Exception e) {
-					// Error changing portal block
-				}
-			}
+			changeMaterial(Material.GOLD_BLOCK, mPDM.getPortalInfo(name).blockCoordArray, loc);
 		} catch (Exception e) {
 			// Error changing portal to gold block
 		}
@@ -155,26 +144,48 @@ public class PortalCDManager {
 		}
 	}
 
-	public void createPortal(CommandSender sender, Block block, String portalName, CoordsPY tpCoords, Material portalMaterial, ArrayList<Coords> blockCoordsArray) {
+	public void createPortal(CommandSender sender, Block block, String portalName, CoordsPY tpCoords, Material portalMaterial,
+			ArrayList<Coords> blockCoordsArray) {
 		PortalInfo newPortalInfo = new PortalInfo();
 		newPortalInfo.name = portalName;
 		newPortalInfo.tpCoords = tpCoords;
 		newPortalInfo.blockCoordArray = blockCoordsArray;
 		Location loc = block.getLocation();
 		/*
-		 * Update the blocks in the Portal to whatever the Player designated them to be.
+		 * Update the blocks in the Portal to whatever the Player designated
+		 * them to be.
 		 */
-		for (Coords crd : newPortalInfo.blockCoordArray) {
-			loc.setX(crd.x);
-			loc.setY(crd.y);
-			loc.setZ(crd.z);
-			loc.getBlock().setType(portalMaterial);
-		}
+		changeMaterial(portalMaterial, newPortalInfo.blockCoordArray, loc);
 		// Add portal
 		mPDM.addPortal(portalName, newPortalInfo);
 		// Deactivate portal creation tool
 		mPlayerPortalCreateMap.remove(sender.getName());
 		// Alert player of portal creation success
 		sender.sendMessage(mCC + "\"" + portalName + "\" created and linked to " + tpCoords.toNiceString());
+	}
+
+	/**
+	 * Change the material of the block at each Coords in blockCoordArray.
+	 * 
+	 * @param material
+	 *            - Material to change the block to. Must be a block.
+	 *            {@link Material#isBlock()}
+	 * @param blockCoordArray
+	 *            List<{@link Coords} of the blocks to update.
+	 * @param location
+	 *            {@link Location} to use for updating the blocks.
+	 * @return if the material can be used or not.
+	 */
+	public boolean changeMaterial(Material material, List<Coords> blockCoordArray, Location location) {
+		if (material.isBlock()) {
+			for (Coords crd : blockCoordArray) {
+				location.setX(crd.x);
+				location.setY(crd.y);
+				location.setZ(crd.z);
+				location.getBlock().setType(material);
+			}
+			return true;
+		}
+		return false;
 	}
 }

@@ -1,6 +1,7 @@
 package com.mccraftaholics.warpportals.manager;
 
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -79,6 +80,10 @@ public class PortalManager {
 
 	public void addCreating(String playerName, PortalCreate portalCreate) {
 		mPortalCDManager.addCreating(playerName, portalCreate);
+	}
+	
+	public boolean changeMaterial(Material material, List<Coords> blockCoordArray, Location location) {
+		return mPortalCDManager.changeMaterial(material, blockCoordArray, location);
 	}
 
 	public void deletePortal(String portalName) {
