@@ -9,7 +9,7 @@ import com.mccraftaholics.warpportals.helpers.Regex;
 import com.mccraftaholics.warpportals.helpers.Utils;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 
-public class CmdLocationTeleport extends CommandHandlerObject {
+public class CmdDestTeleport extends CommandHandlerObject {
 	public static boolean handle(Player sender, String[] args, CommandHandler main) {
 		if (args.length == 1) {
 			if (args[0].matches(Regex.PORTAL_DEST_NAME)) {

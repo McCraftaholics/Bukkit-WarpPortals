@@ -6,7 +6,7 @@ import com.mccraftaholics.warpportals.bukkit.CommandHandler;
 import com.mccraftaholics.warpportals.bukkit.CommandHandler.CommandHandlerObject;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 
-public class CmdLocationList extends CommandHandlerObject {
+public class CmdDestList extends CommandHandlerObject {
 
 	public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
 		StringBuilder sbdest = new StringBuilder();

@@ -1,6 +1,5 @@
 package com.mccraftaholics.warpportals.commands;
 
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
@@ -8,11 +7,9 @@ import com.mccraftaholics.warpportals.bukkit.CommandHandler.CommandHandlerObject
 import com.mccraftaholics.warpportals.helpers.Regex;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 
-public class CmdLocationCreate extends CommandHandlerObject {
+public class CmdDestCreate extends CommandHandlerObject {
 
-	public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
-		boolean isPlayer = sender instanceof Player;
-		if (isPlayer) {
+	public static boolean handle(Player sender, String[] args, CommandHandler main) {
 			if (args.length == 1) {
 				if (args[0].matches(Regex.PORTAL_DEST_NAME)) {
 					try {
@@ -30,9 +27,7 @@ public class CmdLocationCreate extends CommandHandlerObject {
 				} else
 					sender.sendMessage(main.mCC + "Destination names can only be letters and numbers.");
 			} else
-				sender.sendMessage(main.mCC + "/pdest [destname]");
-		} else
-			sender.sendMessage(main.mCC + "You're a server silly!");
+				return false;
 		return true;
 	}
 

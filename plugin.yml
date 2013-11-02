@@ -35,26 +35,26 @@ commands:
     usage: /wp-portal-teleport [portalName]
     aliases: [wp-portal-tp, wpptp]
     permissions: warpportals.admin.portal.teleport
-  wp-location-create:
+  wp-destination-create:
     description: Create a WarpPortal Location using your current location and point-of-view
-    usage: /wp-location-create [locationName]
-    aliases: [pdest, wplc]
-    permissions: warpportals.admin.location.create
-  wp-location-delete:
-    description: Remove a WarpPortal Location by name
-    usage: /wp-location-delete [locationName]
-    aliases: [pdestdel, wpld]
-    permissions: warpportals.admin.location.delete
-  wp-location-list:
-    description: List all saved WarpPortal Locations
-    usage: /wp-location-list
-    aliases: [pdestlist, wp-locations, wpll]
-    permissions: warpportals.admin.location.list
-  wp-location-teleport:
-    description: Teleport to a WarpPortal Location
-    usage: /wp-location-teleport [locationName]
-    aliases: [wp-location-tp, wpltp]
-    permissions: warpportals.admin.location.teleport
+    usage: /wp-destination-create [destinationName]
+    aliases: [pdest, wpdc, wp-dest-create]
+    permissions: warpportals.admin.destination.create
+  wp-destination-delete:
+    description: Remove a WarpPortal Destination by name
+    usage: /wp-destination-delete [destinationName]
+    aliases: [pdestdel, wpdd, wp-dest-delete]
+    permissions: warpportals.admin.destination.delete
+  wp-destination-list:
+    description: List all saved WarpPortal Destinations
+    usage: /wp-destination-list
+    aliases: [pdestlist, wp-destinations, wpdl, wp-dests]
+    permissions: warpportals.admin.destination.list
+  wp-destination-teleport:
+    description: Teleport to a WarpPortal Destination
+    usage: /wp-destination-teleport [destinationName]
+    aliases: [wp-destination-tp, wp-dest-tp, wp-dest-teleport, wpdtp]
+    permissions: warpportals.admin.destination.teleport
   wp-save:
     description: Force save all WarpPortal data
     usage: /wp-save

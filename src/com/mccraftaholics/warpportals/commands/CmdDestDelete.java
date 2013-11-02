@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
 import com.mccraftaholics.warpportals.bukkit.CommandHandler.CommandHandlerObject;
 
-public class CmdLocationDelete extends CommandHandlerObject {
+public class CmdDestDelete extends CommandHandlerObject {
 
 	public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
 		if (args.length == 1) {
@@ -16,7 +16,7 @@ public class CmdLocationDelete extends CommandHandlerObject {
 				sender.sendMessage(main.mCC + "Error removing Portal destination");
 			}
 		} else
-			sender.sendMessage(main.mCC + "/pdestdel [destname]");
+			return false;
 		return true;
 	}
 
