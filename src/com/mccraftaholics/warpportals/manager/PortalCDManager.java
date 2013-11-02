@@ -174,13 +174,18 @@ public class PortalCDManager {
 	 *            List<{@link Coords} of the blocks to update.
 	 * @param location
 	 *            {@link Location} to use for updating the blocks.
+	 * @return if the material can be used or not.
 	 */
-	public void changeMaterial(Material material, List<Coords> blockCoordArray, Location location) {
-		for (Coords crd : blockCoordArray) {
-			location.setX(crd.x);
-			location.setY(crd.y);
-			location.setZ(crd.z);
-			location.getBlock().setType(material);
+	public boolean changeMaterial(Material material, List<Coords> blockCoordArray, Location location) {
+		if (material.isBlock()) {
+			for (Coords crd : blockCoordArray) {
+				location.setX(crd.x);
+				location.setY(crd.y);
+				location.setZ(crd.z);
+				location.getBlock().setType(material);
+			}
+			return true;
 		}
+		return false;
 	}
 }

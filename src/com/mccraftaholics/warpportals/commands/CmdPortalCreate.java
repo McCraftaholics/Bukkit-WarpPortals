@@ -39,36 +39,37 @@ public class CmdPortalCreate extends CommandHandlerObject {
 								 * Test to see if it is a valid block type (not
 								 * a fishing rod for example)
 								 */
-								if (!blockType.isBlock()) {
-									sender.sendMessage(main.mCC + "" + blockType
-											+ " is not a block. You can create a WarpPortal using it but that may not be the best idea.");
-								}
-								/*
-								 * Test to see if the block is solid, recommend
-								 * to the player that they don't use it
-								 */
-								if (blockType.isSolid()) {
-									sender.sendMessage(main.mCC + "" + blockType
-											+ " is solid. You can create a WarpPortal using it but that may not be the best idea.");
-								}
-								// Get current item in the player's hand
-								ItemStack curItem = sender.getItemInHand();
-								/*
-								 * Test if curItem is a tool or other non-block
-								 * item
-								 */
-								if (!curItem.getType().isBlock()) {
-									PortalCreate portalCreate = new PortalCreate();
-									portalCreate.toolType = curItem.getType();
-									portalCreate.portalName = args[0];
-									portalCreate.tpCoords = tpCoords;
-									portalCreate.blockType = blockType;
-									main.mPortalManager.addCreating(sender.getName(), portalCreate);
-									sender.sendMessage(ChatColor.AQUA + "Right-click on a Gold Block wall\n - Tool: \"" + curItem.getType().name() + "\"\n "
-											+ ChatColor.WHITE + "-" + ChatColor.AQUA + " WarpPortal Name: " + ChatColor.RED + portalCreate.portalName
-											+ ChatColor.WHITE + "\n - " + ChatColor.AQUA + "WarpPortal Dest: " + ChatColor.YELLOW + args[1]);
+								if (blockType.isBlock()) {
+									/*
+									 * Test to see if the block is solid,
+									 * recommend to the player that they don't
+									 * use it
+									 */
+									if (blockType.isSolid()) {
+										sender.sendMessage(main.mCC + "" + blockType
+												+ " is solid. You can create a WarpPortal using it but that may not be the best idea.");
+									}
+									// Get current item in the player's hand
+									ItemStack curItem = sender.getItemInHand();
+									/*
+									 * Test if curItem is a tool or other
+									 * non-block item
+									 */
+									if (!curItem.getType().isBlock()) {
+										PortalCreate portalCreate = new PortalCreate();
+										portalCreate.toolType = curItem.getType();
+										portalCreate.portalName = args[0];
+										portalCreate.tpCoords = tpCoords;
+										portalCreate.blockType = blockType;
+										main.mPortalManager.addCreating(sender.getName(), portalCreate);
+										sender.sendMessage(ChatColor.AQUA + "Right-click on a Gold Block wall\n - Tool: \"" + curItem.getType().name()
+												+ "\"\n " + ChatColor.WHITE + "-" + ChatColor.AQUA + " WarpPortal Name: " + ChatColor.RED
+												+ portalCreate.portalName + ChatColor.WHITE + "\n - " + ChatColor.AQUA + "WarpPortal Dest: " + ChatColor.YELLOW
+												+ args[1]);
+									} else
+										sender.sendMessage(main.mCC + "You can't use a block for that! Try using something like the fishing rod.");
 								} else
-									sender.sendMessage(main.mCC + "You can't use a block for that! Try using something like the fishing rod.");
+									sender.sendMessage(main.mCC + "WarpPortals can only be created out of blocks, you can't use other items.");
 							} else
 								sender.sendMessage(main.mCC + "You have to provide a valid BLOCK_NAME to create the WarpPortal out of.");
 						} else
