@@ -4,7 +4,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
 import com.mccraftaholics.warpportals.bukkit.CommandHandler.CommandHandlerObject;
@@ -21,7 +20,7 @@ public class CmdPortalMaterial extends CommandHandlerObject {
 					 * Get the block type specified as the 3rd argument for the
 					 * portal's material type
 					 */
-					Material blockType = Material.matchMaterial(args[2]);
+					Material blockType = Material.matchMaterial(args[1]);
 					// Test to see if that is a valid material type
 					if (blockType != null) {
 						/*

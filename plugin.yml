@@ -1,5 +1,5 @@
 name: WarpPortals
-version: 4.2.0.3
+version: 4.2.1.1
 
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
 softdepend: [WorldGuard, Multiverse-Core, Multiverse, Multiworld, My Worlds]
@@ -15,6 +15,11 @@ commands:
     usage: /wp-portal-create [portalname] [destName|(World,x,y,z)] [portalMaterial]
     aliases: [pcreate, wppc]
     permissions: warpportals.admin.portal.create
+  wp-portal-material:
+    description: Change a WarpPortal's block type to another material
+    usage: /wp-portal-material [portalname] [portalMaterial]
+    aliases: [wppm]
+    permissions: warpportals.admin.portal.material
   wp-portal-delete:
     description: Delete a WarpPortal by name.
     usage: /wp-portal-delete [portalName]
