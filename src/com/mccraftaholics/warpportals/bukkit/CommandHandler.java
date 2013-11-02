@@ -22,6 +22,7 @@ import com.mccraftaholics.warpportals.commands.CmdPortalList;
 import com.mccraftaholics.warpportals.commands.CmdPortalMaterial;
 import com.mccraftaholics.warpportals.commands.CmdPortalTeleport;
 import com.mccraftaholics.warpportals.commands.CmdSave;
+import com.mccraftaholics.warpportals.commands.CmdVersion;
 import com.mccraftaholics.warpportals.helpers.Defaults;
 import com.mccraftaholics.warpportals.manager.PortalManager;
 
@@ -74,6 +75,8 @@ public class CommandHandler {
 			return CmdLoad.handle(sender, args, this);
 		else if (cmd.test("wp-backup", "wpb", "pbackup"))
 			return CmdBackup.handle(sender, args, this);
+		else if (cmd.test("wp-version", "wpv"))
+			return CmdVersion.handle(sender, args, this);
 
 		return false;
 	}

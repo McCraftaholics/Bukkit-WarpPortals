@@ -1,12 +1,12 @@
 name: WarpPortals
-version: 4.3.0.3
+version: 4.3.1.3
 
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
 softdepend: [WorldGuard, Multiverse-Core, Multiverse, Multiworld, My Worlds]
 
 commands:
   wp:
-    description: List all WarpPortal related commands
+    description: List all WarpPortals related commands
     usage: /wp
     aliases: [phelp, wp-help]
     permissions: warpportals.admins.listcommands
@@ -41,48 +41,56 @@ commands:
     aliases: [wp-portal-tp, wpptp]
     permissions: warpportals.admin.portal.teleport
   wp-destination-create:
-    description: Create a WarpPortal Location using your current location and point-of-view
+    description: Create a WarpPortals Destination using your current location and point-of-view
     usage: /wp-destination-create [destinationName]
     aliases: [pdest, wpdc, wp-dest-create]
     permissions: warpportals.admin.destination.create
   wp-destination-delete:
-    description: Remove a WarpPortal Destination by name
+    description: Remove a WarpPortals Destination by name
     usage: /wp-destination-delete [destinationName]
     aliases: [pdestdel, wpdd, wp-dest-delete]
     permissions: warpportals.admin.destination.delete
   wp-destination-list:
-    description: List all saved WarpPortal Destinations
+    description: List all saved WarpPortals Destinations
     usage: /wp-destination-list
     aliases: [pdestlist, wp-destinations, wp-dest-list, wpdl, wp-dests]
     permissions: warpportals.admin.destination.list
   wp-destination-teleport:
-    description: Teleport to a WarpPortal Destination
+    description: Teleport to a WarpPortals Destination
     usage: /wp-destination-teleport [destinationName]
     aliases: [wp-destination-tp, wp-dest-tp, wp-dest-teleport, wpdtp]
     permissions: warpportals.admin.destination.teleport
   wp-save:
-    description: Force save all WarpPortal data
+    description: Force save all WarpPortals data
     usage: /wp-save
     aliases: [psave, wps]
     permissions: warpportals.admin.op.save
   wp-load:
-    description: Force load WarpPortal data from portals.yml
+    description: Force load WarpPortals data from portals.yml
     usage: /wp-load
     aliases: [pload, wpl]
     permissions: warpportals.admin.op.load
   wp-backup:
-    description: Backup the current WarpPortal data to "portals.yml_yyyy-MM-ddTkk-mm-ss.bac"
+    description: Backup the current WarpPortals data to "portals.yml_yyyy-MM-ddTkk-mm-ss.bac"
     usage: /wp-backup
     aliases: [pbackup, wpb]
     permissions: warpportals.admin.op.backup
+  wp-version:
+    description: Print the version info for WarpPortals
+    usage: /wp-version
+    aliases: [wpv]
+    permissions: warpportals.version
 
 permissions:
-  warpportal.admin:
+  warpportals.admin:
     description: Gives access to all WarpPortal commands
     default: op
-  warpportal.enter:
+  warpportals.enter:
     description: Allows a player to travel through Warp Portals
     default: true
-  warpportal.admin.breakblock:
+  warpportals.version:
+    default: true
+    description: Print the version info of WarpPortals
+  warpportals.admin.breakblock:
     description: Allows a player to break blocks within a WarpPortal
     default: false
