@@ -3,6 +3,7 @@ package com.mccraftaholics.warpportals.commands;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
@@ -11,7 +12,7 @@ import com.mccraftaholics.warpportals.objects.PortalInfo;
 
 public class CmdPortalMaterial extends CommandHandlerObject {
 
-	public static boolean handle(Player sender, String[] args, CommandHandler main) {
+	public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
 		if (args.length == 2) {
 			try {
 				PortalInfo portal = main.mPortalManager.getPortalInfo(args[0].trim());
@@ -45,7 +46,7 @@ public class CmdPortalMaterial extends CommandHandlerObject {
 				} else
 					sender.sendMessage(main.mCC + "\"" + args[0].trim() + "\" is not a WarpPortal!");
 			} catch (Exception e) {
-				sender.sendMessage(main.mCC + "Error creating Portal");
+				sender.sendMessage(main.mCC + "Error modifying WarpPortal type");
 			}
 		} else
 			return false;

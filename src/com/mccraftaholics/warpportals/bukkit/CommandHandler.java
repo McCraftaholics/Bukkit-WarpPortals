@@ -80,11 +80,13 @@ public class CommandHandler {
 
 	public static class CommandHandlerObject {
 		public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
-			return false;
+			sender.sendMessage("That command has not been implemented");
+			return true;
 		}
 
 		public static boolean handle(Player sender, String[] args, CommandHandler main) {
-			return false;
+			sender.sendMessage("That command has not been implemented");
+			return true;
 		}
 	}
 
