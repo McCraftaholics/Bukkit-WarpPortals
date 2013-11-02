@@ -1,5 +1,5 @@
 name: WarpPortals
-version: 4.0.0b7
+version: 4.2.0.3
 
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
 softdepend: [WorldGuard, Multiverse-Core, Multiverse, Multiworld, My Worlds]
@@ -12,7 +12,7 @@ commands:
     permissions: warpportals.listcommands
   wp-portal-create:
     description: Bind the WarpPortal Creation tool to the current item
-    usage: /wp-portal-create [portalname] [destName|(World,x,y,z)]
+    usage: /wp-portal-create [portalname] [destName|(World,x,y,z)] [portalMaterial]
     aliases: [pcreate, wppc]
     permissions: warpportals.admin.portal.create
   wp-portal-delete:
@@ -48,7 +48,7 @@ commands:
   wp-destination-list:
     description: List all saved WarpPortal Destinations
     usage: /wp-destination-list
-    aliases: [pdestlist, wp-destinations, wpdl, wp-dests]
+    aliases: [pdestlist, wp-destinations, wp-dest-list, wpdl, wp-dests]
     permissions: warpportals.admin.destination.list
   wp-destination-teleport:
     description: Teleport to a WarpPortal Destination

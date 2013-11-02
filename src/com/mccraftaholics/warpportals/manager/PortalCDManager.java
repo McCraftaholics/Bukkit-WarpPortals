@@ -52,7 +52,7 @@ public class PortalCDManager {
 		Player player = e.getPlayer();
 		PortalCreate portalCreate = mPlayerPortalCreateMap.get(player.getName());
 		Material delTool = mPlayerPortalDeleteMap.get(player.getName());
-		if (portalCreate != null && portalCreate.blockType == player.getItemInHand().getType()) {
+		if (portalCreate != null && portalCreate.toolType == player.getItemInHand().getType()) {
 			possibleCreatePortal(e.getClickedBlock(), player, portalCreate);
 		} else if (delTool != null && delTool == player.getItemInHand().getType())
 			possibleDeletePortal(e.getClickedBlock(), player);
@@ -103,14 +103,15 @@ public class PortalCDManager {
 	}
 
 	private void possibleCreatePortal(Block block, Player player, PortalCreate portalCreate) {
-		if ((block.getType() == Material.GOLD_BLOCK || block.getType() == Material.PORTAL)
-				|| (block.getType() == Material.QUARTZ_BLOCK || block.getType() == Material.ENDER_PORTAL)) {
-			// Check to see if Portal Name is already in use
+		if (block.getType() == Material.GOLD_BLOCK || (block.getType() == Material.PORTAL || block.getType() == Material.ENDER_PORTAL)) {
+			// Check to see if that Portal Name is already in use
 			if (mPDM.getPortalInfo(portalCreate.portalName) == null) {
 				// Check if Portal Name is valid
 				if (portalCreate.portalName.matches(Regex.PORTAL_DEST_NAME)) {
-					// Run recursion spider starting at the block the player
-					// clicked
+					/*
+					 * Run recursion spider starting at the block the player
+					 * clicked
+					 */
 					int maxPortalSize = mPortalConfig.getInt("portals.create.maxSize", BlockCrawler.DEFAULT_MAX_SIZE);
 					BlockCrawler blockSpider = new BlockCrawler(maxPortalSize);
 					try {
@@ -125,16 +126,20 @@ public class PortalCDManager {
 						}
 						// If there is no portal-portal overlap
 						if (existingPortalOverlap.size() == 0) {
-							createPortal(player, block, portalCreate.portalName, portalCreate.tpCoords, blockCoordArray);
+							createPortal(player, block, portalCreate.portalName, portalCreate.tpCoords, portalCreate.blockType, blockCoordArray);
 						} else {
-							// Alert player that the portal they are trying to
-							// create overlaps "..." portals.
+							/*
+							 * Alert player that the portal they are trying to
+							 * create overlaps "..." portals.
+							 */
 							player.sendMessage(mCC + "Portal \"" + portalCreate.portalName + "\" could not be created because it overlapped existing portals: "
 									+ existingPortalOverlap.toString() + ".");
 						}
 					} catch (MaxRecursionException e) {
-						// Alert player that the portal they are trying to
-						// create has reached max recursion size
+						/*
+						 * Alert player that the portal they are trying to
+						 * create has reached max recursion size
+						 */
 						player.sendMessage(mCC + "Portal \"" + portalCreate.portalName
 								+ "\" could not be created because it was larger than the max Portal size of " + String.valueOf(maxPortalSize) + ".");
 					}
@@ -150,21 +155,20 @@ public class PortalCDManager {
 		}
 	}
 
-	public void createPortal(CommandSender sender, Block block, String portalName, CoordsPY tpCoords, ArrayList<Coords> blockCoordsArray) {
+	public void createPortal(CommandSender sender, Block block, String portalName, CoordsPY tpCoords, Material portalMaterial, ArrayList<Coords> blockCoordsArray) {
 		PortalInfo newPortalInfo = new PortalInfo();
 		newPortalInfo.name = portalName;
 		newPortalInfo.tpCoords = tpCoords;
 		newPortalInfo.blockCoordArray = blockCoordsArray;
 		Location loc = block.getLocation();
 		/*
-		 * Update blocks in Portal to either Ender or Portal blocks.
+		 * Update the blocks in the Portal to whatever the Player designated them to be.
 		 */
-		boolean isEnder = (block.getType() == Material.QUARTZ_BLOCK || block.getType() == Material.ENDER_PORTAL);
 		for (Coords crd : newPortalInfo.blockCoordArray) {
 			loc.setX(crd.x);
 			loc.setY(crd.y);
 			loc.setZ(crd.z);
-			loc.getBlock().setType(isEnder ? Material.ENDER_PORTAL : Material.PORTAL);
+			loc.getBlock().setType(portalMaterial);
 		}
 		// Add portal
 		mPDM.addPortal(portalName, newPortalInfo);
