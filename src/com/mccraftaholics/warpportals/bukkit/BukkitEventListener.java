@@ -4,12 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -128,10 +130,24 @@ public class BukkitEventListener implements Listener {
 		}
 	}
 
+	/**
+	 * Used to allow PORTAL blocks to face any direction, with a contiguous
+	 * direction as its adjacent portal blocks.
+	 * 
+	 * @param e
+	 */
 	@EventHandler
 	public void onBlockPhysicsEvent(BlockPhysicsEvent e) {
 		if (e.getBlock().getType() == Material.PORTAL) {
 			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onBlockFromTo(BlockFromToEvent event) {
+		Block block = event.getBlock();
+		if (mPortalManager.isLocationInsidePortal(block.getLocation()) != null) {
+			event.setCancelled(true);
 		}
 	}
 
