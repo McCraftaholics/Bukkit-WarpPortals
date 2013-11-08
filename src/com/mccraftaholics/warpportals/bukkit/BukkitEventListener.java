@@ -80,7 +80,7 @@ public class BukkitEventListener implements Listener {
 
 			// Check if event has been cancelled
 			// Event status defaults to player permissions to use the portal
-			if (wpEvent.isCancelled()) {
+			if (!wpEvent.isCancelled()) {
 				// Get (possibly modified) teleportation data
 				CoordsPY tpCoords = wpEvent.getTeleportCoordsPY();
 
