@@ -27,17 +27,10 @@ public class Coords {
 	public Coords(Location loc) {
 		this(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
 	}
-	
+
 	public static Coords createCourse(Location loc) {
 		return new Coords(loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 	}
-
-    public Coords(Coords crd) {
-        world = crd.world;
-        x = crd.x;
-        y = crd.y;
-        z = crd.z;
-    }
 
 	public Coords(String coordsString) throws Exception {
 		String t = coordsString.trim();
@@ -74,6 +67,10 @@ public class Coords {
 
 	public String toString() {
 		return "(" + world.getName() + "," + String.valueOf(x) + "," + String.valueOf(y) + "," + String.valueOf(z) + ")";
+	}
+
+	public Coords clone() {
+		return new Coords(this.world, this.x, this.y, this.z);
 	}
 
 }

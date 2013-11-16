@@ -40,10 +40,10 @@ public class WarpPortalsEvent extends Event implements Cancellable {
 		this.cancelled = hp;
 
         player = p;
-        portal = new PortalInfo(po);
+        portal = po.clone();
         hasPermission = hp;
 
-        tpCoords = new CoordsPY(portal.tpCoords);
+        tpCoords = portal.tpCoords.clone();
 	}
 
     /* Bukkit Event API methods */

@@ -1,26 +1,16 @@
 package com.mccraftaholics.warpportals.objects;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class PortalInfo {
 
 	public CoordsPY tpCoords;
 	public ArrayList<Coords> blockCoordArray;
-    public String name;
-	
+	public String name;
+
 	public PortalInfo() {
 		blockCoordArray = new ArrayList<Coords>();
 	}
-
-    public PortalInfo(PortalInfo oldPortal) {
-        this.name = "" + oldPortal.name;
-        this.tpCoords = new CoordsPY(oldPortal.tpCoords);
-        this.blockCoordArray = new ArrayList<Coords>();
-        for (Coords crds : oldPortal.blockCoordArray) {
-            this.blockCoordArray.add(new Coords(crds));
-        }
-    }
 
 	public String blockCoordArrToString() {
 		StringBuilder sb = new StringBuilder();
@@ -41,7 +31,18 @@ public class PortalInfo {
 			}
 		}
 	}
-	
+
+	public PortalInfo clone() {
+		PortalInfo portal = new PortalInfo();
+		portal.name = this.name;
+		portal.tpCoords = this.tpCoords.clone();
+		portal.blockCoordArray = new ArrayList<Coords>();
+		for (Coords crds : this.blockCoordArray) {
+			portal.blockCoordArray.add(crds.clone());
+		}
+		return portal;
+	}
+
 	@Override
 	public String toString() {
 		return String.valueOf(tpCoords) + "\n" + String.valueOf(blockCoordArray);

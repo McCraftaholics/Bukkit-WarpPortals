@@ -33,10 +33,6 @@ public class CoordsPY {
 		this(crd.world, crd.x, crd.y, crd.z, 0, 0);
 	}
 
-    public CoordsPY(CoordsPY crd) {
-        this(crd.world, crd.x, crd.y, crd.z, crd.pitch, crd.yaw);
-    }
-
 	public CoordsPY(String coordsString) throws Exception {
 		String t = coordsString.trim();
 		if (t.matches("\\(.+,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*\\)")) {
@@ -80,6 +76,10 @@ public class CoordsPY {
 
 	public String toNiceString() {
 		return "(" + getWorldName() + ", " + String.valueOf(Math.floor(x)) + ", " + String.valueOf(Math.floor(y)) + ", " + String.valueOf(Math.floor(z)) + ")";
+	}
+	
+	public CoordsPY clone() {
+		return new CoordsPY(this.world, this.x, this.y, this.z, this.pitch, this.yaw);
 	}
 
 }
