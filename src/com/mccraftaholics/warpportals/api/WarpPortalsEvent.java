@@ -37,7 +37,7 @@ public class WarpPortalsEvent extends Event implements Cancellable {
 	 *            pos1 - The First Position
 	 */
 	public WarpPortalsEvent(Player p, PortalInfo po, boolean hp) {
-		this.cancelled = hp;
+		this.cancelled = !hp;
 
         player = p;
         portal = po.clone();

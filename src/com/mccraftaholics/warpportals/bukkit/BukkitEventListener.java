@@ -71,7 +71,7 @@ public class BukkitEventListener implements Listener {
 		// If player is in a WarpPortal
 		if (portal != null) {
 			// Check player permissions to use portal
-			boolean hasPermission = player.hasPermission("warpportal.enter");
+			boolean hasPermission = player.hasPermission("warpportals.enter");
 
 			// Create WarpPortalsEvent
 			WarpPortalsEvent wpEvent = new WarpPortalsEvent(player, portal, hasPermission);
