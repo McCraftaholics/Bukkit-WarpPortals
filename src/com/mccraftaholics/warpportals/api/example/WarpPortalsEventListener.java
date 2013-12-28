@@ -29,7 +29,7 @@ public class WarpPortalsEventListener implements Listener {
     @EventHandler
     public void onTeleport(WarpPortalsTeleportEvent event) {
         Player player = event.getPlayer();
-        if (mTPMessage != null)
+        if (mTPMessage != null && !mTPMessage.equals("&none"))
             player.sendMessage(mTPC + mTPMessage);
     }
 }
