@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,6 +17,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.mccraftaholics.warpportals.api.WarpPortalsCreateEvent;
+import com.mccraftaholics.warpportals.api.WarpPortalsTeleportEvent;
 import com.mccraftaholics.warpportals.helpers.BlockCrawler;
 import com.mccraftaholics.warpportals.helpers.BlockCrawler.MaxRecursionException;
 import com.mccraftaholics.warpportals.helpers.Defaults;
@@ -150,18 +153,33 @@ public class PortalCDManager {
 		newPortalInfo.name = portalName;
 		newPortalInfo.tpCoords = tpCoords;
 		newPortalInfo.blockCoordArray = blockCoordsArray;
-		Location loc = block.getLocation();
+		
 		/*
-		 * Update the blocks in the Portal to whatever the Player designated
-		 * them to be.
+		 * Trigger WarpPortalCreateEvent so that other plugins can tie in to new
+		 * WarpPortal creations
 		 */
-		changeMaterial(portalMaterial, newPortalInfo.blockCoordArray, loc);
-		// Add portal
-		mPDM.addPortal(portalName, newPortalInfo);
-		// Deactivate portal creation tool
-		mPlayerPortalCreateMap.remove(sender.getName());
-		// Alert player of portal creation success
-		sender.sendMessage(mCC + "\"" + portalName + "\" created and linked to " + tpCoords.toNiceString());
+		WarpPortalsCreateEvent wpCreateEvent = new WarpPortalsCreateEvent(sender, newPortalInfo);
+		// Call WarpPortalsTeleportEvent
+		Bukkit.getPluginManager().callEvent(wpCreateEvent);
+		
+		// Check if the WarpPortalCreateEvent has been cancelled
+		if (!wpCreateEvent.isCancelled()) {
+			PortalInfo createPortalInfo = wpCreateEvent.getPortal();
+			Location loc = block.getLocation();
+			/*
+			 * Update the blocks in the Portal to whatever the Player designated
+			 * them to be.
+			 */
+			changeMaterial(portalMaterial, createPortalInfo.blockCoordArray, loc);
+			// Add portal
+			mPDM.addPortal(createPortalInfo.name, createPortalInfo);
+			// Deactivate portal creation tool
+			mPlayerPortalCreateMap.remove(sender.getName());
+			// Alert player of portal creation success
+			sender.sendMessage(mCC + "\"" + createPortalInfo.name + "\" created and linked to " + createPortalInfo.tpCoords.toNiceString());
+		} else {
+			sender.sendMessage(mCC + "\"" + portalName + "\" creation has been cancelled by another plugin.");
+		}
 	}
 
 	/**
