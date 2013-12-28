@@ -7,39 +7,31 @@ Here is **WarpPortals**! This plugin was created due to an inability to find a *
 
 ## Features
 
-  * Portals of _any_ shape or size!
+  * Portals of _any_ shape, size, or block type!
   * **Now has an API!**
-    * Documentation is under the section **API**
+    * Documentation can be found at [WarpPortals/API](http://dev.bukkit.org/bukkit-plugins/warp-portals/pages/api/)
     * An example implementation can be found at [example/WarpPortalsEventListener.java](https://github.com/McCraftaholics/Bukkit-WarpPortals/blob/master/src/com/mccraftaholics/warpportals/api/example/WarpPortalsEventListener.java).
-  * Create vertical Nether portals or horizontal Ender portals 
+  * Create portals with any block type!
   * Portals without frames or with frames of any material 
-  * Portals that work between any worlds 
+  * Portals that work between worlds 
   * Easy to create Portals 
-  * Easy to set destinations 
-  * Custom teleportation message 
+  * Easy to set destinations
   * Precise teleportations 
   * Global Enable or Disable normal portals functionality 
 
 ## Commands
 
-  * /phelp: List all Portal related commands 
-  * /pcreate [portalname] [destName|(World,x,y,z)]: Equip the current item as a Portal Creation tool 
-  * /pdelete [portalName]: Delete a Portal by name 
-  * /pdeltool: Bind the Portal Deletion tool to the current item 
-  * /pdest [destName]: Save your current location as a WarpPortal Destination 
-  * /pdestdel [destName]: Remove the Portal Destination 
-  * /plist: List all Portals 
-  * /pdestlist: List all saved Portal Destinations 
-  * /pgoto [p|d] [destName|portalName]: Teleport to a Portal or Destination 
-  * /psave: Force save all Portal data 
-  * /pload: Force load Portal data from portals.yml 
-  * /pbackup: Backup the current Portal data to "portals.yml_yyyy-MM-ddTkk-mm-ss.bac" 
+Check out the [Table of Commands](http://dev.bukkit.org/bukkit-plugins/warp-portals/pages/commands/)
 
 ## FAQ
 
 **How do you create a Portal?**
 
-First choose the Portal destination and set it using "/pdest [name]". *This command will set the destination to your current location, world AND angle of view.* Second, build a portal of any shape out of Gold Blocks. These will make up the Portal's body. Third, hold a non-block item and run the command "/pcreate [portalName] [destName]". This will make it so the next Gold Block you click will turn them into a Portal. Fourth, right-click any one of the Gold Blocks you built. The plugin will find all adjacent Gold Blocks and turn them all into a Portal! Fifth, profit.
+  1. First choose the Portal destination and set it using "/wpdc [name]". *This command will set the destination to your current location, world AND angle of view.*
+  2. Second, build a portal of any shape out of Gold Blocks. These will make up the Portal's body. 
+  3. Third, hold a non-block item and run the command "/wppc [portalName] [destName] [portalBlockMaterial]". This will make it so the next Gold Block you click will turn them into a Portal made of the specified portalBlockMaterial, eg WATER.
+  4. Fourth, right-click any one of the Gold Blocks you built. The plugin will find all adjacent Gold Blocks and turn them all into a Portal!
+  5. Fifth, profit.
 
 **Who can use a WarpPortal?**
 
@@ -51,7 +43,7 @@ WarpPortals are always active and simply walking though one will teleport you to
 
 **Who can create/admin a WarpPortal?**
 
-Only players who are ops or have the "warpportal.*" permission.
+Only players who are ops or have the "warpportal.admin" permission.
 
 **What settings are there?**
 
@@ -67,12 +59,12 @@ No. Portals are always active and currently don't support any form of Economy pl
 
 **What bugs are there?**
 
-Ghost Portals: _Currently, anyone can break the Portal Blocks that make up the Portal and that will cause the PORTAL_ENTERED event to never fire. This means that to the plugin the Portal still exists but realistically it isn't there anymore. To keep this from happening something like WorldGuard should be used to protect the Portals (though this protection may be a built-in feature in the future). To deal with the possibility of all the Portal blocks getting broken in a Portal, you can use the "/pdelete [portalName]" command to return the Portal to its original Gold Block form. If only a few blocks get broken, simply replacing them with new Portal Blocks should work._
+<s>Ghost Portals: _Currently, anyone can break the Portal Blocks that make up the Portal and that will cause the PORTAL_ENTERED event to never fire. This means that to the plugin the Portal still exists but realistically it isn't there anymore. To keep this from happening something like WorldGuard should be used to protect the Portals (though this protection may be a built-in feature in the future). To deal with the possibility of all the Portal blocks getting broken in a Portal, you can use the "/pdelete [portalName]" command to return the Portal to its original Gold Block form. If only a few blocks get broken, simply replacing them with new Portal Blocks should work._</s> Fixed in version 4.1.3
 
 <s>Bad Text Colors: _Also, the Text Color settings don't appear to be cross OS Compatible. By default they are setup for Windows but if they don't work for you (if you get white text from the plugin) all Text Color Codes are editable in the Plugin's settings file._</s> Fixed in version 2.0.1
 
-Single Width Portals: _Single width portals can only face East or West. This is a very weird bug but it is an unfortunately un-fixable problem. Portal block orientation is decided off of the adjacent portal blocks. Therefore, if  two portal blocks are side-by-side, they will connect and face the right way. (Side Note: Even this was a hack and required overriding portal block physics). Sadly, a single portal block doesn't have anything to base it's orientation upon and will then default to East/West. This forum thread details  the problem <https://forums.bukkit.org/threads/rotating-portal-
-blocks.12598/forums.bukkit.org/threads/rotating-portal-blocks.12598/>_
+<s>Single Width Portals: _Single width portals can only face East or West. This is a very weird bug but it is an unfortunately un-fixable problem. Portal block orientation is decided off of the adjacent portal blocks. Therefore, if  two portal blocks are side-by-side, they will connect and face the right way. (Side Note: Even this was a hack and required overriding portal block physics). Sadly, a single portal block doesn't have anything to base it's orientation upon and will then default to East/West. This forum thread details  the problem <https://forums.bukkit.org/threads/rotating-portal-
+blocks.12598/forums.bukkit.org/threads/rotating-portal-blocks.12598/>_</s> Only applies to WarpPortals made of Nether Blocks as of version 4.1.3
 
 ## Install
 
@@ -97,46 +89,41 @@ WarpPortals](https://github.com/McCraftaholics/Bukkit-WarpPortals)
 
 WarpPortals now has an Event API. Bukkit explains Events at [Event API Reference](http://wiki.bukkit.org/Event_API_Reference). WarpPortals triggers custom events allowing other  plugins to tie into these events. The events provide player & portal information and allow other plugins to cancel the portal teleportation.
 
-An example implementation of the API can be found at [example/WarpPortalsEventListener.java](https://github.com/McCraftaholics/Bukkit-WarpPortals/blob/master/src/com/mccraftaholics/warpportals/api/example/WarpPortalsEventListener.java).
-
- - This simple Event Listener displays a message to the player upon successful WarpPortal teleportation.
-
-WarpPortals will trigger three events:
-
-  1. WarpPortalsEnterEvent 
-  2. WarpPortalsEvent 
-  3. WarpPortalsTeleportEvent 
-
-**WarpPortalsEnterEvent** is called when a player enters any portal. The event will contain the player object and a boolean with either True, the portal is a WarpPortal; or False, the portal is a normal Nether/Ender portal.
-
-  * If this event is cancelled, Bukkit handles the portal enter event as default (as if there is no WarpPortals plugin) 
-
-**WarpPortalsEvent** is the main WarpPortal Event. It is called after the WarpPortalsEnterEvent, as long as that event is not cancelled and the portal entered is a WarpPortal.
-
-  * The event contains three pieces of information:
-    1. The _player_ triggering the event 
-    2. The _portal_ associated with the event. This contains: 
-        * Teleportation coordinates 
-        * Portal name 
-        * Coordinates of blocks making up the portal 
-    3. Boolean _hasPermission_
-        * True - Player has the "warpportals.enter" permission 
-        * False - Player does not have it 
-  * This event will _default to cancelled_ if the player does not have the "warpportals.enter" permission. The event can be re-enabled by calling _setCancelled(false)_ on it. 
-  * **setTeleportCoordsPY(Location newLoc)**
-    * Use this method to change the location that the player will be teleported to. 
-  * **getTeleportCoordsPY()**
-    * Returns the [CoordsPY](https://github.com/McCraftaholics/Bukkit-WarpPortals/blob/master/src/com/mccraftaholics/warpportals/objects/CoordsPY.java) destination that the player will be teleported to. 
-  * An example WarpPortals Economy plugin could use this method to: check if the portal being used costs money; check if the player has the money; charge them OR cancel the event, therefor blocking them from using the portal. 
-
-**WarpPortalsTeleportEvent** is called once the player has been teleported. It has two pieces of information:
-
-  * The _player_ that was teleported 
-  * The _previous location_ of the player, AKA the location before they were teleported. 
+Further documentation can be found at [WarpPortals/API](http://dev.bukkit.org/bukkit-plugins/warp-portals/pages/api/)
 
 _Open an Issue on the GitHub page if you have any questions!_
 
 ## Changelog
+
+**4.2.1**
+
+  * Teleportation messages can now be disabled.
+    * Set portals>teleport>message to "&none", without the quotes, in the config.yml file
+  * WarpPortals now auto backups the data file after every portal creation
+    * This should allow for easy recovery in the event of data loss
+    * As of now, there is no limit on the number of backup files that can be created. Manual cleanup may be necessary.
+  * New API event added: WarpPortalsCreateEvent
+    * Triggered when a user creates a WarpPortal
+    * Allows access to the new portals name, destination, blocks
+    * Allows these elements to be modified by other plugins
+
+**4.1.4 Critical Fix**
+
+  * WarpPortals now handles permissions properly
+    * Non-ops can use WarpPortals
+    * Follows Bukkit Permissions structure
+    * Thank you [WeaselSqueezer](https://github.com/WeaselSqueezer)
+
+**4.1.3**
+
+  * New portal interaction engine on the backend
+    * **WarpPortals can be made of any block type!**
+    * WarpPortals activate faster for players in survival mode
+    * **Protect WarpPortals from getting destroyed**
+    * Keeps liquids from flowing inside portals so that portals can be made of water/lave
+  * Renamed all WarpPortal commands in a more logical manner
+    * Separated commands into wp-portal-* and wp-destination-*
+    * Abbreviations added for ease-of-typing, checkout Aliases
 
 **3.0.0** _(2.1.1 merged in)_
 
@@ -195,5 +182,7 @@ _Open an Issue on the GitHub page if you have any questions!_
 **1.31**
 
   * First offical release! 
+
+[![Paypal Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=VHQHKQSCTFJGN&lc=US&item_name=WarpPortals&item_number=warpportals&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)
 
 Enjoy :)
