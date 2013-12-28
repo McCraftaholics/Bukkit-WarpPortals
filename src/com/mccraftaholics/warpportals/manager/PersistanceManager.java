@@ -5,14 +5,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
+import org.bukkit.plugin.Plugin;
 import org.yaml.snakeyaml.Yaml;
 
+import com.mccraftaholics.warpportals.bukkit.PortalPlugin;
 import com.mccraftaholics.warpportals.helpers.Utils;
 import com.mccraftaholics.warpportals.objects.Coords;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
@@ -22,10 +26,12 @@ public class PersistanceManager {
 
 	Logger mLogger;
 	File mDataFile;
+	Plugin mPlugin;
 
-	PersistanceManager(Logger logger, File file) {
+	PersistanceManager(Logger logger, File file, Plugin plugin) {
 		mLogger = logger;
 		mDataFile = file;
+		mPlugin = plugin;
 	}
 
 	public void loadDataFile(PortalDataManager portalIM, HashMap<String, CoordsPY> destMap) {
@@ -170,11 +176,11 @@ public class PersistanceManager {
 						blocks.add(block.toString());
 					}
 					portalInfoMap.put("blocks", blocks);
-					
+
 					// Put the portal data into the DataStructure Map
 					dataStructure.get("portals").put(portal.getKey(), portalInfoMap);
 				}
-				
+
 				/*
 				 * Convert destMap to a simpler, less direct-representation,
 				 * format for saving
@@ -207,5 +213,20 @@ public class PersistanceManager {
 			rtn = false;
 		}
 		return rtn;
+	}
+
+	public boolean backupDataFile(HashMap<String, PortalInfo> portalMap, HashMap<String, CoordsPY> destMap, String backupName) {
+		try {
+			if (backupName == null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_kk-mm-ss");
+				backupName = "portals_" + sdf.format(new Date()) + ".bac";
+			}
+			File backupFile = new File(mPlugin.getDataFolder(), backupName);
+			backupFile.createNewFile();
+			return saveDataFile(portalMap, destMap, backupFile);
+		} catch (IOException e) {
+			mLogger.severe("Can't backup WarpPortals data! " + e.getMessage());
+			return false;
+		}
 	}
 }

@@ -32,7 +32,7 @@ public class PortalPlugin extends JavaPlugin {
 		mPortalConfig = new YamlConfiguration();
 		initiateConfigFiles();
 		loadConfigs();
-		mPortalManager = new PortalManager(getLogger(), mPortalConfig, mPortalDataFile);
+		mPortalManager = new PortalManager(getLogger(), mPortalConfig, mPortalDataFile, this);
 		mCommandHandler = new CommandHandler(this, mPortalManager, mPortalConfig);
 		getServer().getPluginManager().registerEvents(new BukkitEventListener(this, mPortalManager, mPortalConfig), this);
 		initMCStats();

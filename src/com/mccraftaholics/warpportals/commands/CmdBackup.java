@@ -1,9 +1,5 @@
 package com.mccraftaholics.warpportals.commands;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.bukkit.command.CommandSender;
 
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
@@ -14,15 +10,12 @@ public class CmdBackup extends CommandHandlerObject {
 	public static boolean handle(CommandSender sender, String[] args, CommandHandler main) {
 		if (sender.hasPermission("warpportals.admin.op.backup")) {
 			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_kk-mm-ss");
-				File backupFile = new File(main.mPortalPlugin.getDataFolder(), "portals_" + sdf.format(new Date()) + ".bac");
-				backupFile.createNewFile();
-				if (main.mPortalManager.saveDataFile(backupFile))
-					sender.sendMessage("Portal data backup up to \"" + backupFile.getAbsolutePath());
+				if (main.mPortalManager.backupDataFile())
+					sender.sendMessage("WarpPortal data backed up to WarpPortals plugin folder");
 				else
-					sender.sendMessage("Error backing up Portal data to \"" + backupFile.getAbsolutePath());
+					sender.sendMessage("Error backing up WarpPortal data to plugin folder");
 			} catch (Exception e) {
-				sender.sendMessage("Error backing up Portal data");
+				sender.sendMessage("Error backing up WarpPortal data");
 			}
 		}
 		return true;

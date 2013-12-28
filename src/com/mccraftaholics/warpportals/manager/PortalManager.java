@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.mccraftaholics.warpportals.bukkit.PortalPlugin;
 import com.mccraftaholics.warpportals.objects.Coords;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 import com.mccraftaholics.warpportals.objects.PortalCreate;
@@ -17,6 +18,7 @@ import com.mccraftaholics.warpportals.objects.PortalInfo;
 
 public class PortalManager {
 
+	PortalPlugin mPortalPlugin;
 	Logger mLogger;
 	YamlConfiguration mPortalConfig;
 
@@ -26,11 +28,12 @@ public class PortalManager {
 	public PortalDataManager mPortalDataManager;
 	public PortalInteractManager mPortalInteractManager;
 
-	public PortalManager(Logger logger, YamlConfiguration portalConfig, File dataFile) {
+	public PortalManager(Logger logger, YamlConfiguration portalConfig, File dataFile, PortalPlugin plugin) {
+		mPortalPlugin = plugin;
 		mLogger = logger;
 		mPortalConfig = portalConfig;
 
-		mPersistanceManager = new PersistanceManager(mLogger, dataFile);
+		mPersistanceManager = new PersistanceManager(mLogger, dataFile, mPortalPlugin);
 		mPortalDataManager = new PortalDataManager(this, mLogger);
 		mPortalCDManager = new PortalCDManager(mPortalDataManager, mPortalConfig);
 		mPortalDestManager = new PortalDestManager(this, mLogger);
@@ -53,6 +56,10 @@ public class PortalManager {
 
 	public boolean saveDataFile(File mPortalDataFile) {
 		return mPersistanceManager.saveDataFile(mPortalDataManager.getPortalMap(), mPortalDestManager.mPortalDestMap, mPortalDataFile);
+	}
+	
+	public boolean backupDataFile() {
+		return mPersistanceManager.backupDataFile(mPortalDataManager.getPortalMap(), mPortalDestManager.mPortalDestMap, null);
 	}
 
 	public void playerItemRightClick(PlayerInteractEvent e) {

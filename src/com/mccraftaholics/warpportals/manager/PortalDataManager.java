@@ -49,6 +49,7 @@ public class PortalDataManager {
 	public void addPortal(String portalName, PortalInfo portalInfo) {
 		addPortalNoSave(portalName, portalInfo);
 		mPM.saveDataFile();
+		mPM.backupDataFile();
 	}
 	
 	public PortalInfo removePortalNoSave(String portalName) {
