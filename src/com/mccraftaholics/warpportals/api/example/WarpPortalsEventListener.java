@@ -1,10 +1,12 @@
 package com.mccraftaholics.warpportals.api.example;
 
-import com.mccraftaholics.warpportals.api.WarpPortalsTeleportEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import com.mccraftaholics.warpportals.api.WarpPortalsTeleportEvent;
+import com.mccraftaholics.warpportals.helpers.Utils;
 
 public class WarpPortalsEventListener implements Listener {
 
@@ -13,6 +15,9 @@ public class WarpPortalsEventListener implements Listener {
     String mTPMessage;
     // ChatColor of message
     ChatColor mTPC;
+    
+    // Array of messages that denote 'No message to be sent'
+    static final String[] NO_MESSAGE = new String[]{"&none", "none", ""};
 
     /**
      * Create an Event Listener for the WarpPortals Event API. This listener listens for the WarpPortalsTeleportEvent
@@ -24,12 +29,15 @@ public class WarpPortalsEventListener implements Listener {
     public WarpPortalsEventListener(String tpMessage, ChatColor tpCharColor) {
         mTPMessage = tpMessage;
         mTPC = tpCharColor;
+        
+        if (Utils.arrayContains(NO_MESSAGE, mTPMessage))
+        	mTPMessage = null;
     }
 
     @EventHandler
     public void onTeleport(WarpPortalsTeleportEvent event) {
         Player player = event.getPlayer();
-        if (mTPMessage != null && !mTPMessage.equals("&none"))
+        if (mTPMessage != null)
             player.sendMessage(mTPC + mTPMessage);
     }
 }

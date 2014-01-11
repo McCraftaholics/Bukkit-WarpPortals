@@ -15,6 +15,14 @@ import com.mccraftaholics.warpportals.objects.Coords;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 
 public class Utils {
+	
+	public static boolean arrayContains(Object[] array, Object key) {
+		for (Object object : array) {
+			if (object.equals(key))
+				return true;
+		}
+		return false;
+	}
 
 	public static String readFile(String path, Charset encoding) throws IOException {
 		byte[] buffer = new byte[(int) new File(path).length()];
