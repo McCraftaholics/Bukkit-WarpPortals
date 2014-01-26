@@ -61,7 +61,9 @@ public class BukkitEventListener implements Listener {
 		 * WarpPortalsPlayerBlockMoveEvent
 		 */
 		// Check if player is moving between blocks
-		if (!e.getFrom().getBlock().equals(e.getTo().getBlock())) {
+		boolean didMoveBlock = (e.getFrom().getBlockX() == e.getTo().getBlockX()) && (e.getFrom().getBlockY() == e.getTo().getBlockY())
+				&& (e.getFrom().getBlockZ() == e.getTo().getBlockZ());
+		if (didMoveBlock) {
 			// Check if player is in a WarpPortal
 			PortalInfo portal = mPortalManager.isLocationInsidePortal(e.getTo());
 			// If player is in a WarpPortal
@@ -161,7 +163,7 @@ public class BukkitEventListener implements Listener {
 	@EventHandler
 	public void onWorldUnloadEvent(WorldUnloadEvent e) {
 		World unloadedWorld = e.getWorld();
-		
+
 		/* Backup existing data */
 		mPortalManager.backupDataFile();
 
