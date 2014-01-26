@@ -1,5 +1,5 @@
 name: WarpPortals
-version: 5.0.1
+version: 5.0.2
 
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
 softdepend: [WorldGuard, Multiverse-Core, Multiverse, Multiworld, My Worlds]
