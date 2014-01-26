@@ -1,5 +1,5 @@
 name: WarpPortals
-version: 4.2.1
+version: 5.0.1
 
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
 softdepend: [WorldGuard, Multiverse-Core, Multiverse, Multiworld, My Worlds]
@@ -30,6 +30,11 @@ commands:
     usage: /wp-portal-deltool
     aliases: [pdeltool, wppdt]
     permissions: warpportals.admin.portal.delete.tool
+  wp-portal-idtool:
+    description: Bind the Portal Identify tool to the current item
+    usage: /wp-portal-idtool
+    aliases: [wppidt, wppid]
+    permissions: warpportals.admin.portal.list.tool
   wp-portal-list:
     description: List all WarpPortals
     usage: /wp-portal list

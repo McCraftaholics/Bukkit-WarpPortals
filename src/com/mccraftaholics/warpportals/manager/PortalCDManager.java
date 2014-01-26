@@ -15,10 +15,8 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.mccraftaholics.warpportals.api.WarpPortalsCreateEvent;
-import com.mccraftaholics.warpportals.api.WarpPortalsTeleportEvent;
 import com.mccraftaholics.warpportals.helpers.BlockCrawler;
 import com.mccraftaholics.warpportals.helpers.BlockCrawler.MaxRecursionException;
 import com.mccraftaholics.warpportals.helpers.Defaults;
@@ -32,40 +30,21 @@ public class PortalCDManager {
 
 	Logger mLogger;
 	PortalDataManager mPDM;
+	PortalToolManager mPTM;
 	YamlConfiguration mPortalConfig;
 	ChatColor mCC;
 
-	public HashMap<String, PortalCreate> mPlayerPortalCreateMap = new HashMap<String, PortalCreate>();
-	public HashMap<String, Material> mPlayerPortalDeleteMap = new HashMap<String, Material>();
-
-	public PortalCDManager(PortalDataManager pim, YamlConfiguration portalConfig) {
+	public PortalCDManager(PortalDataManager pim, PortalToolManager ptm, YamlConfiguration portalConfig) {
 		mPDM = pim;
+		mPTM = ptm;
 		mPortalConfig = portalConfig;
 		mCC = ChatColor.getByChar(mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR));
 	}
 
-	public void addCreating(String playerName, PortalCreate portalCreate) {
-		mPlayerPortalCreateMap.put(playerName, portalCreate);
-	}
-
-	public void addDeleting(String playerName, Material type) {
-		mPlayerPortalDeleteMap.put(playerName, type);
-	}
-
-	public void playerItemRightClick(PlayerInteractEvent e) {
-		Player player = e.getPlayer();
-		PortalCreate portalCreate = mPlayerPortalCreateMap.get(player.getName());
-		Material delTool = mPlayerPortalDeleteMap.get(player.getName());
-		if (portalCreate != null && portalCreate.toolType == player.getItemInHand().getType()) {
-			possibleCreatePortal(e.getClickedBlock(), player, portalCreate);
-		} else if (delTool != null && delTool == player.getItemInHand().getType())
-			possibleDeletePortal(e.getClickedBlock(), player);
-	}
-
-	private void possibleDeletePortal(Block block, Player player) {
+	void possibleDeletePortal(Block block, Player player) {
 		if (block.getType() == Material.PORTAL || block.getType() == Material.ENDER_PORTAL) {
 			deletePortal(block.getLocation());
-			mPlayerPortalDeleteMap.remove(player.getName());
+			mPTM.removeTool(player.getName());
 		} else
 			player.sendMessage("Right click on the Portal that you want to delete");
 	}
@@ -94,7 +73,7 @@ public class PortalCDManager {
 			deletePortal(delPortalName);
 	}
 
-	private void possibleCreatePortal(Block block, Player player, PortalCreate portalCreate) {
+	void possibleCreatePortal(Block block, Player player, PortalCreate portalCreate) {
 		if (block.getType() == Material.GOLD_BLOCK || (block.getType() == Material.PORTAL || block.getType() == Material.ENDER_PORTAL)) {
 			// Check to see if that Portal Name is already in use
 			if (mPDM.getPortalInfo(portalCreate.portalName) == null) {
@@ -140,7 +119,7 @@ public class PortalCDManager {
 				}
 			} else {
 				player.sendMessage("A Portal with the name \"" + portalCreate.portalName + "\" already exists.");
-				mPlayerPortalCreateMap.remove(player.getName());
+				mPTM.removeCreating(player.getName());
 			}
 		} else {
 			player.sendMessage("The Portal should be made out of either Gold/Silver/Ender Portal/Portal Blocks originally");
@@ -174,7 +153,7 @@ public class PortalCDManager {
 			// Add portal
 			mPDM.addPortal(createPortalInfo.name, createPortalInfo);
 			// Deactivate portal creation tool
-			mPlayerPortalCreateMap.remove(sender.getName());
+			mPTM.removeCreating(sender.getName());
 			// Alert player of portal creation success
 			sender.sendMessage(mCC + "\"" + createPortalInfo.name + "\" created and linked to " + createPortalInfo.tpCoords.toNiceString());
 		} else {

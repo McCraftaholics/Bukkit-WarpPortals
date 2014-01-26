@@ -18,6 +18,7 @@ import com.mccraftaholics.warpportals.commands.CmdLoad;
 import com.mccraftaholics.warpportals.commands.CmdPortalCreate;
 import com.mccraftaholics.warpportals.commands.CmdPortalDelTool;
 import com.mccraftaholics.warpportals.commands.CmdPortalDelete;
+import com.mccraftaholics.warpportals.commands.CmdPortalIDTool;
 import com.mccraftaholics.warpportals.commands.CmdPortalList;
 import com.mccraftaholics.warpportals.commands.CmdPortalMaterial;
 import com.mccraftaholics.warpportals.commands.CmdPortalTeleport;
@@ -49,6 +50,8 @@ public class CommandHandler {
 			return requirePlayer(sender, args, this, CmdPortalCreate.class);
 		} else if (cmd.test("wp-portal-deltool", "wppdt", "pdeltool")) {
 			return requirePlayer(sender, args, this, CmdPortalDelTool.class);
+		} else if (cmd.test("wp-portal-idtool", "wppid", "wppidt")) {
+			return requirePlayer(sender, args, this, CmdPortalIDTool.class);
 		} else if (cmd.test("wp-portal-teleport", "wp-portal-tp", "wpptp")) {
 			return requirePlayer(sender, args, this, CmdPortalTeleport.class);
 		} else if (cmd.test("wp-destination-create", "wpdc")) {

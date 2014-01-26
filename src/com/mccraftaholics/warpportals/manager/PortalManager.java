@@ -15,6 +15,7 @@ import com.mccraftaholics.warpportals.objects.Coords;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 import com.mccraftaholics.warpportals.objects.PortalCreate;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
+import com.mccraftaholics.warpportals.objects.PortalTool;
 
 public class PortalManager {
 
@@ -27,6 +28,7 @@ public class PortalManager {
 	public PortalCDManager mPortalCDManager;
 	public PortalDataManager mPortalDataManager;
 	public PortalInteractManager mPortalInteractManager;
+	public PortalToolManager mPortalToolManager;
 
 	public PortalManager(Logger logger, YamlConfiguration portalConfig, File dataFile, PortalPlugin plugin) {
 		mPortalPlugin = plugin;
@@ -35,7 +37,8 @@ public class PortalManager {
 
 		mPersistanceManager = new PersistanceManager(mLogger, dataFile, mPortalPlugin);
 		mPortalDataManager = new PortalDataManager(this, mLogger);
-		mPortalCDManager = new PortalCDManager(mPortalDataManager, mPortalConfig);
+		mPortalToolManager = new PortalToolManager(this, mPortalConfig);
+		mPortalCDManager = new PortalCDManager(mPortalDataManager, mPortalToolManager, mPortalConfig);
 		mPortalDestManager = new PortalDestManager(this, mLogger);
 		mPortalInteractManager = new PortalInteractManager(this);
 
@@ -47,7 +50,7 @@ public class PortalManager {
 	}
 
 	public void loadData() {
-		mPersistanceManager.loadDataFile(mPortalDataManager, mPortalDestManager.mPortalDestMap);
+		mPersistanceManager.loadDataFile(mPortalDataManager, mPortalCDManager, mPortalDestManager.mPortalDestMap);
 	}
 
 	public boolean saveDataFile() {
@@ -57,13 +60,13 @@ public class PortalManager {
 	public boolean saveDataFile(File mPortalDataFile) {
 		return mPersistanceManager.saveDataFile(mPortalDataManager.getPortalMap(), mPortalDestManager.mPortalDestMap, mPortalDataFile);
 	}
-	
+
 	public boolean backupDataFile() {
 		return mPersistanceManager.backupDataFile(mPortalDataManager.getPortalMap(), mPortalDestManager.mPortalDestMap, null);
 	}
 
 	public void playerItemRightClick(PlayerInteractEvent e) {
-		mPortalCDManager.playerItemRightClick(e);
+		mPortalToolManager.playerItemRightClick(e);
 	}
 
 	public PortalInfo isLocationInsidePortal(Location location) {
@@ -80,15 +83,15 @@ public class PortalManager {
 	public PortalInfo getPortalInfo(String portalName) {
 		return mPortalDataManager.getPortalInfo(portalName);
 	}
-	
+
 	public String getPortalName(Coords coords) {
 		return mPortalDataManager.getPortalName(coords);
 	}
 
 	public void addCreating(String playerName, PortalCreate portalCreate) {
-		mPortalCDManager.addCreating(playerName, portalCreate);
+		mPortalToolManager.addCreating(playerName, portalCreate);
 	}
-	
+
 	public boolean changeMaterial(Material material, List<Coords> blockCoordArray, Location location) {
 		return mPortalCDManager.changeMaterial(material, blockCoordArray, location);
 	}
@@ -97,8 +100,8 @@ public class PortalManager {
 		mPortalCDManager.deletePortal(portalName);
 	}
 
-	public void addDeleting(String playerName, Material type) {
-		mPortalCDManager.addDeleting(playerName, type);
+	public void addTool(String playerName, PortalTool tool) {
+		mPortalToolManager.addTool(playerName, tool);
 	}
 
 	public void addDestination(String destName, CoordsPY destCoords) {
@@ -116,7 +119,7 @@ public class PortalManager {
 	public Set<String> getDestinations() {
 		return mPortalDestManager.getDestinations();
 	}
-	
+
 	public String getDestinationName(CoordsPY coords) {
 		return mPortalDestManager.getDestinationName(coords);
 	}
