@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 public class Coords {
+
 	public double x, y, z;
 	public World world;
 
@@ -18,10 +19,7 @@ public class Coords {
 	}
 
 	public Coords(Block b) {
-		world = b.getWorld();
-		x = b.getX();
-		y = b.getY();
-		z = b.getZ();
+		this(b.getWorld(), b.getX(), b.getY(), b.getZ());
 	}
 
 	public Coords(Location loc) {
@@ -37,7 +35,11 @@ public class Coords {
 		if (t.matches("\\(.+,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*\\)")) {
 			String n = coordsString.substring(1, coordsString.length() - 1);
 			String[] s = n.split(",");
+
 			world = Bukkit.getWorld(s[0]);
+			if (world == null)
+				throw NullWorldException.createForWorldName(s[0]);
+
 			x = Double.parseDouble(s[1]);
 			y = Double.parseDouble(s[2]);
 			z = Double.parseDouble(s[3]);

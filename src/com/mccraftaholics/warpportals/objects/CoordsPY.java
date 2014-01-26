@@ -38,7 +38,11 @@ public class CoordsPY {
 		if (t.matches("\\(.+,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*,-*[0-9]+\\.*[0-9]*\\)")) {
 			String n = coordsString.substring(1, coordsString.length() - 1);
 			String[] s = n.split(",");
+			
 			world = Bukkit.getWorld(s[0]);
+			if (world == null)
+				throw NullWorldException.createForWorldName(s[0]);
+			
 			x = Double.parseDouble(s[1]);
 			y = Double.parseDouble(s[2]);
 			z = Double.parseDouble(s[3]);
