@@ -15,18 +15,18 @@ public abstract class CommandHandlerObject {
 	public abstract boolean doesRequirePlayer();
 
 	boolean command(CommandSender sender, String[] args, CommandHandler main) {
-		sender.sendMessage("This command has not yet been implemented");
+		sender.sendMessage(main.mCC + "This command has not yet been implemented");
 		return false;
 	}
 
 	boolean command(Player player, String[] args, CommandHandler main) {
-		player.sendMessage("This command has not yet been implemented");
+		player.sendMessage(main.mCC + "This command has not yet been implemented");
 		return false;
 	}
 
 	public boolean handle(CommandSender sender, String[] args, CommandHandler main) {
 		if (doesRequirePlayer() && !(sender instanceof Player)) {
-			sender.sendMessage("This command must be run from an active player.");
+			sender.sendMessage(main.mCC + "This command must be run from an active player.");
 			return true;
 		}
 		if (sender.hasPermission(getPermission())) {
@@ -39,7 +39,7 @@ public abstract class CommandHandlerObject {
 			return false;
 		}
 	}
-	
+
 	public void populate(Map<String, CommandHandlerObject> map) {
 		for (String a : getAliases()) {
 			map.put(a, this);
