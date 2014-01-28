@@ -12,5 +12,7 @@ public class Defaults {
 	public static final String TP_MSG_COLOR = "d"; //d
 
 	public static final boolean ALLOW_NORMAL_PORTALS = false;
+	
+	public static final boolean ALERT_USER_ABOUT_PORTAL_PERMISSION = true;
 
 }

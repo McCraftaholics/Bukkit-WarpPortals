@@ -37,9 +37,12 @@ public class BukkitEventListener implements Listener {
 	JavaPlugin mPlugin;
 	PortalManager mPortalManager;
 	YamlConfiguration mPortalConfig;
-	ChatColor mCC;
-	boolean mAllowNormalPortals;
+
 	Logger mLogger;
+
+	final ChatColor mCC;
+	final boolean mAllowNormalPortals;
+	final boolean mAlertUserAboutPortalPermission;
 
 	public BukkitEventListener(JavaPlugin plugin, PortalManager portalManager, YamlConfiguration portalConfig) {
 		mPlugin = plugin;
@@ -48,6 +51,7 @@ public class BukkitEventListener implements Listener {
 
 		mCC = ChatColor.getByChar(mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR));
 		mAllowNormalPortals = mPortalConfig.getBoolean("portals.general.allowNormalPortals", Defaults.ALLOW_NORMAL_PORTALS);
+		mAlertUserAboutPortalPermission = mPortalConfig.getBoolean("portals.permission.alertUser", Defaults.ALERT_USER_ABOUT_PORTAL_PERMISSION);
 
 		mLogger = mPlugin.getLogger();
 	}
@@ -100,6 +104,12 @@ public class BukkitEventListener implements Listener {
 					// Call WarpPortalsTeleportEvent
 					Bukkit.getPluginManager().callEvent(wpTPEvent);
 
+				} else {
+					if (!hasPermission) {
+						if (mAlertUserAboutPortalPermission) {
+							player.sendMessage(mCC + "You do not have permission to use that WarpPortal.");
+						}
+					}
 				}
 			}
 		}
