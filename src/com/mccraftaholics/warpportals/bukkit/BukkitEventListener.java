@@ -52,6 +52,11 @@ public class BukkitEventListener implements Listener {
 		mLogger = mPlugin.getLogger();
 	}
 
+	/**
+	 * Watches players to detect if they enter a WarpPortal
+	 * 
+	 * @param e
+	 */
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerMove(PlayerMoveEvent e) {
 		Player player = e.getPlayer();
@@ -69,7 +74,7 @@ public class BukkitEventListener implements Listener {
 			// If player is in a WarpPortal
 			if (portal != null) {
 				// Check player permissions to use portal
-				boolean hasPermission = player.hasPermission("warpportals.enter");
+				boolean hasPermission = player.hasPermission("warpportals.enter." + portal.name);
 
 				// Create WarpPortalsEvent
 				WarpPortalsEvent wpEvent = new WarpPortalsEvent(player, portal, hasPermission);
@@ -143,6 +148,11 @@ public class BukkitEventListener implements Listener {
 		}
 	}
 
+	/**
+	 * Used to keep liquid blocks from flowing outside of the portal.
+	 * 
+	 * @param event
+	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockFromTo(BlockFromToEvent event) {
 		Block block = event.getBlock();
@@ -151,6 +161,11 @@ public class BukkitEventListener implements Listener {
 		}
 	}
 
+	/**
+	 * Protects portals from getting destroyed.
+	 * 
+	 * @param event
+	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent event) {
 		Block block = event.getBlock();
@@ -160,6 +175,12 @@ public class BukkitEventListener implements Listener {
 		}
 	}
 
+	/**
+	 * Handles deleted or unloaded world events. Keeps WarpPortals from existing
+	 * in non-existent worlds.
+	 * 
+	 * @param e
+	 */
 	@EventHandler
 	public void onWorldUnloadEvent(WorldUnloadEvent e) {
 		World unloadedWorld = e.getWorld();

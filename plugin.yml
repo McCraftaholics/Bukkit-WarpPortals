@@ -90,7 +90,7 @@ permissions:
   warpportals.admin:
     description: Gives access to all WarpPortal commands
     default: op
-  warpportals.enter:
+  warpportals.enter.*:
     description: Allows a player to travel through Warp Portals
     default: true
   warpportals.version:
