@@ -32,9 +32,14 @@ public class CmdPortalIDTool extends CommandHandlerObject {
 		try {
 			ItemStack curItem = player.getItemInHand();
 			if (!curItem.getType().isBlock()) {
-				PortalTool tool = new PortalTool(curItem.getType(), PortalTool.Action.IDENTIFY);
-				main.mPortalManager.addTool(player.getName(), tool);
-				player.sendMessage(main.mCC + "Portal identify tool equipped to \"" + curItem.getType() + "\"");
+				if (main.mPortalManager.getTool(player.getName()) != null) {
+					main.mPortalManager.removeTool(player.getName());
+					player.sendMessage(main.mCC + "Portal identify tool dequipped from \"" + curItem.getType() + "\"");
+				} else {
+					PortalTool tool = new PortalTool(curItem.getType(), PortalTool.Action.IDENTIFY);
+					main.mPortalManager.addTool(player.getName(), tool);
+					player.sendMessage(main.mCC + "Portal identify tool equipped to \"" + curItem.getType() + "\"");
+				}
 			} else
 				player.sendMessage(main.mCC + "You can't use a block for that! Try using something like the fishing rod.");
 		} catch (Exception e) {

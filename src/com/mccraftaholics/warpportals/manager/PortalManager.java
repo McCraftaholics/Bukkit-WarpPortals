@@ -103,6 +103,14 @@ public class PortalManager {
 	public void addTool(String playerName, PortalTool tool) {
 		mPortalToolManager.addTool(playerName, tool);
 	}
+	
+	public PortalTool getTool(String playerName) {
+		return mPortalToolManager.getTool(playerName);
+	}
+	
+	public void removeTool(String playerName) {
+		mPortalToolManager.removeTool(playerName);
+	}
 
 	public void addDestination(String destName, CoordsPY destCoords) {
 		mPortalDestManager.addDestination(destName, destCoords);

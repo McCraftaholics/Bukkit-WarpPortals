@@ -31,7 +31,7 @@ commands:
     aliases: [pdeltool, wppdt]
     permissions: warpportals.admin.portal.delete.tool
   wp-portal-idtool:
-    description: Bind the Portal Identify tool to the current item
+    description: Toggle the current item as a Portal ID tool
     usage: /wp-portal-idtool
     aliases: [wppidt, wppid]
     permissions: warpportals.admin.portal.list.tool

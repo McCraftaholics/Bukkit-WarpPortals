@@ -32,7 +32,7 @@ public class PortalToolManager {
 	public void addCreating(String playerName, PortalCreate portalCreate) {
 		mPlayerPortalCreateMap.put(playerName, portalCreate);
 	}
-	
+
 	public void removeCreating(String playerName) {
 		mPlayerPortalCreateMap.remove(playerName);
 	}
@@ -40,9 +40,13 @@ public class PortalToolManager {
 	public void addTool(String playerName, PortalTool tool) {
 		mPlayerPortalToolMap.put(playerName, tool);
 	}
-	
+
 	public void removeTool(String playerName) {
 		mPlayerPortalToolMap.remove(playerName);
+	}
+	
+	public PortalTool getTool(String playerName) {
+		return mPlayerPortalToolMap.get(playerName);
 	}
 
 	public void playerItemRightClick(PlayerInteractEvent e) {
@@ -61,15 +65,14 @@ public class PortalToolManager {
 			}
 		}
 	}
-	
+
 	private void identifyPortal(PlayerInteractEvent e) {
+		Player player = e.getPlayer();
 		String portalName = mPM.getPortalName(new Coords(e.getClickedBlock()));
 		if (portalName != null) {
-			Player player = e.getPlayer();
 			player.sendMessage(mCC + portalName);
-			
-			// Remove tool from player
-			mPlayerPortalToolMap.remove(player.getName());
+		} else {
+			player.sendMessage(mCC + "That is not a WarpPortal.");
 		}
 	}
 }
