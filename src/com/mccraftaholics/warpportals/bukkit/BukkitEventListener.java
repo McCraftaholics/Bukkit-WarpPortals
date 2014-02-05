@@ -34,7 +34,7 @@ import com.mccraftaholics.warpportals.objects.CoordsPY;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
 
 public class BukkitEventListener implements Listener {
-	JavaPlugin mPlugin;
+	PortalPlugin mPlugin;
 	PortalManager mPortalManager;
 	YamlConfiguration mPortalConfig;
 
@@ -43,8 +43,9 @@ public class BukkitEventListener implements Listener {
 	final ChatColor mCC;
 	final boolean mAllowNormalPortals;
 	final boolean mAlertUserAboutPortalPermission;
+	final boolean mGlobalEnterPermission;
 
-	public BukkitEventListener(JavaPlugin plugin, PortalManager portalManager, YamlConfiguration portalConfig) {
+	public BukkitEventListener(PortalPlugin plugin, PortalManager portalManager, YamlConfiguration portalConfig) {
 		mPlugin = plugin;
 		mPortalManager = portalManager;
 		mPortalConfig = portalConfig;
@@ -52,6 +53,7 @@ public class BukkitEventListener implements Listener {
 		mCC = ChatColor.getByChar(mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR));
 		mAllowNormalPortals = mPortalConfig.getBoolean("portals.general.allowNormalPortals", Defaults.ALLOW_NORMAL_PORTALS);
 		mAlertUserAboutPortalPermission = mPortalConfig.getBoolean("portals.permission.alertUser", Defaults.ALERT_USER_ABOUT_PORTAL_PERMISSION);
+		mGlobalEnterPermission = mPortalConfig.getBoolean("portals.permission.globalEnterPermission", Defaults.GLOBAL_ENTER_PERMISSION);
 
 		mLogger = mPlugin.getLogger();
 	}
@@ -77,8 +79,12 @@ public class BukkitEventListener implements Listener {
 			PortalInfo portal = mPortalManager.isLocationInsidePortal(e.getTo());
 			// If player is in a WarpPortal
 			if (portal != null) {
-				// Check player permissions to use portal
-				boolean hasPermission = player.hasPermission("warpportals.enter." + portal.name);
+				boolean hasPermission;
+				if (mGlobalEnterPermission)
+					hasPermission = player.hasPermission("warpportals.enter");
+				else
+					// Check player permissions to use portal
+					hasPermission = player.hasPermission("warpportals.enter." + portal.name);
 
 				// Create WarpPortalsEvent
 				WarpPortalsEvent wpEvent = new WarpPortalsEvent(player, portal, hasPermission);
