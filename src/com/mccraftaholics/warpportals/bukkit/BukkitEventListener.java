@@ -43,7 +43,7 @@ public class BukkitEventListener implements Listener {
 	final ChatColor mCC;
 	final boolean mAllowNormalPortals;
 	final boolean mAlertUserAboutPortalPermission;
-	final boolean mGlobalEnterPermission;
+	final boolean mCheckIndividualPortalPermissions;
 
 	public BukkitEventListener(PortalPlugin plugin, PortalManager portalManager, YamlConfiguration portalConfig) {
 		mPlugin = plugin;
@@ -53,7 +53,8 @@ public class BukkitEventListener implements Listener {
 		mCC = ChatColor.getByChar(mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR));
 		mAllowNormalPortals = mPortalConfig.getBoolean("portals.general.allowNormalPortals", Defaults.ALLOW_NORMAL_PORTALS);
 		mAlertUserAboutPortalPermission = mPortalConfig.getBoolean("portals.permission.alertUser", Defaults.ALERT_USER_ABOUT_PORTAL_PERMISSION);
-		mGlobalEnterPermission = mPortalConfig.getBoolean("portals.permission.globalEnterPermission", Defaults.GLOBAL_ENTER_PERMISSION);
+		mCheckIndividualPortalPermissions = mPortalConfig.getBoolean("portals.permission.checkIndividualPortalPermissions",
+				Defaults.CHECK_INDIVIDUAL_PORAL_PERMISSIONS);
 
 		mLogger = mPlugin.getLogger();
 	}
@@ -80,11 +81,11 @@ public class BukkitEventListener implements Listener {
 			// If player is in a WarpPortal
 			if (portal != null) {
 				boolean hasPermission;
-				if (mGlobalEnterPermission)
-					hasPermission = player.hasPermission("warpportals.enter");
-				else
+				if (mCheckIndividualPortalPermissions)
 					// Check player permissions to use portal
 					hasPermission = player.hasPermission("warpportals.enter." + portal.name);
+				else
+					hasPermission = player.hasPermission("warpportals.enter");
 
 				// Create WarpPortalsEvent
 				WarpPortalsEvent wpEvent = new WarpPortalsEvent(player, portal, hasPermission);

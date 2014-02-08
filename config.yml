@@ -7,7 +7,7 @@ portals:
     maxSize: 1000 # A limit to make sure that an accidental attempt to turn an entire ocean into a portal doesn't succeed and kill your server.
   permission:
     alertUser: true # Alert the user when they try to use a WarpPortal that they don't have permission to use
-    globalEnterPermission: false # Should the plugin use "warpportals.enter" to check for player permission to use a portal (true), OR should it use "warpportals.enter.{portalName}" to check (false)? This setting exists because the default Bukkit permissions does not support wildcard operators as used in "warpportals.enter.*" and therefore this setting should be set to true if no third party permission plugin is used.
+    checkIndividualPortalPermissions: false # Change to true to allow permissions to be set on a per-portal basis. Use only with permission plugins that support wildcard operators, such as in "warpportals.enter.*", e.g. PermissionsEx.
   teleport: # For everything related to Portal teleportation
     message: Wooooooosh! # The message that is shown when a user teleports
     messageColor: d # The color of the teleportation message.

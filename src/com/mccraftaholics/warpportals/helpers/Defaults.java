@@ -12,5 +12,5 @@ public class Defaults {
 	public static final boolean ALLOW_NORMAL_PORTALS = false;
 
 	public static final boolean ALERT_USER_ABOUT_PORTAL_PERMISSION = true;
-	public static final boolean GLOBAL_ENTER_PERMISSION = false;
+	public static final boolean CHECK_INDIVIDUAL_PORAL_PERMISSIONS = false;
 }
