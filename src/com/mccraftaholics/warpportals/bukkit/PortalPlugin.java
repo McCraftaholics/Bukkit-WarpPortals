@@ -16,14 +16,16 @@ import org.mcstats.MetricsLite;
 
 import com.mccraftaholics.warpportals.helpers.Utils;
 import com.mccraftaholics.warpportals.manager.PortalManager;
+import com.mccraftaholics.warpportals.remote.RemoteManager;
 
 public class PortalPlugin extends JavaPlugin {
 	CommandHandler mCommandHandler;
-	PortalManager mPortalManager;
+	public PortalManager mPortalManager;
+	public RemoteManager mRemoteManager;
 
 	public File mPortalDataFile;
 	File mPortalConfigFile;
-	YamlConfiguration mPortalConfig;
+	public YamlConfiguration mPortalConfig;
 
 	@Override
 	public void onEnable() {
@@ -34,13 +36,14 @@ public class PortalPlugin extends JavaPlugin {
 		loadConfigs();
 		mPortalManager = new PortalManager(getLogger(), mPortalConfig, mPortalDataFile, this);
 		mCommandHandler = new CommandHandler(this, mPortalManager, mPortalConfig);
+		mRemoteManager = new RemoteManager(this);
 		getServer().getPluginManager().registerEvents(new BukkitEventListener(this, mPortalManager, mPortalConfig), this);
 		initMCStats();
 
-        // Register example WarpPortals Event API Listener
-        String tpMessage = mPortalConfig.getString("portals.teleport.message", Defaults.TP_MESSAGE);
-        ChatColor tpChatColor = ChatColor.getByChar(mPortalConfig.getString("portals.teleport.messageColor", Defaults.TP_MSG_COLOR));
-        getServer().getPluginManager().registerEvents(new WarpPortalsEventListener(tpMessage, tpChatColor), this);
+		// Register example WarpPortals Event API Listener
+		String tpMessage = mPortalConfig.getString("portals.teleport.message", Defaults.TP_MESSAGE);
+		ChatColor tpChatColor = ChatColor.getByChar(mPortalConfig.getString("portals.teleport.messageColor", Defaults.TP_MSG_COLOR));
+		getServer().getPluginManager().registerEvents(new WarpPortalsEventListener(tpMessage, tpChatColor), this);
 	}
 
 	private void initMCStats() {
@@ -101,6 +104,7 @@ public class PortalPlugin extends JavaPlugin {
 	public void onDisable() {
 		mPortalManager.onDisable();
 		saveConfigs();
+		mRemoteManager.shutdown();
 	}
 
 	@Override

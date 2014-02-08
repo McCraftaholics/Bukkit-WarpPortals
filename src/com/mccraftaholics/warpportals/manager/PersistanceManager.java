@@ -261,23 +261,9 @@ public class PersistanceManager {
 	private boolean saveStringToFile(String data, File dataFile) {
 		boolean rtn = true;
 		if (dataFile.canWrite()) {
-			FileWriter fw = null;
-			BufferedWriter bw = null;
-			try {
-				fw = new FileWriter(dataFile.getAbsoluteFile());
-				bw = new BufferedWriter(fw);
-				bw.write(data);
-			} catch (IOException e) {
+			boolean writeSuccess = Utils.writeToFile(data, dataFile);
+			if (!writeSuccess)
 				mLogger.severe("Error saving WarpPortal data!");
-				rtn = false;
-			} finally {
-				if (bw != null)
-					try {
-						bw.close();
-					} catch (IOException e) {
-						rtn = false;
-					}
-			}
 		} else {
 			mLogger.severe("Can't save WarpPortals data! WarpPortals does not have write access to the save location \"" + dataFile.getAbsolutePath() + "\".");
 			rtn = false;

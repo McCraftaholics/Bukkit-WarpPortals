@@ -11,3 +11,5 @@ portals:
   teleport: # For everything related to Portal teleportation
     message: Wooooooosh! # The message that is shown when a user teleports
     messageColor: d # The color of the teleportation message.
+  reporting:
+    allowAnalytics: true # Allow WarpPortals to periodically send data about its functioning to the developer.
