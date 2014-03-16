@@ -11,14 +11,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.yaml.snakeyaml.Yaml;
-
 import com.mccraftaholics.warpportals.bukkit.PortalPlugin;
 import com.mccraftaholics.warpportals.helpers.Defaults;
 import com.mccraftaholics.warpportals.helpers.Utils;
@@ -29,8 +27,6 @@ import com.mccraftaholics.warpportalscommon.analytics.AnalyticsReportFirstInstal
 import com.mccraftaholics.warpportalscommon.analytics.AnalyticsReportUsage;
 
 public class RemoteManager {
-
-	static final String DELIMITER = "><(((º>";
 
 	static final class API {
 		// Base Url
@@ -46,40 +42,26 @@ public class RemoteManager {
 
 	PortalPlugin mPlugin;
 	File mAnalyticsFile;
-	
+
 	AnalyticsData mAnalyticsData;
-
-	static class AnalyticsData {
-		public String uuid;
-		public Date lastFileUpdate = new Date(0);
-		public Date lastUsageReport = new Date(0);
-		public Date lastInstallReport = new Date(0);
-		public int numReports;
-		public AnalyticsReportUsage analyticsReportUsage;
-
-		static AnalyticsData createNew() {
-			AnalyticsData ad = new AnalyticsData();
-			ad.uuid = UUID.randomUUID().toString();
-			ad.lastInstallReport = new Date();
-			ad.numReports = 1;
-			ad.analyticsReportUsage = new AnalyticsReportUsage();
-			return ad;
-		}
-	}
 
 	TimerTask mHourlyTask;
 
 	public RemoteManager(PortalPlugin plugin) {
+		/* Need to release, don't have time to fix. Just exit this code */
+		if (true)
+			return;
 		try {
 			mPlugin = plugin;
 
 			canRunAnalytics = mPlugin.mPortalConfig.getBoolean("portals.reporting.allowAnalytics", Defaults.ALLOW_ANALYTICS);
 
 			if (canRunAnalytics) {
-				mAnalyticsFile = new File(mPlugin.getDataFolder(), "warpportals-analytics.wpayml");
+				mAnalyticsFile = new File(mPlugin.getDataFolder(), "warpportals-analytics.wpaj");
 				if (!mAnalyticsFile.exists()) {
 					mAnalyticsData = AnalyticsData.createNew();
 					runFirstInstallReport();
+					mAnalyticsData.lastInstallReport = new Date();
 					try {
 						mAnalyticsFile.createNewFile();
 						updateAnalyticsFile();
@@ -92,19 +74,22 @@ public class RemoteManager {
 						String dataString = Utils.readFile(mAnalyticsFile.getAbsolutePath(), Charset.forName("UTF-8"));
 						if (dataString != null) {
 							try {
-								Yaml yaml = new Yaml();
-								mAnalyticsData = yaml.loadAs(dataString, AnalyticsData.class);
+								mAnalyticsData = AnalyticsData.deserialize(dataString);
 							} catch (Exception e) {
+								e.printStackTrace();
 								// Silently fail
 							}
 						}
 					} catch (IOException e) {
+						e.printStackTrace();
 						// Silently fail
 					}
 				}
 
-				if (mAnalyticsData.analyticsReportUsage == null)
-					mAnalyticsData.analyticsReportUsage = new AnalyticsReportUsage();
+				if (mAnalyticsData == null) {
+					mAnalyticsData = AnalyticsData.createNew();
+					updateAnalyticsFile();
+				}
 
 				mHourlyTask = new TimerTask() {
 					static final long ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
@@ -128,16 +113,21 @@ public class RemoteManager {
 	}
 
 	public void shutdown() {
+		// TODO
+		if (true)
+			return;
 		updateAnalyticsFile();
 	}
 
 	public void incrementUseCounter() {
+		// TODO
+		if (true)
+			return;
 		mAnalyticsData.analyticsReportUsage.incrementThisHour();
 	}
 
 	boolean updateAnalyticsFile() {
-		Yaml yaml = new Yaml();
-		String dataString = yaml.dump(mAnalyticsData);
+		String dataString = mAnalyticsData.serialize();
 		if (!mAnalyticsFile.exists())
 			try {
 				mAnalyticsFile.createNewFile();
