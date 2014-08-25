@@ -61,7 +61,7 @@ public class BukkitEventListener implements Listener {
 
 	/**
 	 * Watches players to detect if they enter a WarpPortal
-	 * 
+	 *
 	 * @param e
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -158,19 +158,23 @@ public class BukkitEventListener implements Listener {
 	/**
 	 * Used to allow PORTAL blocks to face any direction, with a contiguous
 	 * direction as its adjacent portal blocks.
-	 * 
+	 *
 	 * @param e
 	 */
 	@EventHandler
 	public void onBlockPhysicsEvent(BlockPhysicsEvent e) {
-		if (e.getBlock().getType() == Material.PORTAL) {
-			e.setCancelled(true);
-		}
+        //The following check is to prevent physics when we initially change the template gold blocks to portals, which
+        //causes only two portal blocks to appear and the rest to vanish immediately:
+		if ((e.getBlock().getType() == Material.PORTAL && e.getChangedType() == Material.GOLD_BLOCK) ||
+                //This checks for physics when we already have our portal standing:
+                (e.getBlock().getType() == Material.PORTAL && mPortalManager.isLocationInsidePortal(e.getBlock().getLocation()) != null)) {
+                e.setCancelled(true);
+        }
 	}
 
 	/**
 	 * Used to keep liquid blocks from flowing outside of the portal.
-	 * 
+	 *
 	 * @param event
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -183,7 +187,7 @@ public class BukkitEventListener implements Listener {
 
 	/**
 	 * Protects portals from getting destroyed.
-	 * 
+	 *
 	 * @param event
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -198,7 +202,7 @@ public class BukkitEventListener implements Listener {
 	/**
 	 * Handles deleted or unloaded world events. Keeps WarpPortals from existing
 	 * in non-existent worlds.
-	 * 
+	 *
 	 * @param e
 	 */
 	@EventHandler
