@@ -163,7 +163,7 @@ public class BukkitEventListener implements Listener {
 	 */
 	@EventHandler
 	public void onBlockPhysicsEvent(BlockPhysicsEvent e) {
-		if (e.getBlock().getType() == Material.PORTAL) {
+		if (e.getBlock().getType() == Material.PORTAL && e.getChangedType() != Material.OBSIDIAN) {
 			e.setCancelled(true);
 		}
 	}
