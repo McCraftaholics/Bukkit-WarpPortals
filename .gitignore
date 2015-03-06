@@ -1,6 +1,5 @@
 /.gitignore~
 *.pydevproject
-*.project
 *.metadata
 bin/**
 tmp/**
@@ -9,10 +8,6 @@ tmp/**/*
 *.bak
 *.swp
 *~.nib
-local.properties
-.classpath
-.settings/
-.loadpath
 
 # OS Specifics
 *~ #Linux temp files
@@ -22,6 +17,21 @@ local.properties
 out/
 .idea/
 *.iml
+*.iws
+
+# Eclipse
+.classpath
+.project
+.settings/
+local.properties
+.loadpath
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
 
 # External tool builders
 .externalToolBuilders/
