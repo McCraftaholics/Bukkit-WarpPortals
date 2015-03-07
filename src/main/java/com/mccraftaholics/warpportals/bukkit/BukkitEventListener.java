@@ -111,9 +111,6 @@ public class BukkitEventListener implements Listener {
 					// Call WarpPortalsTeleportEvent
 					Bukkit.getPluginManager().callEvent(wpTPEvent);
 
-					// Increment analytics counter
-					mPlugin.mRemoteManager.incrementUseCounter();
-
 				} else {
 					if (!hasPermission) {
 						if (mAlertUserAboutPortalPermission) {

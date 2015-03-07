@@ -16,12 +16,10 @@ import org.mcstats.MetricsLite;
 
 import com.mccraftaholics.warpportals.helpers.Utils;
 import com.mccraftaholics.warpportals.manager.PortalManager;
-import com.mccraftaholics.warpportals.remote.RemoteManager;
 
 public class PortalPlugin extends JavaPlugin {
 	CommandHandler mCommandHandler;
 	public PortalManager mPortalManager;
-	public RemoteManager mRemoteManager;
 
 	public File mPortalDataFile;
 	File mPortalConfigFile;
@@ -36,7 +34,6 @@ public class PortalPlugin extends JavaPlugin {
 		loadConfigs();
 		mPortalManager = new PortalManager(getLogger(), mPortalConfig, mPortalDataFile, this);
 		mCommandHandler = new CommandHandler(this, mPortalManager, mPortalConfig);
-		mRemoteManager = new RemoteManager(this);
 		getServer().getPluginManager().registerEvents(new BukkitEventListener(this, mPortalManager, mPortalConfig), this);
 		initMCStats();
 
@@ -104,7 +101,6 @@ public class PortalPlugin extends JavaPlugin {
 	public void onDisable() {
 		mPortalManager.onDisable();
 		saveConfigs();
-		mRemoteManager.shutdown();
 	}
 
 	@Override
