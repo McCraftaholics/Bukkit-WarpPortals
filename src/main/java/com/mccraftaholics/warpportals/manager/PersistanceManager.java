@@ -275,7 +275,7 @@ public class PersistanceManager {
 		try {
 			if (backupName == null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_kk-mm-ss");
-				backupName = "portals_" + sdf.format(new Date()) + ".bac";
+				backupName = "portals_" + sdf.format(new Date()) + ".yml.bac";
 			}
 			File backupFile = new File(mPlugin.getDataFolder(), backupName);
 			backupFile.createNewFile();
