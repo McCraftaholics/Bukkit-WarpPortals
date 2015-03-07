@@ -76,8 +76,7 @@ blocks.12598/forums.bukkit.org/threads/rotating-portal-blocks.12598/>_</s> Only 
 
 The latest Bukkit approved version to can be found attached to this page!
 Though you can always find the absolute latest version at [Latest
-Version](https://github.com/McCraftaholics/Bukkit-
-WarpPortals/raw/master/WarpPortals_latest.jar)
+Version](https://github.com/McCraftaholics/Bukkit-WarpPortals/raw/master/WarpPortals_latest.jar).
 
 Source code can be found at [github.com/McCraftaholics/Bukkit-
 WarpPortals](https://github.com/McCraftaholics/Bukkit-WarpPortals)
@@ -94,6 +93,37 @@ Further documentation can be found at [WarpPortals/API](http://dev.bukkit.org/bu
 _Open an Issue on the GitHub page if you have any questions!_
 
 ## Changelog
+
+**5.6.4**
+
+ * Merge [PR #28](https://github.com/McCraftaholics/Bukkit-WarpPortals/pull/28) from [xxyy](https://github.com/xxyy)
+    * Fix Nether portals not disappearing when frame destroyed
+    * Thank you [xxyy](https://github.com/xxyy)!
+ * Devs, this plugin is now built using maven
+
+**5.6.3**
+
+ * Restore original permission system - Fixes 'OP only' errors!
+    * Portals are mass turned on/off for players
+ * New per-portal permission system can be enabled
+    * Set 'portals>permission>checkIndividualPortalPermissions' to 'true' in the config file
+    * This setting requires wildcard permission support for normal operation
+
+**5.5.2**
+
+  * Teleportation messages can now be disabled, properly.
+    * Set portals>teleport>message to "&none", without the quotes, in the config.yml file # for real this time
+  * WarpPortals now handles World unloads and deletions
+    * **This should fix all known issues causing data to be deleted**
+  * The portal ID tool is multi-use, it won't dequip after each ID.
+  * **Per-portal permissions can now be set (eg, donor rank portals)**
+    * WarpPortals now check for if a player has "warpportals.enter.{PortalName}" permission before teleporting
+    * By default ever player has "warpportals.enter.*", this can be changed and allows for donor rank portals and such
+    * You can set whether players are told that they don't have permission, or make the portal "silent"
+  * Faster onPlayerMove algorithm that is over 100% more efficient in some situations!
+  * Users are alerted when they run commands without proper permission
+    * Should help permission debugging
+  * CommandHandler polished for more efficiency as well
 
 **4.2.1**
 
