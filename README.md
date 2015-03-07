@@ -94,6 +94,11 @@ _Open an Issue on the GitHub page if you have any questions!_
 
 ## Changelog
 
+**5.6.5**
+
+ * Replace usage of player name's with new player UUID standard
+ * Rename portal.yml backups to "*.yml.bac" in order to signify the data type
+ 
 **5.6.4**
 
  * Merge [PR #28](https://github.com/McCraftaholics/Bukkit-WarpPortals/pull/28) from [xxyy](https://github.com/xxyy)
