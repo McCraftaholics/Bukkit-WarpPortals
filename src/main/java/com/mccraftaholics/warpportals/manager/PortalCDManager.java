@@ -44,7 +44,7 @@ public class PortalCDManager {
 	void possibleDeletePortal(Block block, Player player) {
 		if (block.getType() == Material.PORTAL || block.getType() == Material.ENDER_PORTAL) {
 			deletePortal(block.getLocation());
-			mPTM.removeTool(player.getName());
+			mPTM.removeTool(player.getUniqueId());
 		} else
 			player.sendMessage("Right click on the Portal that you want to delete");
 	}
@@ -119,7 +119,7 @@ public class PortalCDManager {
 				}
 			} else {
 				player.sendMessage("A Portal with the name \"" + portalCreate.portalName + "\" already exists.");
-				mPTM.removeCreating(player.getName());
+				mPTM.removeCreating(player.getUniqueId());
 			}
 		} else {
 			player.sendMessage("The Portal should be made out of either Gold/Silver/Ender Portal/Portal Blocks originally");
@@ -153,7 +153,9 @@ public class PortalCDManager {
 			// Add portal
 			mPDM.addPortal(createPortalInfo.name, createPortalInfo);
 			// Deactivate portal creation tool
-			mPTM.removeCreating(sender.getName());
+            if (sender instanceof Player) {
+                mPTM.removeCreating(((Player) sender).getUniqueId());
+            }
 			// Alert player of portal creation success
 			sender.sendMessage(mCC + "\"" + createPortalInfo.name + "\" created and linked to " + createPortalInfo.tpCoords.toNiceString());
 		} else {

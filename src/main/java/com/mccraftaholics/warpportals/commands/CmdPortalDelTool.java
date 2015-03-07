@@ -33,7 +33,7 @@ public class CmdPortalDelTool extends CommandHandlerObject {
 			ItemStack curItem = player.getItemInHand();
 			if (!curItem.getType().isBlock()) {
 				PortalTool tool = new PortalTool(curItem.getType(), PortalTool.Action.DELETE);
-				main.mPortalManager.addTool(player.getName(), tool);
+				main.mPortalManager.addTool(player.getUniqueId(), tool);
 				player.sendMessage(main.mCC + "Portal delete tool equipped to \"" + curItem.getType() + "\"");
 			} else
 				player.sendMessage(main.mCC + "You can't use a block for that! Try using something like the fishing rod.");

@@ -84,7 +84,7 @@ public class CmdPortalCreate extends CommandHandlerObject {
 											portalCreate.portalName = args[0];
 											portalCreate.tpCoords = tpCoords;
 											portalCreate.blockType = blockType;
-											main.mPortalManager.addCreating(sender.getName(), portalCreate);
+											main.mPortalManager.addCreating(sender.getUniqueId(), portalCreate);
 											sender.sendMessage(ChatColor.AQUA + "Right-click on a Gold Block wall\n - Tool: \"" + curItem.getType().name()
 													+ "\"\n " + ChatColor.WHITE + "-" + ChatColor.AQUA + " WarpPortal Name: " + ChatColor.RED
 													+ portalCreate.portalName + ChatColor.WHITE + "\n - " + ChatColor.AQUA + "WarpPortal Dest: "

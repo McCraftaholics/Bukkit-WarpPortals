@@ -3,6 +3,7 @@ package com.mccraftaholics.warpportals.manager;
 import java.io.File;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.Location;
@@ -88,8 +89,8 @@ public class PortalManager {
 		return mPortalDataManager.getPortalName(coords);
 	}
 
-	public void addCreating(String playerName, PortalCreate portalCreate) {
-		mPortalToolManager.addCreating(playerName, portalCreate);
+	public void addCreating(UUID playerUUID, PortalCreate portalCreate) {
+		mPortalToolManager.addCreating(playerUUID, portalCreate);
 	}
 
 	public boolean changeMaterial(Material material, List<Coords> blockCoordArray, Location location) {
@@ -100,16 +101,16 @@ public class PortalManager {
 		mPortalCDManager.deletePortal(portalName);
 	}
 
-	public void addTool(String playerName, PortalTool tool) {
-		mPortalToolManager.addTool(playerName, tool);
+	public void addTool(UUID playerUUID, PortalTool tool) {
+		mPortalToolManager.addTool(playerUUID, tool);
 	}
 	
-	public PortalTool getTool(String playerName) {
-		return mPortalToolManager.getTool(playerName);
+	public PortalTool getTool(UUID playerUUID) {
+		return mPortalToolManager.getTool(playerUUID);
 	}
 	
-	public void removeTool(String playerName) {
-		mPortalToolManager.removeTool(playerName);
+	public void removeTool(UUID playerUUID) {
+		mPortalToolManager.removeTool(playerUUID);
 	}
 
 	public void addDestination(String destName, CoordsPY destCoords) {
