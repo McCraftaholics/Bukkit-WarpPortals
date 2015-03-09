@@ -4,8 +4,6 @@ import com.mccraftaholics.warpportals.objects.Coords;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
 import org.bukkit.Location;
 
-import java.util.UUID;
-
 public class PortalInteractManager {
 
     PortalManager mPortalManager;

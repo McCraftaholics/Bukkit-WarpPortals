@@ -30,67 +30,6 @@ public class PersistanceManager {
         mPlugin = plugin;
     }
 
-    public static class PersistedData {
-        public List<PortalInfo> portals = new LinkedList<PortalInfo>();
-        public List<Coords> blocksToRevert = new LinkedList<Coords>();
-        public Map<String, CoordsPY> destinations = new LinkedHashMap<String, CoordsPY>();
-        public boolean needToBackup;
-    }
-
-    public void loadDataFile(PortalDataManager portalDataManager, HashMap<String, CoordsPY> destMap) {
-        // Read portals.yml file to string "data"
-        String data = null;
-        try {
-            data = Utils.readFile(mDataFile.getAbsolutePath(), "UTF-8");
-        } catch (IOException e) {
-            mLogger.severe("Unable to read WarpPortal's data file! Stack trace:\n" + Arrays.toString(e.getStackTrace()));
-            return;
-        }
-        PersistedData pd = parseDataFile(data, mLogger);
-
-        // Add the parsed portals to the PortalDataManager
-        for (PortalInfo portal : pd.portals) {
-            portalDataManager.addPortalNoSave(portal);
-        }
-
-        // Add the parsed destinations to the Destinations map
-        destMap.putAll(pd.destinations);
-
-        // Revert portals with invalid TP Coords to their GOLD_BLOCK state
-        if (pd.blocksToRevert.size() > 0) {
-            Location loc = new Location(pd.blocksToRevert.get(0).world, 0, 0, 0);
-            for (Coords block : pd.blocksToRevert) {
-                loc.setX(block.x);
-                loc.setY(block.y);
-                loc.setZ(block.z);
-                loc.getBlock().setType(Material.GOLD_BLOCK);
-            }
-        }
-
-        // If a backup was requested
-        if (pd.needToBackup) {
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_kk-mm-ss");
-                String backupName = "portals_" + sdf.format(new Date()) + ".bac";
-                File backupFile = new File(mPlugin.getDataFolder(), backupName);
-                backupFile.createNewFile();
-
-                StringBuilder sb = new StringBuilder();
-                sb.append("# I highly recommend that you don't edit this manually!");
-                sb.append("Backup was created due to a world being deleted.");
-                sb.append(data);
-
-                saveStringToFile(sb.toString(), backupFile);
-            } catch (Exception e) {
-                mLogger.severe("Can't backup WarpPortals data! " + e.getMessage());
-            }
-        }
-
-        // Report number of portals loaded
-        mLogger.info(String.valueOf(portalDataManager.getPortalCount()) + " Portals loaded!");
-        mLogger.info(String.valueOf(destMap.size()) + " Destinations loaded!");
-    }
-
     private static Coords deserializeCoords(String serialized) throws Exception {
         if (serialized.matches(Coords.SERIALIZED_COORDS)) {
             return Coords.deserialize(serialized);
@@ -160,8 +99,8 @@ public class PersistanceManager {
                         } catch (NullWorldException e) {
                             logger.severe("The portal \"" + name + "\" has been deleted because the world associated with the identifier \"" + e.getIdentifier()
                                     + "\" does not exist anymore.");
-							/*
-							 * Portal is "deleted" because it isn't added to the
+                            /*
+                             * Portal is "deleted" because it isn't added to the
 							 * portal map; effectively deleting it.
 							 */
                             persistedData.needToBackup = true;
@@ -264,18 +203,6 @@ public class PersistanceManager {
         return persistedData;
     }
 
-    public boolean saveDataFile(Map<UUID, PortalInfo> portalMap, Map<String, CoordsPY> destMap, File saveFile) {
-        String serializedData = serializeData(portalMap, destMap, mLogger);
-        if (serializedData == null) {
-            return false;
-        }
-        return saveStringToFile(serializedData, saveFile);
-    }
-
-    public boolean saveDataFile(Map<UUID, PortalInfo> portalMap, Map<String, CoordsPY> destMap) {
-        return saveDataFile(portalMap, destMap, mDataFile);
-    }
-
     public static String serializeData(Map<UUID, PortalInfo> portalMap, Map<String, CoordsPY> destMap, Logger logger) {
         try {
             StringBuilder sb = new StringBuilder();
@@ -331,6 +258,72 @@ public class PersistanceManager {
         }
     }
 
+    public void loadDataFile(PortalDataManager portalDataManager, HashMap<String, CoordsPY> destMap) {
+        // Read portals.yml file to string "data"
+        String data = null;
+        try {
+            data = Utils.readFile(mDataFile.getAbsolutePath(), "UTF-8");
+        } catch (IOException e) {
+            mLogger.severe("Unable to read WarpPortal's data file! Stack trace:\n" + Arrays.toString(e.getStackTrace()));
+            return;
+        }
+        PersistedData pd = parseDataFile(data, mLogger);
+
+        // Add the parsed portals to the PortalDataManager
+        for (PortalInfo portal : pd.portals) {
+            portalDataManager.addPortalNoSave(portal);
+        }
+
+        // Add the parsed destinations to the Destinations map
+        destMap.putAll(pd.destinations);
+
+        // Revert portals with invalid TP Coords to their GOLD_BLOCK state
+        if (pd.blocksToRevert.size() > 0) {
+            Location loc = new Location(pd.blocksToRevert.get(0).world, 0, 0, 0);
+            for (Coords block : pd.blocksToRevert) {
+                loc.setX(block.x);
+                loc.setY(block.y);
+                loc.setZ(block.z);
+                loc.getBlock().setType(Material.GOLD_BLOCK);
+            }
+        }
+
+        // If a backup was requested
+        if (pd.needToBackup) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_kk-mm-ss");
+                String backupName = "portals_" + sdf.format(new Date()) + ".bac";
+                File backupFile = new File(mPlugin.getDataFolder(), backupName);
+                backupFile.createNewFile();
+
+                StringBuilder sb = new StringBuilder();
+                sb.append("# I highly recommend that you don't edit this manually!");
+                sb.append("Backup was created due to a world being deleted.");
+                sb.append(data);
+
+                saveStringToFile(sb.toString(), backupFile);
+            } catch (Exception e) {
+                mLogger.severe("Can't backup WarpPortals data! " + e.getMessage());
+            }
+        }
+
+        // Report number of portals loaded
+        mLogger.info(String.valueOf(portalDataManager.getPortalCount()) + " Portals loaded!");
+        mLogger.info(String.valueOf(destMap.size()) + " Destinations loaded!");
+    }
+
+    public boolean saveDataFile(Map<UUID, PortalInfo> portalMap, Map<String, CoordsPY> destMap, File saveFile) {
+        String serializedData = serializeData(portalMap, destMap, mLogger);
+        if (serializedData == null) {
+            return false;
+        }
+        return saveStringToFile(serializedData, saveFile);
+    }
+
+    public boolean saveDataFile(Map<UUID, PortalInfo> portalMap, Map<String, CoordsPY> destMap) {
+        return saveDataFile(portalMap, destMap, mDataFile);
+    }
+
     private boolean saveStringToFile(String data, File dataFile) {
         boolean rtn = true;
         if (dataFile.canWrite()) {
@@ -357,5 +350,12 @@ public class PersistanceManager {
             mLogger.severe("Can't backup WarpPortals data! " + e.getMessage());
             return false;
         }
+    }
+
+    public static class PersistedData {
+        public List<PortalInfo> portals = new LinkedList<PortalInfo>();
+        public List<Coords> blocksToRevert = new LinkedList<Coords>();
+        public Map<String, CoordsPY> destinations = new LinkedHashMap<String, CoordsPY>();
+        public boolean needToBackup;
     }
 }
