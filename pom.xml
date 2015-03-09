@@ -10,6 +10,10 @@
     <name>WarpPortals</name>
     <url>http://alexwendland.com</url>
 
+    <properties>
+        <powermock.version>1.6.1</powermock.version>
+    </properties>
+
     <repositories>
         <repository>
             <id>spigot-repo</id>
@@ -33,6 +37,24 @@
             <artifactId>metrics-lite</artifactId>
             <version>R7</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
