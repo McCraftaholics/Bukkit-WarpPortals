@@ -1,6 +1,7 @@
 package com.mccraftaholics.warpportals.manager;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -51,7 +52,7 @@ public class PortalManager {
 	}
 
 	public void loadData() {
-		mPersistanceManager.loadDataFile(mPortalDataManager, mPortalCDManager, mPortalDestManager.mPortalDestMap);
+		mPersistanceManager.loadDataFile(mPortalDataManager, mPortalDestManager.mPortalDestMap);
 	}
 
 	public boolean saveDataFile() {
@@ -71,23 +72,28 @@ public class PortalManager {
 	}
 
 	public PortalInfo isLocationInsidePortal(Location location) {
-		String portalName = mPortalInteractManager.isLocationInsidePortal(location);
-		if (portalName != null)
-			return getPortalInfo(portalName);
-		return null;
+		return mPortalInteractManager.isLocationInsidePortal(location);
 	}
 
-	public Set<String> getPortalNames() {
-		return mPortalDataManager.getPortalNames();
+	public Collection<PortalInfo> getPortals() {
+		return mPortalDataManager.getPortals();
 	}
 
-	public PortalInfo getPortalInfo(String portalName) {
-		return mPortalDataManager.getPortalInfo(portalName);
+	public PortalInfo getPortal(UUID portalUuid) {
+		return mPortalDataManager.getPortal(portalUuid);
 	}
 
-	public String getPortalName(Coords coords) {
-		return mPortalDataManager.getPortalName(coords);
+	public PortalInfo getPortal(Coords coords) {
+		return mPortalDataManager.getPortal(coords);
 	}
+
+    public PortalInfo getPortal(String name) {
+        return mPortalDataManager.getPortal(name);
+    }
+
+    public boolean isPortalNameUsed(String portalName) {
+        return mPortalDataManager.isNameUsed(portalName);
+    }
 
 	public void addCreating(UUID playerUUID, PortalCreate portalCreate) {
 		mPortalToolManager.addCreating(playerUUID, portalCreate);
@@ -97,8 +103,8 @@ public class PortalManager {
 		return mPortalCDManager.changeMaterial(material, blockCoordArray, location);
 	}
 
-	public void deletePortal(String portalName) {
-		mPortalCDManager.deletePortal(portalName);
+	public boolean deletePortal(UUID portalUuid) {
+		return mPortalCDManager.deletePortal(portalUuid);
 	}
 
 	public void addTool(UUID playerUUID, PortalTool tool) {

@@ -32,7 +32,7 @@ public class CmdDestTeleport extends CommandHandlerObject {
 	@Override
 	boolean command(Player player, String[] args, CommandHandler main) {
 		if (args.length == 1) {
-			if (args[0].matches(Regex.PORTAL_DEST_NAME)) {
+			if (args[0].matches(Regex.ALPHANUMERIC_NS_TEXT)) {
 				try {
 					CoordsPY tpCoords = main.mPortalManager.getDestCoords(args[0]);
 					if (tpCoords == null) {

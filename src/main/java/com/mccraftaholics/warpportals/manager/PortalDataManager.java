@@ -1,8 +1,7 @@
 package com.mccraftaholics.warpportals.manager;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import com.mccraftaholics.warpportals.objects.Coords;
@@ -13,15 +12,15 @@ public class PortalDataManager {
 	Logger mLogger;
 	PortalManager mPM;
 
-	private HashMap<String, PortalInfo> mPortalMap = new HashMap<String, PortalInfo>();
-	private HashMap<Coords, String> mCoordsToPortalsMap = new HashMap<Coords, String>();
+	private Map<UUID, PortalInfo> mPortalMap = new HashMap<UUID, PortalInfo>();
+	private Map<Coords, UUID> mCoordsToPortalsMap = new HashMap<Coords, UUID>();
 
 	public PortalDataManager(PortalManager pm, Logger logger) {
 		mPM = pm;
 		mLogger = logger;
 	}
 	
-	public HashMap<String, PortalInfo> getPortalMap() {
+	public Map<UUID, PortalInfo> getPortalMap() {
 		return mPortalMap;
 	}
 	
@@ -33,49 +32,65 @@ public class PortalDataManager {
 		return mPortalMap.size();
 	}
 
-	public Set<String> getPortalNames() {
-		return mPortalMap.keySet();
+	public Collection<PortalInfo> getPortals() {
+		return mPortalMap.values();
 	}
 
-	public PortalInfo getPortalInfo(String portalName) {
-		return mPortalMap.get(portalName);
+	public PortalInfo getPortal(UUID portalUuid) {
+		return mPortalMap.get(portalUuid);
 	}
+
+    public PortalInfo getPortal(Coords coord) {
+        UUID portalUuid = mCoordsToPortalsMap.get(coord);
+        if (portalUuid != null) {
+            return getPortal(portalUuid);
+        }
+        return null;
+    }
+
+    public PortalInfo getPortal(String name) {
+        for (PortalInfo portal : mPortalMap.values()) {
+            if (portal.name.equals(name)) {
+                return portal;
+            }
+        }
+        return null;
+    }
+
+    public boolean isNameUsed(String name) {
+        return getPortal(name) != null;
+    }
 	
-	public void addPortalNoSave(String portalName, PortalInfo portalInfo) {
-		mPortalMap.put(portalName, portalInfo);
+	public void addPortalNoSave(PortalInfo portalInfo) {
+		mPortalMap.put(portalInfo.uuid, portalInfo);
 		rebuildCoordsToPortalsMap();
 	}
 	
-	public void addPortal(String portalName, PortalInfo portalInfo) {
-		addPortalNoSave(portalName, portalInfo);
+	public void addPortal(PortalInfo portalInfo) {
+		addPortalNoSave(portalInfo);
 		mPM.saveDataFile();
 		mPM.backupDataFile();
 	}
 	
-	public PortalInfo removePortalNoSave(String portalName) {
-		PortalInfo rtn = mPortalMap.remove(portalName);
+	public PortalInfo removePortalNoSave(UUID portalUuid) {
+		PortalInfo rtn = mPortalMap.remove(portalUuid);
 		rebuildCoordsToPortalsMap();
 		return rtn;
 	}
 
-	public PortalInfo removePortal(String portalName) {
-		PortalInfo rtn = removePortalNoSave(portalName);
+	public PortalInfo removePortal(UUID portalUuid) {
+		PortalInfo rtn = removePortalNoSave(portalUuid);
 		mPM.saveDataFile();
 		return rtn;
 	}
 	
 	private void rebuildCoordsToPortalsMap() {
 		mCoordsToPortalsMap.clear();
-		for (Entry<String, PortalInfo> portalEntry : mPortalMap.entrySet()) {
-			PortalInfo portal = portalEntry.getValue();
-			for (Coords coord : portal.blockCoordArray) {
-				mCoordsToPortalsMap.put(coord, portal.name);
+		for (PortalInfo portal : mPortalMap.values()) {
+			for (Coords coord : portal.blocks) {
+				mCoordsToPortalsMap.put(coord, portal.uuid);
 			}
 		}
-	}
-	
-	public String getPortalName(Coords coord) {
-		return mCoordsToPortalsMap.get(coord);
 	}
 
 }

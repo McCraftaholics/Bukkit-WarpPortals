@@ -34,18 +34,19 @@ public class CmdPortalTeleport extends CommandHandlerObject {
 	@Override
 	boolean command(Player player, String[] args, CommandHandler main) {
 		if (args.length == 1) {
-			if (args[0].matches(Regex.PORTAL_DEST_NAME)) {
+			if (args[0].matches(Regex.ALPHANUMERIC_NS_TEXT)) {
 				try {
 					CoordsPY tpCoords = null;
-					PortalInfo portal = main.mPortalManager.getPortalInfo(args[0]);
+					PortalInfo portal = main.mPortalManager.getPortal(args[0]);
 					if (portal != null) {
-						Coords midCrds = portal.blockCoordArray.get(portal.blockCoordArray.size() > 1 ? portal.blockCoordArray.size() / 2 : 0);
+						Coords midCrds = portal.blocks.get(portal.blocks.size() > 1 ? portal.blocks.size() / 2 : 0);
 						tpCoords = new CoordsPY(new Coords(midCrds.world, midCrds.x, midCrds.y, midCrds.z));
-						tpCoords.z += 10;
-						for (Coords crd : portal.blockCoordArray) {
+						tpCoords.z += 1;
+						for (Coords crd : portal.blocks) {
 							if (tpCoords.equals(crd)) {
-								tpCoords.z += 100;
-								tpCoords.y += 10;
+								tpCoords.z += 1;
+								tpCoords.y += 1;
+                                tpCoords.x += 1;
 							}
 						}
 					} else

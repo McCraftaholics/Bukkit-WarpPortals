@@ -5,6 +5,8 @@ import org.bukkit.command.CommandSender;
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
 
+import java.util.UUID;
+
 public class CmdPortalDelete extends CommandHandlerObject {
 
 	private static final String[] ALIASES = { "wp-portal-delete", "wppd", "pdelete" };
@@ -30,14 +32,14 @@ public class CmdPortalDelete extends CommandHandlerObject {
 	boolean command(CommandSender sender, String[] args, CommandHandler main) {
 		if (args.length == 1) {
 			try {
-				PortalInfo portal = main.mPortalManager.getPortalInfo(args[0]);
+				PortalInfo portal = main.mPortalManager.getPortal(args[0].trim());
 				if (portal != null) {
-					main.mPortalManager.deletePortal(args[0]);
+					main.mPortalManager.deletePortal(portal.uuid);
 				} else {
 					sender.sendMessage(main.mCC + args[0] + " is not a valid Portal name.");
 				}
 			} catch (Exception e) {
-				sender.sendMessage(main.mCC + "Error saving Portal destination");
+				sender.sendMessage(main.mCC + "Error deleting Portal \"" + args[0] + "\"");
 			}
 		} else
 			return false;

@@ -1,51 +1,46 @@
 package com.mccraftaholics.warpportals.objects;
 
-import java.util.ArrayList;
+import com.mccraftaholics.warpportals.common.model.SimplePortal;
 
-public class PortalInfo {
+import java.util.List;
+import java.util.UUID;
+
+public class PortalInfo extends SimplePortal<Coords> implements Comparable<SimplePortal> {
 
 	public CoordsPY tpCoords;
-	public ArrayList<Coords> blockCoordArray;
-	public String name;
 
-	public PortalInfo() {
-		blockCoordArray = new ArrayList<Coords>();
+	public PortalInfo(UUID uuid, String name, List<Coords> blocks, CoordsPY tpCoords) {
+        super(uuid, name, blocks);
+        this.tpCoords = tpCoords;
 	}
 
-	public String blockCoordArrToString() {
-		StringBuilder sb = new StringBuilder();
-		for (Coords coord : blockCoordArray) {
-			sb.append(coord.toString());
-			sb.append(";");
-		}
-		return sb.substring(0, sb.length());
-	}
-
-	public void parseBlockCoordArr(String s) {
-		blockCoordArray = new ArrayList<Coords>();
-		String[] a = s.split(";");
-		for (String i : a) {
-			try {
-				blockCoordArray.add(new Coords(i));
-			} catch (Exception e) {
-			}
-		}
-	}
+    public PortalInfo(UUID uuid, String name, CoordsPY tpCoords) {
+        super(uuid, name);
+        this.tpCoords = tpCoords;
+    }
 
 	public PortalInfo clone() {
-		PortalInfo portal = new PortalInfo();
-		portal.name = this.name;
-		portal.tpCoords = this.tpCoords.clone();
-		portal.blockCoordArray = new ArrayList<Coords>();
-		for (Coords crds : this.blockCoordArray) {
-			portal.blockCoordArray.add(crds.clone());
+		PortalInfo portal = new PortalInfo(this.uuid, this.name, this.tpCoords.clone());
+		for (Coords crds : this.blocks) {
+			portal.blocks.add(crds.clone());
 		}
 		return portal;
 	}
 
 	@Override
 	public String toString() {
-		return String.valueOf(tpCoords) + "\n" + String.valueOf(blockCoordArray);
+		return String.valueOf(tpCoords) + "\n" + String.valueOf(blocks);
 	}
 
+    @Override
+    public int compareTo(SimplePortal that) {
+        int i = super.compareTo(that);
+        if (i != 0) return i;
+
+        if (that instanceof PortalInfo) {
+            return tpCoords.compareTo(((PortalInfo) that).tpCoords);
+        } else {
+            return 1;
+        }
+    }
 }

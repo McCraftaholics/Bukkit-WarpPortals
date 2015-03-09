@@ -133,6 +133,6 @@ public class WarpPortalsCreateEvent extends Event implements Cancellable {
 	 *            - ArrayList<Coords> of the new block coords.
 	 */
 	public void setPortalBlocks(ArrayList<Coords> newBlocks) {
-		portal.blockCoordArray = newBlocks;
+		portal.blocks = newBlocks;
 	}
 }

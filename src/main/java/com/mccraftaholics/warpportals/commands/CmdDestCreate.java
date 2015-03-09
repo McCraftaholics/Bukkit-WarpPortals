@@ -30,7 +30,7 @@ public class CmdDestCreate extends CommandHandlerObject {
 	@Override
 	boolean command(Player player, String[] args, CommandHandler main) {
 		if (args.length == 1) {
-			if (args[0].matches(Regex.PORTAL_DEST_NAME)) {
+			if (args[0].matches(Regex.ALPHANUMERIC_NS_TEXT)) {
 				try {
 					CoordsPY destCoords = new CoordsPY(player.getLocation());
 					if (main.mPortalManager.getDestCoords(args[0].trim()) == null) {

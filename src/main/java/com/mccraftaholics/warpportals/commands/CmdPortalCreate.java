@@ -37,13 +37,13 @@ public class CmdPortalCreate extends CommandHandlerObject {
 	boolean command(Player sender, String[] args, CommandHandler main) {
 		if (args.length == 3) {
 			try {
-				if (args[0].matches(Regex.PORTAL_DEST_NAME)) {
-					if (main.mPortalManager.getPortalInfo(args[0].trim()) == null) {
+				if (args[0].matches(Regex.ALPHANUMERIC_NS_TEXT)) {
+					if (!main.mPortalManager.isPortalNameUsed(args[0].trim())) {
 						try {
 							CoordsPY tpCoords = null;
-							if (args[1].matches("\\([0-9]+,[0-9]+,[0-9]+\\)")) {
-								tpCoords = new CoordsPY(new Coords(args[1]));
-							} else if (args[1].matches(Regex.PORTAL_DEST_NAME)) {
+							if (args[1].matches(Coords.USER_COORDS)) {
+								tpCoords = new CoordsPY(Coords.createFromUserInput(args[1]));
+							} else if (args[1].matches(Regex.ALPHANUMERIC_NS_TEXT)) {
 								tpCoords = main.mPortalManager.getDestCoords(args[1]);
 								if (tpCoords == null)
 									sender.sendMessage(main.mCC + "Couldn't find the WarpPortal Destination \"" + args[1] + "\"");
@@ -99,7 +99,7 @@ public class CmdPortalCreate extends CommandHandlerObject {
 								sender.sendMessage(main.mCC
 										+ "The 2nd param is the WarpPortal Destination. It must be in the format (x,y,z) or the name of a WarpPortal Destination set with /wp-destination-create [name]");
 						} catch (NullWorldException e) {
-							sender.sendMessage(main.mCC + "The world specified in the destination is invalid. \"" + e.getWorldName() + "\" does not exist.");
+							sender.sendMessage(main.mCC + "The world specified in the destination is invalid. \"" + e.getIdentifier() + "\" does not exist.");
 						}
 					} else
 						sender.sendMessage(main.mCC + "\"" + args[0].trim() + "\" is already a Portal!");

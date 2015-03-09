@@ -3,6 +3,7 @@ package com.mccraftaholics.warpportals.bukkit;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -210,12 +211,12 @@ public class BukkitEventListener implements Listener {
 		mPortalManager.backupDataFile();
 
 		/* Look for portals in the unloaded world */
-		for (Iterator<Map.Entry<String, PortalInfo>> it = mPortalManager.mPortalDataManager.getPortalMap().entrySet().iterator(); it.hasNext();) {
-			Map.Entry<String, PortalInfo> entry = it.next();
+		for (Iterator<Map.Entry<UUID, PortalInfo>> it = mPortalManager.mPortalDataManager.getPortalMap().entrySet().iterator(); it.hasNext();) {
+			Map.Entry<UUID, PortalInfo> entry = it.next();
 
 			PortalInfo portal = entry.getValue();
 			/* Test if portal exists in a non-existent or unloaded world */
-			World portalWorld = portal.blockCoordArray.get(0).world;
+			World portalWorld = portal.blocks.get(0).world;
 			if (portalWorld == null || portalWorld.equals(unloadedWorld)) {
 				/* Remove portal from map */
 				it.remove();
@@ -229,8 +230,8 @@ public class BukkitEventListener implements Listener {
 				/*
 				 * Set Portal blocks to default gold state.
 				 */
-				Location loc = new Location(portal.blockCoordArray.get(0).world, 0, 0, 0);
-				mPortalManager.mPortalCDManager.changeMaterial(Material.GOLD_BLOCK, portal.blockCoordArray, loc);
+				Location loc = new Location(portal.blocks.get(0).world, 0, 0, 0);
+				mPortalManager.mPortalCDManager.changeMaterial(Material.GOLD_BLOCK, portal.blocks, loc);
 
 				/* Remove portal form map */
 				it.remove();

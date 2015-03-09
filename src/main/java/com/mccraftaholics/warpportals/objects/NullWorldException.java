@@ -2,23 +2,28 @@ package com.mccraftaholics.warpportals.objects;
 
 public class NullWorldException extends Exception {
 
-	String worldName;
+	String world;
 
 	public NullWorldException() {
 		super();
 	}
 
-	public NullWorldException(String worldName, String message) {
+	public NullWorldException(String world, String message) {
 		super(message);
-		this.worldName = worldName;
+		this.world = world;
 	}
 	
-	public String getWorldName() {
-		return worldName;
+	public String getIdentifier() {
+		return world;
 	}
 
 	public static NullWorldException createForWorldName(String worldName) {
-		NullWorldException e = new NullWorldException(worldName, "\"" + worldName + "\" does not exist.");
+		NullWorldException e = new NullWorldException(worldName, "World \"" + worldName + "\" does not exist.");
 		return e;
 	}
+
+    public static NullWorldException createForWorldUUID(String worldUUID) {
+        NullWorldException e = new NullWorldException(worldUUID, "World with UUID=" + worldUUID + " does not exist.");
+        return e;
+    }
 }

@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender;
 import com.mccraftaholics.warpportals.bukkit.CommandHandler;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
 
+import java.util.UUID;
+
 public class CmdPortalList extends CommandHandlerObject {
 
 	private static final String[] ALIASES = { "wp-portal-list", "wppl", "plist" };
@@ -31,20 +33,18 @@ public class CmdPortalList extends CommandHandlerObject {
 	boolean command(CommandSender sender, String[] args, CommandHandler main) {
 		StringBuilder sblist = new StringBuilder();
 		sblist.append("Portals:");
-		for (String portalName : main.mPortalManager.getPortalNames()) {
-			// Retrieve Portal Info
-			PortalInfo portalInfo = main.mPortalManager.getPortalInfo(portalName);
+		for (PortalInfo portal : main.mPortalManager.getPortals()) {
 			// Retrieve linked Teleport Destination
-			String destText = main.mPortalManager.getDestinationName(portalInfo.tpCoords);
+			String destText = main.mPortalManager.getDestinationName(portal.tpCoords);
 			/*
 			 * If the teleport destination does not have a name, show the
 			 * coordinates
 			 */
 			if (destText == null)
-				destText = portalInfo.tpCoords.toNiceString();
+				destText = portal.tpCoords.toNiceString();
 			try {
-				sblist.append(ChatColor.WHITE + "\n - " + ChatColor.RED + portalName + ChatColor.YELLOW + " ("
-						+ portalInfo.blockCoordArray.get(0).world.getName() + ") " + ChatColor.WHITE + "-> " + ChatColor.AQUA + destText);
+				sblist.append(ChatColor.WHITE + "\n - " + ChatColor.RED + portal.name + ChatColor.YELLOW + " ("
+						+ portal.blocks.get(0).world.getName() + ") " + ChatColor.WHITE + "-> " + ChatColor.AQUA + destText);
 			} catch (Exception e) {
 				// Catches exceptions when blockCoordArray is 0 in length
 			}

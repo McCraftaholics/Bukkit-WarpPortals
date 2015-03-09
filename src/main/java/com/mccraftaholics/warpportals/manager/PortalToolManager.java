@@ -3,6 +3,7 @@ package com.mccraftaholics.warpportals.manager;
 import java.util.HashMap;
 import java.util.UUID;
 
+import com.mccraftaholics.warpportals.objects.PortalInfo;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -69,9 +70,9 @@ public class PortalToolManager {
 
 	private void identifyPortal(PlayerInteractEvent e) {
 		Player player = e.getPlayer();
-		String portalName = mPM.getPortalName(new Coords(e.getClickedBlock()));
-		if (portalName != null) {
-			player.sendMessage(mCC + portalName);
+		PortalInfo portal = mPM.getPortal(new Coords(e.getClickedBlock()));
+		if (portal != null) {
+			player.sendMessage(mCC + "\"" + portal.name + "\" = " + portal.uuid);
 		} else {
 			player.sendMessage(mCC + "That is not a WarpPortal.");
 		}

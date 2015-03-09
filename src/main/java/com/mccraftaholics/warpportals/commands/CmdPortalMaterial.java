@@ -33,7 +33,7 @@ public class CmdPortalMaterial extends CommandHandlerObject {
 	boolean command(CommandSender sender, String[] args, CommandHandler main) {
 		if (args.length == 2) {
 			try {
-				PortalInfo portal = main.mPortalManager.getPortalInfo(args[0].trim());
+				PortalInfo portal = main.mPortalManager.getPortal(args[0].trim());
 				if (portal != null) {
 					/*
 					 * Get the block type specified as the 3rd argument for the
@@ -55,7 +55,7 @@ public class CmdPortalMaterial extends CommandHandlerObject {
 								sender.sendMessage(main.mCC + "" + blockType
 										+ " is solid. You can create a WarpPortal using it but that may not be the best idea.");
 							}
-							main.mPortalManager.changeMaterial(blockType, portal.blockCoordArray, new Location(portal.tpCoords.world, 0, 0, 0));
+							main.mPortalManager.changeMaterial(blockType, portal.blocks, new Location(portal.tpCoords.world, 0, 0, 0));
 							sender.sendMessage(ChatColor.RED + portal.name + ChatColor.WHITE + " portal material changed to " + ChatColor.AQUA + blockType);
 						} else
 							sender.sendMessage(main.mCC + "WarpPortals can only be created out of blocks, you can't use other items.");

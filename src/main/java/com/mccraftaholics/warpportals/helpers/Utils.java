@@ -1,20 +1,12 @@
 package com.mccraftaholics.warpportals.helpers;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 import org.bukkit.Location;
 
@@ -47,20 +39,19 @@ public class Utils {
 		return false;
 	}
 
-	public static String readFile(String path, Charset encoding) throws IOException {
-		byte[] buffer = new byte[(int) new File(path).length()];
-		BufferedInputStream f = null;
-		try {
-			f = new BufferedInputStream(new FileInputStream(path));
-			f.read(buffer);
-		} finally {
-			if (f != null)
-				try {
-					f.close();
-				} catch (IOException ignored) {
-				}
-		}
-		return new String(buffer);
+    public static String readFile(InputStream in, String encoding) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        StringBuilder out = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            out.append(line).append("\n");
+        }
+        reader.close();
+        return out.toString();
+    }
+
+	public static String readFile(String path, String encoding) throws IOException {
+        return readFile(new FileInputStream(path), encoding);
 	}
 
 	public static boolean writeToFile(String data, File dataFile) {

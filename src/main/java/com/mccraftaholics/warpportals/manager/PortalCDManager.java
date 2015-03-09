@@ -1,10 +1,6 @@
 package com.mccraftaholics.warpportals.manager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -49,36 +45,36 @@ public class PortalCDManager {
 			player.sendMessage("Right click on the Portal that you want to delete");
 	}
 
-	public void deletePortal(String name) {
+	public boolean deletePortal(UUID portalUuid) {
+        boolean wasMaterialChanged = true;
 		try {
-			Location loc = new Location(mPDM.getPortalInfo(name).tpCoords.world, 0, 0, 0);
-			changeMaterial(Material.GOLD_BLOCK, mPDM.getPortalInfo(name).blockCoordArray, loc);
+			Location loc = new Location(mPDM.getPortal(portalUuid).tpCoords.world, 0, 0, 0);
+			changeMaterial(Material.GOLD_BLOCK, mPDM.getPortal(portalUuid).blocks, loc);
 		} catch (Exception e) {
 			// Error changing portal to gold block
+            wasMaterialChanged = false;
 		}
-		mPDM.removePortal(name);
+		mPDM.removePortal(portalUuid);
+        return wasMaterialChanged;
 	}
 
 	private void deletePortal(Location loc) {
-		String delPortalName = "~|~";
-		for (String portalName : mPDM.getPortalNames()) {
-			for (Coords crd : mPDM.getPortalInfo(portalName).blockCoordArray) {
+		for (PortalInfo portal : mPDM.getPortals()) {
+			for (Coords crd : portal.blocks) {
 				if (loc.getX() == crd.x && loc.getY() == crd.y && loc.getZ() == crd.z) {
-					delPortalName = portalName;
-					break;
+                    deletePortal(portal.uuid);
+					return;
 				}
 			}
 		}
-		if (!delPortalName.matches("~|~"))
-			deletePortal(delPortalName);
 	}
 
 	void possibleCreatePortal(Block block, Player player, PortalCreate portalCreate) {
 		if (block.getType() == Material.GOLD_BLOCK || (block.getType() == Material.PORTAL || block.getType() == Material.ENDER_PORTAL)) {
 			// Check to see if that Portal Name is already in use
-			if (mPDM.getPortalInfo(portalCreate.portalName) == null) {
+			if (mPDM.isNameUsed(portalCreate.portalName)) {
 				// Check if Portal Name is valid
-				if (portalCreate.portalName.matches(Regex.PORTAL_DEST_NAME)) {
+				if (portalCreate.portalName.matches(Regex.ALPHANUMERIC_NS_TEXT)) {
 					/*
 					 * Run recursion spider starting at the block the player
 					 * clicked
@@ -91,9 +87,9 @@ public class PortalCDManager {
 						// Test to see if blocks are already in a portal
 						Set<String> existingPortalOverlap = new HashSet<String>();
 						for (Coords coords : blockCoordArray) {
-							String overlapPortalName = mPDM.getPortalName(coords);
-							if (overlapPortalName != null)
-								existingPortalOverlap.add(overlapPortalName);
+							PortalInfo overlapPortal = mPDM.getPortal(coords);
+							if (overlapPortal != null)
+								existingPortalOverlap.add(overlapPortal.name);
 						}
 						// If there is no portal-portal overlap
 						if (existingPortalOverlap.size() == 0) {
@@ -128,10 +124,7 @@ public class PortalCDManager {
 
 	public void createPortal(CommandSender sender, Block block, String portalName, CoordsPY tpCoords, Material portalMaterial,
 			ArrayList<Coords> blockCoordsArray) {
-		PortalInfo newPortalInfo = new PortalInfo();
-		newPortalInfo.name = portalName;
-		newPortalInfo.tpCoords = tpCoords;
-		newPortalInfo.blockCoordArray = blockCoordsArray;
+		PortalInfo newPortalInfo = new PortalInfo(UUID.randomUUID(), portalName, blockCoordsArray, tpCoords);
 		
 		/*
 		 * Trigger WarpPortalCreateEvent so that other plugins can tie in to new
@@ -149,9 +142,9 @@ public class PortalCDManager {
 			 * Update the blocks in the Portal to whatever the Player designated
 			 * them to be.
 			 */
-			changeMaterial(portalMaterial, createPortalInfo.blockCoordArray, loc);
+			changeMaterial(portalMaterial, createPortalInfo.blocks, loc);
 			// Add portal
-			mPDM.addPortal(createPortalInfo.name, createPortalInfo);
+			mPDM.addPortal(createPortalInfo);
 			// Deactivate portal creation tool
             if (sender instanceof Player) {
                 mPTM.removeCreating(((Player) sender).getUniqueId());
@@ -177,12 +170,15 @@ public class PortalCDManager {
 	 */
 	public boolean changeMaterial(Material material, List<Coords> blockCoordArray, Location location) {
 		if (material.isBlock()) {
-			for (Coords crd : blockCoordArray) {
-				location.setX(crd.x);
-				location.setY(crd.y);
-				location.setZ(crd.z);
-				location.getBlock().setType(material);
-			}
+            if (blockCoordArray.size() > 0) {
+                location.setWorld(blockCoordArray.get(0).world);
+                for (Coords crd : blockCoordArray) {
+                    location.setX(crd.x);
+                    location.setY(crd.y);
+                    location.setZ(crd.z);
+                    location.getBlock().setType(material);
+                }
+            }
 			return true;
 		}
 		return false;
