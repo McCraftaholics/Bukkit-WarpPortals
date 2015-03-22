@@ -93,8 +93,8 @@ public class PortalManager {
         mPortalToolManager.addCreating(playerUUID, portalCreate);
     }
 
-    public boolean changeMaterial(Material material, List<Coords> blockCoordArray, Location location) {
-        return mPortalCDManager.changeMaterial(material, blockCoordArray, location);
+    public boolean changeMaterial(Material material, List<Coords> blockCoordArray, Location location, Byte data) {
+        return mPortalCDManager.changeMaterial(material, blockCoordArray, location, data);
     }
 
     public boolean deletePortal(UUID portalUuid) {

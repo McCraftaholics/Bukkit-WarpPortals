@@ -82,6 +82,8 @@ public class PersistanceManager {
                         String name;
                         List<Coords> blocks = new ArrayList<Coords>();
                         CoordsPY tpCoords;
+                        String tpMessage;
+                        Material material;
                         // Check if portal is stored in a UUID based map
                         if (portalEntry.getKey().matches(Regex.IS_UUID)) {
                             uuid = UUID.fromString(portalEntry.getKey());
@@ -109,8 +111,6 @@ public class PersistanceManager {
                         try {
                             // Load tCoords
                             tpCoords = deserializeCoordsPY((String) portalEntryData.get("tpCoords"));
-
-                            persistedData.portals.add(new PortalInfo(uuid, name, blocks, tpCoords));
                         } catch (NullWorldException e) {
                             logger.severe("The destination for portal \"" + name + "\"/" + uuid + " is in a non-existent world identified by \"" + e.getIdentifier()
                                     + "\". The portal has been deactivated.");
@@ -119,7 +119,23 @@ public class PersistanceManager {
                             persistedData.blocksToRevert.addAll(blocks);
                             /* Trigger a backup of the pre-existing data. */
                             persistedData.needToBackup = true;
+                            // Stop loading this portal
+                            continue;
                         }
+
+                        // Load tpMessage, or default to "$default"
+                        tpMessage = portalEntryData.containsKey("message") ? (String) portalEntryData.get("message") : "$default";
+
+                        // Load material, or try to discover based off of firstBlockCoords type
+                        if (portalEntryData.containsKey("material")) {
+                            material = Material.getMaterial((String) portalEntryData.get("material"));
+                        } else {
+                            Coords firstBlock = blocks.get(0);
+                            Location loc = new Location(firstBlock.world, firstBlock.x, firstBlock.y, firstBlock.z);
+                            material = loc.getBlock().getType();
+                        }
+
+                        persistedData.portals.add(new PortalInfo(uuid, name, material, tpMessage, blocks, tpCoords));
                     }
                 }
             }
@@ -172,7 +188,7 @@ public class PersistanceManager {
                                             logger.info("Error in Portal's data file with String \"" + attrT + "\".");
                                         }
                                     }
-                                    persistedData.portals.add(new PortalInfo(UUID.randomUUID(), name, blocks, tpCoords));
+                                    persistedData.portals.add(new PortalInfo(UUID.randomUUID(), name, Material.getMaterial("PORTAL"), "$default", blocks, tpCoords));
                                 }
                             }
                         }
@@ -230,6 +246,8 @@ public class PersistanceManager {
                 }
                 portalInfoMap.put("blocks", blocks);
                 portalInfoMap.put("name", portal.name);
+                portalInfoMap.put("message", portal.message);
+                portalInfoMap.put("material", portal.material);
 
                 // Put the portal data into the DataStructure Map
                 dataStructure.get("portals").put(portal.uuid.toString(), portalInfoMap);

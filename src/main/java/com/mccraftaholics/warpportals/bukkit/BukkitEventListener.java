@@ -100,7 +100,7 @@ public class BukkitEventListener implements Listener {
                     tpLoc.setYaw(tpCoords.yaw);
                     player.teleport(tpLoc);
 
-                    WarpPortalsTeleportEvent wpTPEvent = new WarpPortalsTeleportEvent(player, preTPLocation);
+                    WarpPortalsTeleportEvent wpTPEvent = new WarpPortalsTeleportEvent(player, preTPLocation, portal);
                     // Call WarpPortalsTeleportEvent
                     Bukkit.getPluginManager().callEvent(wpTPEvent);
 
@@ -120,7 +120,7 @@ public class BukkitEventListener implements Listener {
         // Get player involved in the event
         Player player = event.getPlayer();
         // Check if player is in a WarpPortal or normal portal
-		/*
+        /*
 		 * If the player is in a WarpPortal, let the onPlayerBlockMoveEvent
 		 * listener handle it.
 		 */
@@ -153,12 +153,20 @@ public class BukkitEventListener implements Listener {
      */
     @EventHandler
     public void onBlockPhysicsEvent(BlockPhysicsEvent e) {
-        //The following check is to prevent physics when we initially change the template gold blocks to portals, which
-        //causes only two portal blocks to appear and the rest to vanish immediately:
-        if ((e.getBlock().getType() == Material.PORTAL && e.getChangedType() == Material.GOLD_BLOCK) ||
-                //This checks for physics when we already have our portal standing:
-                (e.getBlock().getType() == Material.PORTAL && mPortalManager.isLocationInsidePortal(e.getBlock().getLocation()) != null)) {
+        /* The following check is to prevent physics when we initially change the template gold blocks to portals, which
+        causes only two portal blocks to appear and the rest to vanish immediately. */
+        if (e.getBlock().getType() == Material.PORTAL && e.getChangedType() == Material.GOLD_BLOCK) {
             e.setCancelled(true);
+            return;
+        }
+        if (e.getChangedType() == Material.PORTAL) {
+            e.setCancelled(true);
+            return;
+        }
+        /* Check if a PORTAL block is within a WarpPortal, and kill it's physics if it is */
+        if (e.getBlock().getType() == Material.PORTAL && mPortalManager.isLocationInsidePortal(e.getBlock().getLocation()) != null) {
+            e.setCancelled(true);
+            return;
         }
     }
 

@@ -29,6 +29,17 @@ public class Utils {
         }
     }
 
+    public static String join(String[] array, String sep, int first, int end) {
+        if (!(first < end && array != null && array.length > 0 && sep != null)) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = first; i < end; i++) {
+            sb.append(array[i]).append(sep);
+        }
+        return sb.substring(0, sb.length() - sep.length());
+    }
+
     public static boolean arrayContains(Object[] array, Object key) {
         for (Object object : array) {
             if (object.equals(key))

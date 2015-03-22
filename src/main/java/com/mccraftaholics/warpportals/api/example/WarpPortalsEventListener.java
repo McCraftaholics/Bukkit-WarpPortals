@@ -2,6 +2,7 @@ package com.mccraftaholics.warpportals.api.example;
 
 import com.mccraftaholics.warpportals.api.WarpPortalsTeleportEvent;
 import com.mccraftaholics.warpportals.helpers.Utils;
+import com.mccraftaholics.warpportals.objects.PortalInfo;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,7 @@ public class WarpPortalsEventListener implements Listener {
     static final String[] NO_MESSAGE = new String[]{"&none", "none", ""};
     /* Class variables */
     // Message to send to player upon teleport
-    String mTPMessage;
+    String mDefaultTPMessage;
     // ChatColor of message
     ChatColor mTPC;
 
@@ -25,17 +26,22 @@ public class WarpPortalsEventListener implements Listener {
      * @param tpCharColor - ChatColor of the message
      */
     public WarpPortalsEventListener(String tpMessage, ChatColor tpCharColor) {
-        mTPMessage = tpMessage;
+        mDefaultTPMessage = tpMessage;
         mTPC = tpCharColor;
 
-        if (Utils.arrayContains(NO_MESSAGE, mTPMessage))
-            mTPMessage = null;
+        if (Utils.arrayContains(NO_MESSAGE, mDefaultTPMessage))
+            mDefaultTPMessage = null;
     }
 
     @EventHandler
     public void onTeleport(WarpPortalsTeleportEvent event) {
         Player player = event.getPlayer();
-        if (mTPMessage != null)
-            player.sendMessage(mTPC + mTPMessage);
+        PortalInfo portal = event.getPortal();
+        if (portal.message.equals("$default")) {
+            if (mDefaultTPMessage != null)
+                player.sendMessage(mTPC + mDefaultTPMessage);
+        } else {
+            player.sendMessage(mTPC + portal.message.replace("$user", player.getDisplayName()));
+        }
     }
 }

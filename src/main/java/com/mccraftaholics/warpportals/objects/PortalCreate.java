@@ -7,15 +7,15 @@ public class PortalCreate {
     public String portalName;
     public CoordsPY tpCoords;
     public Material blockType;
+    public Byte blockData;
+    public String teleportMessage;
 
-    public PortalCreate(String portalName, Material toolType, CoordsPY tpCoords, Material blockType) {
+    public PortalCreate(Material toolType, String portalName, CoordsPY tpCoords, Material blockType, Byte blockData, String teleportMessage) {
         this.portalName = portalName;
         this.toolType = toolType;
         this.tpCoords = tpCoords;
         this.blockType = blockType;
-    }
-
-    public PortalCreate() {
-
+        this.blockData = blockData;
+        this.teleportMessage = teleportMessage;
     }
 }

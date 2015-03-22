@@ -1,5 +1,5 @@
 name: WarpPortals
-version: 5.6.3
+version: ${pom.version}
 
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
 softdepend: [WorldGuard, Multiverse-Core, Multiverse, Multiworld, My Worlds]
@@ -12,7 +12,7 @@ commands:
     permissions: warpportals.admins.listcommands
   wp-portal-create:
     description: Bind the WarpPortal Creation tool to the current item
-    usage: /wp-portal-create [portalname] [destName|(World,x,y,z)] [portalMaterial]
+    usage: /wp-portal-create [portalname] [destName|(World,x,y,z)] [portalMaterial:?data] [?teleportMessage]
     aliases: [pcreate, wppc]
     permissions: warpportals.admin.portal.create
   wp-portal-material:
@@ -20,6 +20,11 @@ commands:
     usage: /wp-portal-material [portalname] [portalMaterial]
     aliases: [wppm]
     permissions: warpportals.admin.portal.material
+  wp-portal-tpmessage:
+    description: Change a WarpPortal's teleport message. Use "$user" to substitute the TP user's name.
+    usage: /wp-portal-tpmessage [portalname] [teleportMessage]
+    aliases: [wpptm]
+    permissions: warpportals.admin.portal.message
   wp-portal-delete:
     description: Delete a WarpPortal by name.
     usage: /wp-portal-delete [portalName]

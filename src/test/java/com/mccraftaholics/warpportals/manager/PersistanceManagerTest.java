@@ -7,7 +7,10 @@ import com.mccraftaholics.warpportals.objects.CoordsPY;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
 import junit.framework.Assert;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +45,9 @@ public class PersistanceManagerTest {
             mockedUuid = PowerMockito.mock(UUID.class);
             Mockito.when(world.getUID()).thenReturn(mockedUuid);
             Mockito.when(world.getName()).thenReturn("world");
+            Block mockedBlock = Mockito.mock(Block.class);
+            Mockito.when(mockedBlock.getType()).thenReturn(Material.PORTAL);
+            Mockito.when(world.getBlockAt(Mockito.any(Location.class))).thenReturn(mockedBlock);
             Mockito.when(Bukkit.getWorld(Mockito.any(UUID.class))).thenReturn(world);
             Mockito.when(Bukkit.getWorld("world")).thenReturn(world);
 
@@ -55,6 +61,8 @@ public class PersistanceManagerTest {
                     new PortalInfo(
                             UUID.fromString("11111111-1111-1111-1111-111111111111"),
                             "Test1",
+                            Material.getMaterial("PORTAL"),
+                            "$default",
                             Arrays.asList(new Coords[]{new Coords(Bukkit.getWorld("world"), 173.0, 65.0, 250.0),
                                     new Coords(Bukkit.getWorld("world"), 173.0, 64.0, 250.0)}),
                             new CoordsPY(Bukkit.getWorld("world"), 168.5, 66.0, 264.9, 7.9f, -1.3f)
@@ -63,6 +71,8 @@ public class PersistanceManagerTest {
                     new PortalInfo(
                             UUID.fromString("22222222-2222-2222-2222-222222222222"),
                             "Test2",
+                            Material.getMaterial("PORTAL"),
+                            "$default",
                             Arrays.asList(new Coords[]{new Coords(Bukkit.getWorld("world"), 168.0, 67.0, 268.0),
                                     new Coords(Bukkit.getWorld("world"), 167.0, 67.0, 268.0)}),
                             new CoordsPY(Bukkit.getWorld("world"), 174.4, 64.0, 254.5, 2.7f, -178.5f)

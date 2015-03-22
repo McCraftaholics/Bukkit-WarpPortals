@@ -9,7 +9,7 @@ portals:
     alertUser: true # Alert the user when they try to use a WarpPortal that they don't have permission to use
     checkIndividualPortalPermissions: false # Change to true to allow permissions to be set on a per-portal basis. Use only with permission plugins that support wildcard operators, such as in "warpportals.enter.*", e.g. PermissionsEx.
   teleport: # For everything related to Portal teleportation
-    message: Wooooooosh! # The message that is shown when a user teleports
+    message: Wooooooosh! # The default message that is shown when a user teleports (can be configured on a per-portal basis)
     messageColor: d # The color of the teleportation message.
   reporting:
     allowAnalytics: true # Allow WarpPortals to periodically send data about its functioning to the developer.

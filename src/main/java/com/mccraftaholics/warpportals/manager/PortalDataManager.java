@@ -60,7 +60,7 @@ public class PortalDataManager {
     }
 
     public boolean isNameUsed(String name) {
-        return getPortal(name) != null;
+        return !(getPortal(name) == null);
     }
 
     public void addPortalNoSave(PortalInfo portalInfo) {

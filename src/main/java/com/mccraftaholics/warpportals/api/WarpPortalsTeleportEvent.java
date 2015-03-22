@@ -1,5 +1,6 @@
 package com.mccraftaholics.warpportals.api;
 
+import com.mccraftaholics.warpportals.objects.PortalInfo;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -19,6 +20,7 @@ public class WarpPortalsTeleportEvent extends Event implements Cancellable {
     // Event data
     private Player player;
     private Location prevLocation;
+    private PortalInfo portal;
 
     /**
      * Constructor of a WarpPortalsEnterEvent. Triggered when a player has entered a WarpPortal managed portal.
@@ -26,11 +28,12 @@ public class WarpPortalsTeleportEvent extends Event implements Cancellable {
      * @param p       - Player that is entering the portal
      * @param prevLoc - Player's pre-teleport location
      */
-    public WarpPortalsTeleportEvent(Player p, Location prevLoc) {
+    public WarpPortalsTeleportEvent(Player player, Location prevLoc, PortalInfo portal) {
         this.cancelled = false;
 
-        player = p;
-        prevLocation = prevLoc;
+        this.player = player;
+        this.prevLocation = prevLoc;
+        this.portal = portal.clone();
     }
 
 
@@ -73,6 +76,15 @@ public class WarpPortalsTeleportEvent extends Event implements Cancellable {
      */
     public Location getPreviousLocation() {
         return prevLocation;
+    }
+
+    /**
+     * Get the portal that triggered the teleportation.
+     *
+     * @return Portal associated with the event
+     */
+    public PortalInfo getPortal() {
+        return portal;
     }
 
 }

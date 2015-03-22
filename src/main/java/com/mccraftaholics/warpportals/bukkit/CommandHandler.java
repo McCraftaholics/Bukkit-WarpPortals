@@ -45,6 +45,7 @@ public class CommandHandler {
         (new CmdPortalList()).populate(mCmdHandlerMap);
         (new CmdPortalMaterial()).populate(mCmdHandlerMap);
         (new CmdPortalTeleport()).populate(mCmdHandlerMap);
+        (new CmdPortalTPMessage()).populate(mCmdHandlerMap);
         (new CmdSave()).populate(mCmdHandlerMap);
         (new CmdVersion()).populate(mCmdHandlerMap);
     }
