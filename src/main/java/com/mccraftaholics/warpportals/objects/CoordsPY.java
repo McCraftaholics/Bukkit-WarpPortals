@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class CoordsPY extends Coords implements Cloneable, Comparable<SimpleCoords> {
 
-    public static final String SERIALIZED_COORDS_PY = "\\(" + Regex.IS_UUID + "(,-*[0-9]+\\.*[0-9]*){5}\\)";
-    public static final String USER_COORDS_PY = "\\(.+(,-*[0-9]+\\.*[0-9]*){5}\\)";
+    public static final String SERIALIZED_COORDS_PY = "\\(" + Regex.IS_UUID + "(,-*[0-9]+\\.*[0-9E\\-]*){5}\\)";
+    public static final String USER_COORDS_PY = "\\(.+(,-*[0-9]+\\.*[0-9E\\-]*){5}\\)";
 
     public float pitch, yaw;
 

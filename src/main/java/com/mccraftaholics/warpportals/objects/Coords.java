@@ -11,8 +11,8 @@ import java.util.UUID;
 
 public class Coords extends SimpleCoords implements Cloneable, Comparable<SimpleCoords> {
 
-    public static final String SERIALIZED_COORDS = "\\(" + Regex.IS_UUID + "(,-*[0-9]+\\.*[0-9]*){3}\\)";
-    public static final String USER_COORDS = "\\(.+(,-*[0-9]+\\.*[0-9]*){3}\\)";
+    public static final String SERIALIZED_COORDS = "\\(" + Regex.IS_UUID + "(,-*[0-9]+\\.*[0-9E\\-]*){3}\\)";
+    public static final String USER_COORDS = "\\(.+(,-*[0-9]+\\.*[0-9E\\-]*){3}\\)";
 
     public World world;
 

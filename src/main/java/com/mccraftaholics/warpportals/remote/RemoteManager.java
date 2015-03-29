@@ -54,7 +54,7 @@ public class RemoteManager {
                 );
             }
         } catch (Exception e) {
-            
+
         }
     }
 
