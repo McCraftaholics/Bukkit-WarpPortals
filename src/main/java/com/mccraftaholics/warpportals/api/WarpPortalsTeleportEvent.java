@@ -25,8 +25,9 @@ public class WarpPortalsTeleportEvent extends Event implements Cancellable {
     /**
      * Constructor of a WarpPortalsEnterEvent. Triggered when a player has entered a WarpPortal managed portal.
      *
-     * @param p       - Player that is entering the portal
+     * @param player - Player that is entering the portal
      * @param prevLoc - Player's pre-teleport location
+     * @param portal - The portal associated with the event
      */
     public WarpPortalsTeleportEvent(Player player, Location prevLoc, PortalInfo portal) {
         this.cancelled = false;

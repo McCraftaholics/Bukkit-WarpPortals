@@ -17,13 +17,13 @@ commands:
     permissions: warpportals.admin.portal.create
   wp-portal-material:
     description: Change a WarpPortal's block type to another material
-    usage: /wp-portal-material [portalname] [portalMaterial]
+    usage: /wp-portal-material [portalname] [portalMaterial:?data]
     aliases: [wppm]
     permissions: warpportals.admin.portal.material
   wp-portal-tpmessage:
     description: Change a WarpPortal's teleport message. Use "$user" to substitute the TP user's name.
     usage: /wp-portal-tpmessage [portalname] [teleportMessage]
-    aliases: [wpptm]
+    aliases: [wptpm]
     permissions: warpportals.admin.portal.message
   wp-portal-delete:
     description: Delete a WarpPortal by name.

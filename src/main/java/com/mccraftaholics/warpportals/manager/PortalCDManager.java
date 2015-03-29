@@ -9,6 +9,8 @@ import com.mccraftaholics.warpportals.objects.Coords;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 import com.mccraftaholics.warpportals.objects.PortalCreate;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
+import com.mccraftaholics.warpportals.remote.RemoteManager;
+import com.mccraftaholics.warpportals.remote.ReportManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -26,12 +28,14 @@ public class PortalCDManager {
     Logger mLogger;
     PortalDataManager mPDM;
     PortalToolManager mPTM;
+    ReportManager mRemoteManager;
     YamlConfiguration mPortalConfig;
     ChatColor mCC;
 
-    public PortalCDManager(PortalDataManager pim, PortalToolManager ptm, YamlConfiguration portalConfig) {
+    public PortalCDManager(PortalDataManager pim, PortalToolManager ptm, ReportManager rm, YamlConfiguration portalConfig) {
         mPDM = pim;
         mPTM = ptm;
+        mRemoteManager = rm;
         mPortalConfig = portalConfig;
         mCC = ChatColor.getByChar(mPortalConfig.getString("portals.general.textColor", Defaults.CHAT_COLOR));
     }
@@ -150,6 +154,8 @@ public class PortalCDManager {
             }
             // Alert player of portal creation success
             sender.sendMessage(mCC + "\"" + createPortalInfo.name + "\" created and linked to " + createPortalInfo.tpCoords.toNiceString());
+            // Update analytics
+            mRemoteManager.addPortalCreatedThisHour(createPortalInfo);
         } else {
             sender.sendMessage(mCC + "\"" + portalName + "\" creation has been cancelled by another plugin.");
         }

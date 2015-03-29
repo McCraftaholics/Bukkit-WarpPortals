@@ -114,6 +114,10 @@ public class Coords extends SimpleCoords implements Cloneable, Comparable<Simple
         return new Coords(this.world, this.x, this.y, this.z);
     }
 
+    public SimpleCoords simpleClone() {
+        return new SimpleCoords(this.x, this.y, this.z);
+    }
+
     @Override
     public int compareTo(SimpleCoords that) {
         int i = super.compareTo(that);

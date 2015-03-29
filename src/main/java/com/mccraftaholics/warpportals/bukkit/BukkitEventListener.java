@@ -100,6 +100,9 @@ public class BukkitEventListener implements Listener {
                     tpLoc.setYaw(tpCoords.yaw);
                     player.teleport(tpLoc);
 
+                    /* Update analytics */
+                    mPortalManager.analytics.incrementPortalUsageThisHour(portal.uuid);
+
                     WarpPortalsTeleportEvent wpTPEvent = new WarpPortalsTeleportEvent(player, preTPLocation, portal);
                     // Call WarpPortalsTeleportEvent
                     Bukkit.getPluginManager().callEvent(wpTPEvent);
@@ -231,7 +234,7 @@ public class BukkitEventListener implements Listener {
 				 * Set Portal blocks to default gold state.
 				 */
                 Location loc = new Location(portal.blocks.get(0).world, 0, 0, 0);
-                mPortalManager.mPortalCDManager.changeMaterial(Material.GOLD_BLOCK, portal.blocks, loc);
+                mPortalManager.mPortalCDManager.changeMaterial(Material.GOLD_BLOCK, portal.blocks, loc, null);
 
 				/* Remove portal form map */
                 it.remove();

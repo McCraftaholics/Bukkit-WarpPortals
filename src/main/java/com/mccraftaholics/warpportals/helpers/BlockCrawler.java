@@ -1,11 +1,14 @@
 package com.mccraftaholics.warpportals.helpers;
 
+import com.mccraftaholics.warpportals.common.model.SimpleCoords;
 import com.mccraftaholics.warpportals.objects.Coords;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class BlockCrawler {
 
@@ -53,6 +56,21 @@ public class BlockCrawler {
             super(string);
         }
 
+    }
+
+    public static List<SimpleCoords> simplify(List<Coords> portalBlocks) {
+        List<SimpleCoords> simpleBlocks = new ArrayList<SimpleCoords>();
+        for (Coords coord : portalBlocks) {
+            simpleBlocks.add(coord.simpleClone());
+        }
+        Collections.sort(simpleBlocks);
+        SimpleCoords median = simpleBlocks.get(simpleBlocks.size() / 2).clone();
+        for (SimpleCoords block : simpleBlocks) {
+            block.x -= median.x;
+            block.y -= median.y;
+            block.z -= median.z;
+        }
+        return simpleBlocks;
     }
 
 }

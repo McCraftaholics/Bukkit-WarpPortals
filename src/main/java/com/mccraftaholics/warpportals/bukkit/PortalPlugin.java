@@ -4,6 +4,7 @@ import com.mccraftaholics.warpportals.api.example.WarpPortalsEventListener;
 import com.mccraftaholics.warpportals.helpers.Defaults;
 import com.mccraftaholics.warpportals.helpers.Utils;
 import com.mccraftaholics.warpportals.manager.PortalManager;
+import com.mccraftaholics.warpportals.remote.RemoteManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,6 +21,7 @@ public class PortalPlugin extends JavaPlugin {
     public PortalManager mPortalManager;
     public File mPortalDataFile;
     public YamlConfiguration mPortalConfig;
+    public RemoteManager mRemoteManager;
     CommandHandler mCommandHandler;
     File mPortalConfigFile;
 
@@ -30,10 +32,16 @@ public class PortalPlugin extends JavaPlugin {
         mPortalConfig = new YamlConfiguration();
         initiateConfigFiles();
         loadConfigs();
-        mPortalManager = new PortalManager(getLogger(), mPortalConfig, mPortalDataFile, this);
+        mRemoteManager = new RemoteManager(this, mPortalConfig.getBoolean("portals.reporting.allowAnalytics", true));
+        mPortalManager = new PortalManager(getLogger(), mPortalConfig, mPortalDataFile, mRemoteManager.reportManager, this);
         mCommandHandler = new CommandHandler(this, mPortalManager, mPortalConfig);
         getServer().getPluginManager().registerEvents(new BukkitEventListener(this, mPortalManager, mPortalConfig), this);
         initMCStats();
+
+        // Initialize remote manager unless user requested not to
+        if (mRemoteManager.isEnabled) {
+            mRemoteManager.initialize();
+        }
 
         // Register example WarpPortals Event API Listener
         String tpMessage = mPortalConfig.getString("portals.teleport.message", Defaults.TP_MESSAGE);
@@ -98,6 +106,8 @@ public class PortalPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         mPortalManager.onDisable();
+        if (mRemoteManager != null)
+            mRemoteManager.shutdown();
         saveConfigs();
     }
 

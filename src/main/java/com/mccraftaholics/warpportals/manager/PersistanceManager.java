@@ -129,7 +129,7 @@ public class PersistanceManager {
                         // Load material, or try to discover based off of firstBlockCoords type
                         if (portalEntryData.containsKey("material")) {
                             material = Material.getMaterial((String) portalEntryData.get("material"));
-                        } else {
+                         } else {
                             Coords firstBlock = blocks.get(0);
                             Location loc = new Location(firstBlock.world, firstBlock.x, firstBlock.y, firstBlock.z);
                             material = loc.getBlock().getType();

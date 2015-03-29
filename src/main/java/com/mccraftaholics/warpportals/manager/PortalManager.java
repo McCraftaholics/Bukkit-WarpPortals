@@ -2,6 +2,8 @@ package com.mccraftaholics.warpportals.manager;
 
 import com.mccraftaholics.warpportals.bukkit.PortalPlugin;
 import com.mccraftaholics.warpportals.objects.*;
+import com.mccraftaholics.warpportals.remote.RemoteManager;
+import com.mccraftaholics.warpportals.remote.ReportManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -25,16 +27,18 @@ public class PortalManager {
     PortalPlugin mPortalPlugin;
     Logger mLogger;
     YamlConfiguration mPortalConfig;
+    public ReportManager analytics;
 
-    public PortalManager(Logger logger, YamlConfiguration portalConfig, File dataFile, PortalPlugin plugin) {
+    public PortalManager(Logger logger, YamlConfiguration portalConfig, File dataFile, ReportManager reportManager, PortalPlugin plugin) {
         mPortalPlugin = plugin;
         mLogger = logger;
         mPortalConfig = portalConfig;
+        this.analytics = reportManager;
 
         mPersistanceManager = new PersistanceManager(mLogger, dataFile, mPortalPlugin);
         mPortalDataManager = new PortalDataManager(this, mLogger);
         mPortalToolManager = new PortalToolManager(this, mPortalConfig);
-        mPortalCDManager = new PortalCDManager(mPortalDataManager, mPortalToolManager, mPortalConfig);
+        mPortalCDManager = new PortalCDManager(mPortalDataManager, mPortalToolManager, analytics, mPortalConfig);
         mPortalDestManager = new PortalDestManager(this, mLogger);
         mPortalInteractManager = new PortalInteractManager(this);
 
