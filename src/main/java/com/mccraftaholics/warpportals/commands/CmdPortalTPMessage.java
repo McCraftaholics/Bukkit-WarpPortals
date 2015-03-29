@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 
 public class CmdPortalTPMessage extends CommandHandlerObject {
 
-    private static final String[] ALIASES = {"wp-portal-tpmessage", "wpptm"};
+    private static final String[] ALIASES = {"wp-portal-tpmessage", "wptpm"};
     private static final String PERMISSION = "warpportals.admin.portal.message";
     private static final boolean REQUIRES_PLAYER = false;
 

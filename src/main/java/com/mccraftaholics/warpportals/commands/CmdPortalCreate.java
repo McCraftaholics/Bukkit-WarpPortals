@@ -138,7 +138,7 @@ public class CmdPortalCreate extends CommandHandlerObject {
              * non-block item
              */
             if (curItem.getType().isBlock()) {
-                sender.sendMessage(main.mCC + "You can't use a block for that! Try using something like the fishing rod.");
+                sender.sendMessage(main.mCC + "You must assign the portal create command to a tool! Try using something like the fishing rod.");
                 return true;
             } else {
                 PortalCreate portalCreate = new PortalCreate(curItem.getType(), argsPortalName, tpCoords, blockType, materialData, tpMessage);
