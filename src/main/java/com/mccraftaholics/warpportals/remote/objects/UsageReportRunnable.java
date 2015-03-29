@@ -12,7 +12,7 @@ public class UsageReportRunnable extends AbstractReportRunnable<AnalyticsReportU
 
     @Override
     public String getApiEndpoint() {
-        return RemoteConstants.BASE_API_URL + "/report/usage";
+        return RemoteConstants.BASE_API_URL() + "/report/usage";
     }
 
     @Override

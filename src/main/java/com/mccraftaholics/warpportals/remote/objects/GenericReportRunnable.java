@@ -13,7 +13,7 @@ public class GenericReportRunnable extends AbstractReportRunnable<AnalyticsRepor
 
     @Override
     public String getApiEndpoint() {
-        return RemoteConstants.BASE_API_URL + "/report/generic";
+        return RemoteConstants.BASE_API_URL() + "/report/generic";
     }
 
     @Override
