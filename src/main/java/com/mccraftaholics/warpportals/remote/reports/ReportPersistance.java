@@ -1,4 +1,4 @@
-package com.mccraftaholics.warpportals.remote.objects;
+package com.mccraftaholics.warpportals.remote.reports;
 
 import com.mccraftaholics.warpportals.common.model.analytics.reports.AnalyticsReportUsage;
 

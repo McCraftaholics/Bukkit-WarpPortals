@@ -1,9 +1,9 @@
-package com.mccraftaholics.warpportals.remote;
+package com.mccraftaholics.warpportals.remote.reports;
 
 import com.google.gson.Gson;
 import com.mccraftaholics.warpportals.common.model.analytics.reports.AnalyticsReportUsage;
 import com.mccraftaholics.warpportals.helpers.Utils;
-import com.mccraftaholics.warpportals.remote.objects.ReportPersistance;
+import com.mccraftaholics.warpportals.remote.reports.ReportPersistance;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;

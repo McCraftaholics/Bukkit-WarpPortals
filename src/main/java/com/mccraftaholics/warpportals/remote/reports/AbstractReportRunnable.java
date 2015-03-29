@@ -1,8 +1,7 @@
-package com.mccraftaholics.warpportals.remote.objects;
+package com.mccraftaholics.warpportals.remote.reports;
 
 import com.google.gson.Gson;
 import com.mccraftaholics.warpportals.helpers.Utils;
-import com.mccraftaholics.warpportals.remote.ReportManager;
 
 public abstract class AbstractReportRunnable<T> implements Runnable {
     Gson gson;

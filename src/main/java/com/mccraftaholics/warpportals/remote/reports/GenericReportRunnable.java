@@ -1,9 +1,8 @@
-package com.mccraftaholics.warpportals.remote.objects;
+package com.mccraftaholics.warpportals.remote.reports;
 
 import com.google.gson.Gson;
 import com.mccraftaholics.warpportals.common.model.analytics.reports.AnalyticsReportServer;
 import com.mccraftaholics.warpportals.remote.RemoteConstants;
-import com.mccraftaholics.warpportals.remote.ReportManager;
 
 public class GenericReportRunnable extends AbstractReportRunnable<AnalyticsReportServer> {
 

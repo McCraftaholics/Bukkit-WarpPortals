@@ -1,4 +1,4 @@
-package com.mccraftaholics.warpportals.remote;
+package com.mccraftaholics.warpportals.remote.reports;
 
 import com.google.gson.Gson;
 import com.mccraftaholics.warpportals.bukkit.PortalPlugin;
@@ -16,11 +16,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class ReportManager {
-    PortalPlugin plugin;
-    final boolean isEnabled;
+    private PortalPlugin plugin;
+    public final boolean isEnabled;
 
-    public ReportPersistanceManager reportPersistanceManager;
-    public AnalyticsReportUsage usageReport;
+    ReportPersistanceManager reportPersistanceManager;
+    AnalyticsReportUsage usageReport;
 
     Gson gson;
 
@@ -32,9 +32,11 @@ public class ReportManager {
     }
 
     public void initialize(Gson gson) {
-        this.gson = gson;
-        reportPersistanceManager.initialize(plugin, gson);
-        usageReport = reportPersistanceManager.load();
+        if (isEnabled) {
+            this.gson = gson;
+            reportPersistanceManager.initialize(plugin, gson);
+            usageReport = reportPersistanceManager.load();
+        }
     }
 
     public void shutdown() {
@@ -44,12 +46,16 @@ public class ReportManager {
     }
 
     public void incrementPortalUsageThisHour(UUID portalUuid) {
-        usageReport.incrementPortalUsageThisHour(portalUuid);
+        if (isEnabled) {
+            usageReport.incrementPortalUsageThisHour(portalUuid);
+        }
     }
 
     public void addPortalCreatedThisHour(PortalInfo portal) {
-        List<SimpleCoords> simpleBlocks = BlockCrawler.simplify(portal.blocks);
-        usageReport.addPortalCreatedThisHour(portal.uuid, portal.name, portal.material, portal.message, simpleBlocks);
+        if (isEnabled) {
+            List<SimpleCoords> simpleBlocks = BlockCrawler.simplify(portal.blocks);
+            usageReport.addPortalCreatedThisHour(portal.uuid, portal.name, portal.material, portal.message, simpleBlocks);
+        }
     }
 
     public void populateReport(AnalyticsReportServer report) {

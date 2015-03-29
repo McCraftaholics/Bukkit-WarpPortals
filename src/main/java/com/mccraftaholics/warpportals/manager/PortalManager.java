@@ -2,8 +2,7 @@ package com.mccraftaholics.warpportals.manager;
 
 import com.mccraftaholics.warpportals.bukkit.PortalPlugin;
 import com.mccraftaholics.warpportals.objects.*;
-import com.mccraftaholics.warpportals.remote.RemoteManager;
-import com.mccraftaholics.warpportals.remote.ReportManager;
+import com.mccraftaholics.warpportals.remote.reports.ReportManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;

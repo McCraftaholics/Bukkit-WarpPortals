@@ -2,8 +2,9 @@ package com.mccraftaholics.warpportals.remote;
 
 import com.google.gson.Gson;
 import com.mccraftaholics.warpportals.bukkit.PortalPlugin;
-import com.mccraftaholics.warpportals.remote.objects.GenericReportRunnable;
-import com.mccraftaholics.warpportals.remote.objects.UsageReportRunnable;
+import com.mccraftaholics.warpportals.remote.reports.GenericReportRunnable;
+import com.mccraftaholics.warpportals.remote.reports.ReportManager;
+import com.mccraftaholics.warpportals.remote.reports.UsageReportRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
@@ -28,36 +29,44 @@ public class RemoteManager {
     }
 
     public void initialize() {
-        gson = new Gson();
-        reportManager.initialize(gson);
+        try {
+            gson = new Gson();
+            reportManager.initialize(gson);
 
-        if (reportManager.isEnabled) {
-            BukkitScheduler scheduler = Bukkit.getScheduler();
-            // Run report submission hourly
-            asyncTasks.add(
-                    scheduler.runTaskTimerAsynchronously(
-                            plugin,
-                            new GenericReportRunnable(gson, reportManager),
-                            RemoteConstants.TICKS_PER_HOUR / 60 * /*1*/0,
-                            RemoteConstants.TICKS_PER_HOUR
-                    )
-            );
-            asyncTasks.add(
-                    scheduler.runTaskTimerAsynchronously(
-                            plugin,
-                            new UsageReportRunnable(gson, reportManager),
-                            RemoteConstants.TICKS_PER_HOUR / 60 * /*1*/0,
-                            RemoteConstants.TICKS_PER_HOUR
-                    )
-            );
+            if (reportManager.isEnabled) {
+                BukkitScheduler scheduler = Bukkit.getScheduler();
+                // Run report submission hourly
+                asyncTasks.add(
+                        scheduler.runTaskTimerAsynchronously(
+                                plugin,
+                                new GenericReportRunnable(gson, reportManager),
+                                RemoteConstants.TICKS_PER_HOUR / 60 * /*1*/0,
+                                RemoteConstants.TICKS_PER_HOUR
+                        )
+                );
+                asyncTasks.add(
+                        scheduler.runTaskTimerAsynchronously(
+                                plugin,
+                                new UsageReportRunnable(gson, reportManager),
+                                RemoteConstants.TICKS_PER_HOUR / 60 * /*1*/0,
+                                RemoteConstants.TICKS_PER_HOUR
+                        )
+                );
+            }
+        } catch (Exception e) {
+            
         }
     }
 
     public void shutdown() {
-        reportManager.shutdown();
+        try {
+            reportManager.shutdown();
 
-        for (BukkitTask task : asyncTasks) {
-            task.cancel();
+            for (BukkitTask task : asyncTasks) {
+                task.cancel();
+            }
+        } catch (Exception e) {
+            // Sadness
         }
     }
 
