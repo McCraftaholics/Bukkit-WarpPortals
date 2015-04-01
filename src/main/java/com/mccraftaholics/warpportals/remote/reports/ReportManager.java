@@ -67,7 +67,7 @@ public class ReportManager {
         }
         report.maxPlayers = plugin.getServer().getMaxPlayers();
         report.numWorlds = plugin.getServer().getWorlds().size();
-        report.serverId = plugin.getServer().getServerId();
+        report.serverName = plugin.getServer().getServerName();
         report.warpPortalsVersion = plugin.getDescription().getVersion();
         report.timestamp = Utils.formatISO(new Date());
 
