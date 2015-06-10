@@ -1,7 +1,12 @@
 package com.mccraftaholics.warpportals.manager;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mccraftaholics.warpportals.helpers.Regex;
 import com.mccraftaholics.warpportals.helpers.Utils;
+import com.mccraftaholics.warpportals.manager.persistance.CoordsPYTypeAdapter;
+import com.mccraftaholics.warpportals.manager.persistance.CoordsTypeAdapter;
+import com.mccraftaholics.warpportals.manager.persistance.WorldTypeAdapter;
 import com.mccraftaholics.warpportals.objects.Coords;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
@@ -32,7 +37,7 @@ public class PersistanceManagerTest {
     UUID mockedUuid;
     String portalDataLatest;
     String portalDataLatestZeroed;
-    PersistanceManager.PersistedData exampleData;
+    OldPersistanceManager.PersistedData exampleData;
     Map<String, UUID> nameToUUID;
 
     @Before
@@ -52,11 +57,11 @@ public class PersistanceManagerTest {
             Mockito.when(Bukkit.getWorld("world")).thenReturn(world);
 
             // Prepare latest string for comparison
-            portalDataLatest = Utils.readFile(getClass().getClassLoader().getResourceAsStream("portals.v0601.yml"), "UTF-8");
+            portalDataLatest = Utils.readStream(getClass().getClassLoader().getResourceAsStream("portals.v0601.yml"), "UTF-8");
             portalDataLatestZeroed = portalDataLatest.replaceAll(Regex.IS_UUID, "00000000-0000-0000-0000-000000000000");
 
             // Example portal data
-            exampleData = new PersistanceManager.PersistedData();
+            exampleData = new OldPersistanceManager.PersistedData();
             exampleData.portals.add(
                     new PortalInfo(
                             UUID.fromString("11111111-1111-1111-1111-111111111111"),
@@ -88,7 +93,7 @@ public class PersistanceManagerTest {
         }
     }
 
-    private boolean testPersistedDataEquals(PersistanceManager.PersistedData a, PersistanceManager.PersistedData b) {
+    private boolean testPersistedDataEquals(OldPersistanceManager.PersistedData a, OldPersistanceManager.PersistedData b) {
         if (a == b) return true;
 
         if (a.needToBackup != b.needToBackup) return false;
@@ -109,22 +114,22 @@ public class PersistanceManagerTest {
 
     @Test
     public void testLatestParseMethod() {
-        PersistanceManager.PersistedData parsedData = PersistanceManager.parseDataFile(portalDataLatest, mockedLogger);
+        OldPersistanceManager.PersistedData parsedData = OldPersistanceManager.parseDataFile(portalDataLatest, mockedLogger);
 
         Assert.assertTrue(testPersistedDataEquals(parsedData, exampleData));
     }
 
     @Test
-    public void testMigrateFrom0000ToNewest() {
+    public void testMigrateFrom0000ToLatest() {
         String portalData0000;
         try {
-            portalData0000 = Utils.readFile(getClass().getClassLoader().getResourceAsStream("portals.v0.yml"), "UTF-8");
+            portalData0000 = Utils.readStream(getClass().getClassLoader().getResourceAsStream("portals.v0.yml"), "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
 
-        PersistanceManager.PersistedData oldData = PersistanceManager.parseDataFile(portalData0000, mockedLogger);
+        OldPersistanceManager.PersistedData oldData = OldPersistanceManager.parseDataFile(portalData0000, mockedLogger);
         for (PortalInfo portal : oldData.portals) {
             portal.uuid = nameToUUID.get(portal.name);
         }
@@ -136,17 +141,48 @@ public class PersistanceManagerTest {
     public void testMigrateFrom0413AndLatest() {
         String portalData0413;
         try {
-            portalData0413 = Utils.readFile(getClass().getClassLoader().getResourceAsStream("portals.v0413.yml"), "UTF-8");
+            portalData0413 = Utils.readStream(getClass().getClassLoader().getResourceAsStream("portals.v0413.yml"), "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
 
-        PersistanceManager.PersistedData oldData = PersistanceManager.parseDataFile(portalData0413, mockedLogger);
+        OldPersistanceManager.PersistedData oldData = OldPersistanceManager.parseDataFile(portalData0413, mockedLogger);
         for (PortalInfo portal : oldData.portals) {
             portal.uuid = nameToUUID.get(portal.name);
         }
 
         Assert.assertTrue(testPersistedDataEquals(oldData, exampleData));
+    }
+
+    @Test
+    public void testMigrateFrom0601AndLatest() {
+        String portalData0413;
+        try {
+            portalData0413 = Utils.readStream(getClass().getClassLoader().getResourceAsStream("portals.v0413.yml"), "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        OldPersistanceManager.PersistedData oldData = OldPersistanceManager.parseDataFile(portalData0413, mockedLogger);
+        for (PortalInfo portal : oldData.portals) {
+            portal.uuid = nameToUUID.get(portal.name);
+        }
+
+        Assert.assertTrue(testPersistedDataEquals(oldData, exampleData));
+    }
+
+    @Test
+    public void gsonTest() {
+        GsonBuilder gb = new GsonBuilder();
+        gb.registerTypeAdapter(Coords.class, new CoordsTypeAdapter());
+        gb.registerTypeAdapter(CoordsPY.class, new CoordsPYTypeAdapter());
+        gb.registerTypeAdapter(World.class, new WorldTypeAdapter());
+        Gson gson = gb.create();
+        String gsonOut = gson.toJson(exampleData);
+        System.out.println(gsonOut);
+        OldPersistanceManager.PersistedData gsonParse = gson.fromJson(gsonOut, OldPersistanceManager.PersistedData.class);
+        Assert.assertTrue(testPersistedDataEquals(gsonParse, exampleData));
     }
 }

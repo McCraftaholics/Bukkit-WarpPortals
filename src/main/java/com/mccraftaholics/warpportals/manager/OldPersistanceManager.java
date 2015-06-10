@@ -18,13 +18,13 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
-public class PersistanceManager {
+public class OldPersistanceManager {
 
     Logger mLogger;
     File mDataFile;
     Plugin mPlugin;
 
-    PersistanceManager(Logger logger, File file, Plugin plugin) {
+    OldPersistanceManager(Logger logger, File file, Plugin plugin) {
         mLogger = logger;
         mDataFile = file;
         mPlugin = plugin;
