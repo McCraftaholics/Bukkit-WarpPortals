@@ -11,6 +11,7 @@
     <url>http://alexwendland.com</url>
 
     <properties>
+        <version-number>42</version-number>
         <powermock.version>1.6.1</powermock.version>
     </properties>
 

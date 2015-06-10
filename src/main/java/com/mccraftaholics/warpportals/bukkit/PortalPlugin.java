@@ -18,6 +18,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class PortalPlugin extends JavaPlugin {
+
+    public static final String VERSION = "${project.version}";
+    public static final int VERSION_NUMBER = Integer.parseInt("${project.properties.versionNumber}");
+
     public PortalManager mPortalManager;
     public File mPortalDataFile;
     public YamlConfiguration mPortalConfig;
