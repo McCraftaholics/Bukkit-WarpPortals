@@ -5,11 +5,14 @@ import com.mccraftaholics.warpportals.objects.CoordsPY;
 import org.bukkit.Location;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 public class Utils {
 
@@ -48,7 +51,7 @@ public class Utils {
         return false;
     }
 
-    public static String readFile(InputStream in, String encoding) throws IOException {
+    public static String readStream(InputStream in, String encoding) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         StringBuilder out = new StringBuilder();
         String line;
@@ -60,7 +63,7 @@ public class Utils {
     }
 
     public static String readFile(String path, String encoding) throws IOException {
-        return readFile(new FileInputStream(path), encoding);
+        return readStream(new FileInputStream(path), encoding);
     }
 
     public static boolean writeToFile(String data, File dataFile) {
@@ -82,6 +85,18 @@ public class Utils {
             }
         }
         return false;
+    }
+
+    public static InputStream urlGet(String baseUrl, Map<String, String> params) throws IOException, URISyntaxException {
+        StringBuilder queryParams = new StringBuilder();
+        for (Map.Entry<String, String> param : params.entrySet()) {
+            queryParams.append(param.getKey()).append("=").append(param.getValue());
+        }
+        URL url = new URL(baseUrl);
+        URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), queryParams.toString(), url.getRef());
+        URLConnection connection = new URL(uri.toASCIIString()).openConnection();
+        connection.setRequestProperty("Accept-Charset", "UTF-8");
+        return connection.getInputStream();
     }
 
     public static InputStream urlPost(String url, String contentType, byte[] data) throws IOException {
