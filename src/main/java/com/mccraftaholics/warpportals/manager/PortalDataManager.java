@@ -63,13 +63,15 @@ public class PortalDataManager {
         return !(getPortal(name) == null);
     }
 
-    public void addPortalNoSave(PortalInfo portalInfo) {
-        mPortalMap.put(portalInfo.uuid, portalInfo);
+    public void addPortalNoSave(PortalInfo... portals) {
+        for (PortalInfo portal : portals) {
+            mPortalMap.put(portal.uuid, portal);
+        }
         rebuildCoordsToPortalsMap();
     }
 
-    public void addPortal(PortalInfo portalInfo) {
-        addPortalNoSave(portalInfo);
+    public void addPortal(PortalInfo... portals) {
+        addPortalNoSave(portals);
         mPM.saveDataFile();
         mPM.backupDataFile();
     }

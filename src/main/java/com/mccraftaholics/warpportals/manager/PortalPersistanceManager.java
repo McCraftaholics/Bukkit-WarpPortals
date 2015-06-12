@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -40,11 +41,17 @@ public class PortalPersistanceManager {
             final OldPersistenceManager old = new OldPersistenceManager(this.logger, this.dataFolder);
             try {
                 return old.loadDataFile();
-            } catch (OldPersistenceManager.ShouldBackupException) {
-                logger.severe("Unable to load WarpPortals data due to invalid data structure \"" + dataFileName);
+            } catch (OldPersistenceManager.ShouldBackupException parseException) {
+                logger.severe(
+                        "Unable to load WarpPortals data due to invalid data stored in \""
+                                + MAIN_DATA_FILE_NAME
+                                + "\". Stack Trace: "
+                                + Arrays.toString(parseException.getStackTrace())
+                );
                 try {
-                    final String unparsedData; = readFromFile(getProperFile(MAIN_DATA_FILE_NAME));
+                    final String unparsedData = readFromFile(getProperFile(MAIN_DATA_FILE_NAME));
                     backupData(unparsedData);
+                    return new WarpPortalPersistedData();
                 } catch (IOException e) {
                     // Errors have already been reported by readFromFile()
                     // Return blank data structure
@@ -75,7 +82,12 @@ public class PortalPersistanceManager {
             // Backup the current JSON file
             backupData(unparsedData);
             // Alert to error loading JSON
-            logger.severe("Unable to load WarpPortals data due to invalid JSON structure of \"" + dataFileName + "\"");
+            logger.severe(
+                    "Unable to load WarpPortals data due to invalid JSON structure of \""
+                            + dataFileName
+                            + "\". Stack trace:\n"
+                            + Arrays.toString(e.getStackTrace())
+            );
             // Return blank data structure
             return new WarpPortalPersistedData();
         }
@@ -120,13 +132,13 @@ public class PortalPersistanceManager {
         return deserializedData;
     }
 
-    public void saveData(WarpPortalPersistedData data) {
-        saveData(data, MAIN_DATA_FILE_NAME);
+    public boolean saveData(WarpPortalPersistedData data) {
+        return saveData(data, MAIN_DATA_FILE_NAME);
     }
 
-    public void saveData(WarpPortalPersistedData data, String dataFileName) {
+    public boolean saveData(WarpPortalPersistedData data, String dataFileName) {
         String serializedData = portalPersistance.serialize(data);
-        writeToFile(serializedData, getProperFile(dataFileName));
+        return writeToFile(serializedData, getProperFile(dataFileName));
     }
 
     private File getProperFile(String path) {
@@ -150,8 +162,12 @@ public class PortalPersistanceManager {
         return new File(this.dataFolder, backupName);
     }
 
-    private void backupData(String data) {
-        writeToFile(data, getBackupFile());
+    private boolean backupData(String data) {
+        return writeToFile(data, getBackupFile());
+    }
+
+    public boolean backupData(WarpPortalPersistedData data) {
+        return backupData(portalPersistance.serialize(data));
     }
 
     private String readFromFile(File dataFile) throws IOException {

@@ -1,6 +1,7 @@
 package com.mccraftaholics.warpportals.manager;
 
 import com.mccraftaholics.warpportals.bukkit.PortalPlugin;
+import com.mccraftaholics.warpportals.helpers.persistance.WarpPortalPersistedData;
 import com.mccraftaholics.warpportals.objects.*;
 import com.mccraftaholics.warpportals.remote.reports.ReportManager;
 import org.bukkit.Location;
@@ -9,10 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class PortalManager {
@@ -22,6 +20,7 @@ public class PortalManager {
     public PortalDataManager mPortalDataManager;
     public PortalInteractManager mPortalInteractManager;
     public PortalToolManager mPortalToolManager;
+    private PortalPersistanceManager mPortalPersistenceManager;
     PortalPlugin mPortalPlugin;
     Logger mLogger;
     YamlConfiguration mPortalConfig;
@@ -33,6 +32,7 @@ public class PortalManager {
         mPortalConfig = portalConfig;
         this.analytics = reportManager;
 
+        mPortalPersistenceManager = new PortalPersistanceManager(logger, mPortalPlugin.getDataFolder().getAbsolutePath());
         mPortalDataManager = new PortalDataManager(this, mLogger);
         mPortalToolManager = new PortalToolManager(this, mPortalConfig);
         mPortalCDManager = new PortalCDManager(mPortalDataManager, mPortalToolManager, analytics, mPortalConfig);
@@ -47,19 +47,42 @@ public class PortalManager {
     }
 
     public void loadData() {
-        mPersistanceManager.loadDataFile(mPortalDataManager, mPortalDestManager.mPortalDestMap);
+        WarpPortalPersistedData persistedData = mPortalPersistenceManager.loadData();
+
+        mPortalDestManager.addDestinations(
+                false,
+                persistedData.destinations.toArray(
+                        new DestinationInfo[persistedData.destinations.size()]
+                )
+        );
+
+        mPortalDataManager.addPortalNoSave(
+                persistedData.portals.toArray(
+                        new PortalInfo[persistedData.portals.size()]
+                )
+        );
+    }
+
+    private WarpPortalPersistedData getDataToPersist() {
+        WarpPortalPersistedData dataToPersist = new WarpPortalPersistedData();
+        dataToPersist.setDestinations(mPortalDestManager.getDestinations());
+        dataToPersist.setPortals(mPortalDataManager.getPortals());
+        return dataToPersist;
     }
 
     public boolean saveDataFile() {
-        return mPersistanceManager.saveDataFile(mPortalDataManager.getPortalMap(), mPortalDestManager.mPortalDestMap);
+        WarpPortalPersistedData dataToPersist = getDataToPersist();
+        return mPortalPersistenceManager.saveData(dataToPersist);
     }
 
     public boolean saveDataFile(File mPortalDataFile) {
-        return mPersistanceManager.saveDataFile(mPortalDataManager.getPortalMap(), mPortalDestManager.mPortalDestMap, mPortalDataFile);
+        WarpPortalPersistedData dataToPersist = getDataToPersist();
+        return mPortalPersistenceManager.saveData(dataToPersist, mPortalDataFile.getAbsolutePath());
     }
 
     public boolean backupDataFile() {
-        return mPersistanceManager.backupDataFile(mPortalDataManager.getPortalMap(), mPortalDestManager.mPortalDestMap, null);
+        WarpPortalPersistedData dataToPersist = getDataToPersist();
+        return mPortalPersistenceManager.backupData(dataToPersist);
     }
 
     public void playerItemRightClick(PlayerInteractEvent e) {
@@ -115,7 +138,7 @@ public class PortalManager {
     }
 
     public void addDestination(String destName, CoordsPY destCoords) {
-        mPortalDestManager.addDestination(destName, destCoords);
+        mPortalDestManager.addDestination(true, destName, destCoords);
     }
 
     public void removeDestination(String destName) {
@@ -126,8 +149,8 @@ public class PortalManager {
         return mPortalDestManager.getDestCoords(destName);
     }
 
-    public Set<String> getDestinations() {
-        return mPortalDestManager.getDestinations();
+    public Set<String> getDestinationNames() {
+        return mPortalDestManager.getDestinationNames();
     }
 
     public String getDestinationName(CoordsPY coords) {

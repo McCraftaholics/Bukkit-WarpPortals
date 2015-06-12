@@ -24,7 +24,7 @@ public class OldPersistenceManager {
     Logger mLogger;
     String mDataFolder;
 
-    OldPersistenceManager(Logger logger, String dataFolder) {
+    public OldPersistenceManager(Logger logger, String dataFolder) {
         mLogger = logger;
         mDataFolder = dataFolder;
     }
@@ -218,7 +218,7 @@ public class OldPersistenceManager {
         return persistedData;
     }
 
-    public void loadDataFile() throws ShouldBackupException {
+    public WarpPortalPersistedData loadDataFile() throws ShouldBackupException {
         // Read portals.yml file to string "data"
         String data = null;
         try {
@@ -226,7 +226,7 @@ public class OldPersistenceManager {
             data = Utils.readFile(dataFile.getAbsolutePath(), "UTF-8");
         } catch (IOException e) {
             mLogger.severe("Unable to read WarpPortal's data file! Stack trace:\n" + Arrays.toString(e.getStackTrace()));
-            return;
+            throw new ShouldBackupException(e);
         }
         PersistedData pd = parseDataFile(data, mLogger);
 
@@ -234,10 +234,17 @@ public class OldPersistenceManager {
         if (pd.needToBackup) {
             throw new ShouldBackupException();
         }
+
+        return pd.toModernFormat();
     }
 
     public static class ShouldBackupException extends Exception {
+        public ShouldBackupException() {
+        }
 
+        public ShouldBackupException(Throwable cause) {
+            super(cause);
+        }
     }
 
     public static class PersistedData {

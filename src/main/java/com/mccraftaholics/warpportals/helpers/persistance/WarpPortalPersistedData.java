@@ -5,28 +5,29 @@ import com.mccraftaholics.warpportals.objects.DestinationInfo;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
 
 import javax.sound.sampled.Port;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class WarpPortalPersistedData {
-    public List<PortalInfo> portals = new LinkedList<PortalInfo>();
-    public List<DestinationInfo> destinations = new LinkedList<DestinationInfo>();
+    public Collection<PortalInfo> portals = new LinkedList<PortalInfo>();
+    public Collection<DestinationInfo> destinations = new LinkedList<DestinationInfo>();
 
-    public List<PortalInfo> getPortals() {
+    public Collection<PortalInfo> getPortals() {
         return portals;
     }
 
-    public WarpPortalPersistedData setPortals(List<PortalInfo> portals) {
+    public WarpPortalPersistedData setPortals(Collection<PortalInfo> portals) {
         this.portals = portals;
         return this;
     }
 
-    public List<DestinationInfo> getDestinations() {
+    public Collection<DestinationInfo> getDestinations() {
         return destinations;
     }
 
-    public WarpPortalPersistedData setDestinations(List<DestinationInfo> destinations) {
+    public WarpPortalPersistedData setDestinations(Collection<DestinationInfo> destinations) {
         this.destinations = destinations;
         return this;
     }

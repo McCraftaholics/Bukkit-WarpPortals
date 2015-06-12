@@ -1,15 +1,18 @@
 package com.mccraftaholics.warpportals.manager;
 
 import com.mccraftaholics.warpportals.objects.CoordsPY;
+import com.mccraftaholics.warpportals.objects.DestinationInfo;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
 public class PortalDestManager {
 
-    public HashMap<String, CoordsPY> mPortalDestMap = new HashMap<String, CoordsPY>();
+    public HashMap<String, DestinationInfo> mPortalDestMap = new HashMap<String, DestinationInfo>();
     Logger mLogger;
     private PortalManager mPM;
 
@@ -18,9 +21,22 @@ public class PortalDestManager {
         mLogger = logger;
     }
 
-    public void addDestination(String destname, CoordsPY coords) {
-        mPortalDestMap.put(destname, coords);
+    public void addDestination(boolean doSave, String destname, CoordsPY coords) {
+        addDestination(doSave, new DestinationInfo(destname, coords));
+    }
+
+    public void addDestination(boolean doSave, DestinationInfo dest) {
+        mPortalDestMap.put(dest.name, dest);
         mPM.saveDataFile();
+    }
+
+    public void addDestinations(boolean doSave, DestinationInfo... dests) {
+        for (DestinationInfo dest : dests) {
+            mPortalDestMap.put(dest.name, dest);
+        }
+        if (doSave) {
+            mPM.saveDataFile();
+        }
     }
 
     public void removeDestination(String destName) {
@@ -29,20 +45,26 @@ public class PortalDestManager {
     }
 
     public CoordsPY getDestCoords(String destname) {
-        return mPortalDestMap.get(destname);
+        if (mPortalDestMap.containsKey(destname)) {
+            return mPortalDestMap.get(destname).coordspy;
+        }
+        return null;
     }
 
-    public Set<String> getDestinations() {
+    public Set<String> getDestinationNames() {
         return mPortalDestMap.keySet();
     }
 
     public String getDestinationName(CoordsPY coords) {
-        for (Entry<String, CoordsPY> dest : mPortalDestMap.entrySet()) {
-            if (dest.getValue().equals(coords)) {
-                return dest.getKey();
+        for (DestinationInfo dest : mPortalDestMap.values()) {
+            if (dest.coordspy.equals(coords)) {
+                return dest.name;
             }
         }
         return null;
     }
 
+    public Collection<DestinationInfo> getDestinations() {
+        return mPortalDestMap.values();
+    }
 }
