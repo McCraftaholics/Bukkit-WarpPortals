@@ -66,7 +66,11 @@ public class Utils {
         return readStream(new FileInputStream(path), encoding);
     }
 
-    public static boolean writeToFile(String data, File dataFile) {
+    public static boolean writeToFile(String data, String filePath) throws IOException {
+        return writeToFile(data, new File(filePath));
+    }
+
+    public static boolean writeToFile(String data, File dataFile) throws IOException {
         if (dataFile.canWrite()) {
             FileWriter fw = null;
             BufferedWriter bw = null;
@@ -76,6 +80,7 @@ public class Utils {
                 bw.write(data);
                 return true;
             } catch (IOException e) {
+                throw e;
             } finally {
                 if (bw != null)
                     try {

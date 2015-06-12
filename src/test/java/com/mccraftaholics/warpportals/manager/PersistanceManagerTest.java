@@ -4,9 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mccraftaholics.warpportals.helpers.Regex;
 import com.mccraftaholics.warpportals.helpers.Utils;
-import com.mccraftaholics.warpportals.manager.persistance.CoordsPYTypeAdapter;
-import com.mccraftaholics.warpportals.manager.persistance.CoordsTypeAdapter;
-import com.mccraftaholics.warpportals.manager.persistance.WorldTypeAdapter;
+import com.mccraftaholics.warpportals.helpers.persistance.WorldTypeAdapter;
+import com.mccraftaholics.warpportals.manager.old.OldPersistenceManager;
 import com.mccraftaholics.warpportals.objects.Coords;
 import com.mccraftaholics.warpportals.objects.CoordsPY;
 import com.mccraftaholics.warpportals.objects.PortalInfo;
@@ -37,7 +36,7 @@ public class PersistanceManagerTest {
     UUID mockedUuid;
     String portalDataLatest;
     String portalDataLatestZeroed;
-    OldPersistanceManager.PersistedData exampleData;
+    OldPersistenceManager.PersistedData exampleData;
     Map<String, UUID> nameToUUID;
 
     @Before
@@ -61,7 +60,7 @@ public class PersistanceManagerTest {
             portalDataLatestZeroed = portalDataLatest.replaceAll(Regex.IS_UUID, "00000000-0000-0000-0000-000000000000");
 
             // Example portal data
-            exampleData = new OldPersistanceManager.PersistedData();
+            exampleData = new OldPersistenceManager.PersistedData();
             exampleData.portals.add(
                     new PortalInfo(
                             UUID.fromString("11111111-1111-1111-1111-111111111111"),
@@ -93,7 +92,7 @@ public class PersistanceManagerTest {
         }
     }
 
-    private boolean testPersistedDataEquals(OldPersistanceManager.PersistedData a, OldPersistanceManager.PersistedData b) {
+    private boolean testPersistedDataEquals(OldPersistenceManager.PersistedData a, OldPersistenceManager.PersistedData b) {
         if (a == b) return true;
 
         if (a.needToBackup != b.needToBackup) return false;
@@ -114,7 +113,7 @@ public class PersistanceManagerTest {
 
     @Test
     public void testLatestParseMethod() {
-        OldPersistanceManager.PersistedData parsedData = OldPersistanceManager.parseDataFile(portalDataLatest, mockedLogger);
+        OldPersistenceManager.PersistedData parsedData = OldPersistenceManager.parseDataFile(portalDataLatest, mockedLogger);
 
         Assert.assertTrue(testPersistedDataEquals(parsedData, exampleData));
     }
@@ -129,7 +128,7 @@ public class PersistanceManagerTest {
             return;
         }
 
-        OldPersistanceManager.PersistedData oldData = OldPersistanceManager.parseDataFile(portalData0000, mockedLogger);
+        OldPersistenceManager.PersistedData oldData = OldPersistenceManager.parseDataFile(portalData0000, mockedLogger);
         for (PortalInfo portal : oldData.portals) {
             portal.uuid = nameToUUID.get(portal.name);
         }
@@ -147,7 +146,7 @@ public class PersistanceManagerTest {
             return;
         }
 
-        OldPersistanceManager.PersistedData oldData = OldPersistanceManager.parseDataFile(portalData0413, mockedLogger);
+        OldPersistenceManager.PersistedData oldData = OldPersistenceManager.parseDataFile(portalData0413, mockedLogger);
         for (PortalInfo portal : oldData.portals) {
             portal.uuid = nameToUUID.get(portal.name);
         }
@@ -165,7 +164,7 @@ public class PersistanceManagerTest {
             return;
         }
 
-        OldPersistanceManager.PersistedData oldData = OldPersistanceManager.parseDataFile(portalData0413, mockedLogger);
+        OldPersistenceManager.PersistedData oldData = OldPersistenceManager.parseDataFile(portalData0413, mockedLogger);
         for (PortalInfo portal : oldData.portals) {
             portal.uuid = nameToUUID.get(portal.name);
         }
@@ -182,7 +181,7 @@ public class PersistanceManagerTest {
         Gson gson = gb.create();
         String gsonOut = gson.toJson(exampleData);
         System.out.println(gsonOut);
-        OldPersistanceManager.PersistedData gsonParse = gson.fromJson(gsonOut, OldPersistanceManager.PersistedData.class);
+        OldPersistenceManager.PersistedData gsonParse = gson.fromJson(gsonOut, OldPersistenceManager.PersistedData.class);
         Assert.assertTrue(testPersistedDataEquals(gsonParse, exampleData));
     }
 }

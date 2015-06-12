@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 public class PortalManager {
 
     public PortalDestManager mPortalDestManager;
-    public PersistanceManager mPersistanceManager;
     public PortalCDManager mPortalCDManager;
     public PortalDataManager mPortalDataManager;
     public PortalInteractManager mPortalInteractManager;
@@ -28,13 +27,12 @@ public class PortalManager {
     YamlConfiguration mPortalConfig;
     public ReportManager analytics;
 
-    public PortalManager(Logger logger, YamlConfiguration portalConfig, File dataFile, ReportManager reportManager, PortalPlugin plugin) {
+    public PortalManager(Logger logger, YamlConfiguration portalConfig, ReportManager reportManager, PortalPlugin plugin) {
         mPortalPlugin = plugin;
         mLogger = logger;
         mPortalConfig = portalConfig;
         this.analytics = reportManager;
 
-        mPersistanceManager = new PersistanceManager(mLogger, dataFile, mPortalPlugin);
         mPortalDataManager = new PortalDataManager(this, mLogger);
         mPortalToolManager = new PortalToolManager(this, mPortalConfig);
         mPortalCDManager = new PortalCDManager(mPortalDataManager, mPortalToolManager, analytics, mPortalConfig);

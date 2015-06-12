@@ -23,7 +23,6 @@ public class PortalPlugin extends JavaPlugin {
     public static final int VERSION_NUMBER = Integer.parseInt("${project.properties.versionNumber}");
 
     public PortalManager mPortalManager;
-    public File mPortalDataFile;
     public YamlConfiguration mPortalConfig;
     public RemoteManager mRemoteManager;
     CommandHandler mCommandHandler;
@@ -32,12 +31,11 @@ public class PortalPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         mPortalConfigFile = new File(getDataFolder(), "config.yml");
-        mPortalDataFile = new File(getDataFolder(), "portals.yml");
         mPortalConfig = new YamlConfiguration();
         initiateConfigFiles();
         loadConfigs();
         mRemoteManager = new RemoteManager(this, mPortalConfig.getBoolean("portals.reporting.allowAnalytics", true));
-        mPortalManager = new PortalManager(getLogger(), mPortalConfig, mPortalDataFile, mRemoteManager.reportManager, this);
+        mPortalManager = new PortalManager(getLogger(), mPortalConfig, mRemoteManager.reportManager, this);
         mCommandHandler = new CommandHandler(this, mPortalManager, mPortalConfig);
         getServer().getPluginManager().registerEvents(new BukkitEventListener(this, mPortalManager, mPortalConfig), this);
         initMCStats();
@@ -71,16 +69,6 @@ public class PortalPlugin extends JavaPlugin {
                 Utils.copy(getResource("config.yml"), mPortalConfigFile);
             } catch (IOException e) {
                 getLogger().severe("Error creating the default Portal config file!");
-                e.printStackTrace();
-            }
-        }
-        // Initiate portal data file
-        if (!mPortalDataFile.exists()) {
-            mPortalDataFile.getParentFile().mkdirs();
-            try {
-                mPortalDataFile.createNewFile();
-            } catch (IOException e) {
-                getLogger().severe("Error creating Portal's save file!");
                 e.printStackTrace();
             }
         }

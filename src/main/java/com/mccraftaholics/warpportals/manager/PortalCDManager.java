@@ -169,7 +169,7 @@ public class PortalCDManager {
      * @param location        {@link Location} to use for updating the blocks.
      * @return if the material can be used or not.
      */
-    public boolean changeMaterial(Material material, List<Coords> blockCoordArray, Location location, Byte data) {
+    public static boolean changeMaterial(Material material, List<Coords> blockCoordArray, Location location, Byte data) {
         if (material.isBlock()) {
             if (blockCoordArray.size() > 0) {
                 location.setWorld(blockCoordArray.get(0).world);
