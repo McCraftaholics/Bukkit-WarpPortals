@@ -53,11 +53,11 @@ public class PortalToolManager {
 	public void playerItemRightClick(PlayerInteractEvent e) {
 		Player player = e.getPlayer();
 		PortalCreate portalCreate = mPlayerPortalCreateMap.get(player.getUniqueId());
-		if (portalCreate != null && portalCreate.toolType == player.getItemInHand().getType()) {
+		if (portalCreate != null && portalCreate.toolType == player.getInventory().getItemInMainHand().getType()) {
 			mPM.mPortalCDManager.possibleCreatePortal(e.getClickedBlock(), player, portalCreate);
 		} else {
 			PortalTool tool = mPlayerPortalToolMap.get(player.getUniqueId());
-			if (tool != null && tool.toolType == player.getItemInHand().getType()) {
+			if (tool != null && tool.toolType == player.getInventory().getItemInMainHand().getType()) {
 				if (tool.action == PortalTool.Action.DELETE) {
 					mPM.mPortalCDManager.possibleDeletePortal(e.getClickedBlock(), player);
 				} else if (tool.action == PortalTool.Action.IDENTIFY) {

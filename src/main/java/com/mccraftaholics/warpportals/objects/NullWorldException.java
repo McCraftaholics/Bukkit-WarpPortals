@@ -2,6 +2,10 @@ package com.mccraftaholics.warpportals.objects;
 
 public class NullWorldException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String worldName;
 
 	public NullWorldException() {

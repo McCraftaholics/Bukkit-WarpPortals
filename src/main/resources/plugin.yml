@@ -1,91 +1,131 @@
 name: WarpPortals
-version: 5.6.3
-
+version: 5.6.4
 main: com.mccraftaholics.warpportals.bukkit.PortalPlugin
-softdepend: [WorldGuard, Multiverse-Core, Multiverse, Multiworld, My Worlds]
-
+softdepend:
+- WorldGuard
+- Multiverse-Core
+- Multiverse
+- Multiworld
+- My Worlds
 commands:
   wp:
     description: List all WarpPortals related commands
     usage: /wp
-    aliases: [phelp, wp-help]
+    aliases:
+    - phelp
+    - wp-help
     permissions: warpportals.admins.listcommands
   wp-portal-create:
     description: Bind the WarpPortal Creation tool to the current item
     usage: /wp-portal-create [portalname] [destName|(World,x,y,z)] [portalMaterial]
-    aliases: [pcreate, wppc]
+    aliases:
+    - pcreate
+    - wppc
     permissions: warpportals.admin.portal.create
   wp-portal-material:
     description: Change a WarpPortal's block type to another material
     usage: /wp-portal-material [portalname] [portalMaterial]
-    aliases: [wppm]
+    aliases:
+    - wppm
     permissions: warpportals.admin.portal.material
   wp-portal-delete:
     description: Delete a WarpPortal by name.
     usage: /wp-portal-delete [portalName]
-    aliases: [pdelete, wppd]
+    aliases:
+    - pdelete
+    - wppd
     permissions: warpportals.admin.portal.delete.command
   wp-portal-deltool:
     description: Bind the Portal Deletion tool to the current item
     usage: /wp-portal-deltool
-    aliases: [pdeltool, wppdt]
+    aliases:
+    - pdeltool
+    - wppdt
     permissions: warpportals.admin.portal.delete.tool
   wp-portal-idtool:
     description: Toggle the current item as a Portal ID tool
     usage: /wp-portal-idtool
-    aliases: [wppidt, wppid]
+    aliases:
+    - wppidt
+    - wppid
     permissions: warpportals.admin.portal.list.tool
   wp-portal-list:
     description: List all WarpPortals
     usage: /wp-portal list
-    aliases: [plist, wp-portals, wppl]
+    aliases:
+    - plist
+    - wp-portals
+    - wppl
     permissions: warpportals.admin.portal.list
   wp-portal-teleport:
     description: Teleport to a WarpPortal
     usage: /wp-portal-teleport [portalName]
-    aliases: [wp-portal-tp, wpptp]
+    aliases:
+    - wp-portal-tp
+    - wpptp
     permissions: warpportals.admin.portal.teleport
   wp-destination-create:
     description: Create a WarpPortals Destination using your current location and point-of-view
     usage: /wp-destination-create [destinationName]
-    aliases: [pdest, wpdc, wp-dest-create]
+    aliases:
+    - pdest
+    - wpdc
+    - wp-dest-create
     permissions: warpportals.admin.destination.create
   wp-destination-delete:
     description: Remove a WarpPortals Destination by name
     usage: /wp-destination-delete [destinationName]
-    aliases: [pdestdel, wpdd, wp-dest-delete]
+    aliases:
+    - pdestdel
+    - wpdd
+    - wp-dest-delete
     permissions: warpportals.admin.destination.delete
   wp-destination-list:
     description: List all saved WarpPortals Destinations
     usage: /wp-destination-list
-    aliases: [pdestlist, wp-destinations, wp-dest-list, wpdl, wp-dests]
+    aliases:
+    - pdestlist
+    - wp-destinations
+    - wp-dest-list
+    - wpdl
+    - wp-dests
     permissions: warpportals.admin.destination.list
   wp-destination-teleport:
     description: Teleport to a WarpPortals Destination
     usage: /wp-destination-teleport [destinationName]
-    aliases: [wp-destination-tp, wp-dest-tp, wp-dest-teleport, wpdtp]
+    aliases:
+    - wp-destination-tp
+    - wp-dest-tp
+    - wp-dest-teleport
+    - wpdtp
     permissions: warpportals.admin.destination.teleport
   wp-save:
     description: Force save all WarpPortals data
     usage: /wp-save
-    aliases: [psave, wps]
+    aliases:
+    - psave
+    - wps
     permissions: warpportals.admin.op.save
   wp-load:
     description: Force load WarpPortals data from portals.yml
     usage: /wp-load
-    aliases: [pload, wpl]
+    aliases:
+    - pload
+    - wpl
     permissions: warpportals.admin.op.load
   wp-backup:
     description: Backup the current WarpPortals data to "portals.yml_yyyy-MM-ddTkk-mm-ss.bac"
     usage: /wp-backup
-    aliases: [pbackup, wpb]
+    aliases:
+    - pbackup
+    - wpb
     permissions: warpportals.admin.op.backup
   wp-version:
     description: Print the version info for WarpPortals
     usage: /wp-version
-    aliases: [wpv]
+    aliases:
+    - wpv
     permissions: warpportals.version
-
 permissions:
   warpportals.admin:
     description: Gives access to all WarpPortal commands

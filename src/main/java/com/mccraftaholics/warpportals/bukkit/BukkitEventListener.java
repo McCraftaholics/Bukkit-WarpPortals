@@ -24,8 +24,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.mccraftaholics.warpportals.api.WarpPortalsEvent;
 import com.mccraftaholics.warpportals.api.WarpPortalsTeleportEvent;
 import com.mccraftaholics.warpportals.helpers.Defaults;
