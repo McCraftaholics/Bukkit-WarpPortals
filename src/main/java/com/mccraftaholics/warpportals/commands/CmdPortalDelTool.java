@@ -30,7 +30,7 @@ public class CmdPortalDelTool extends CommandHandlerObject {
 	@Override
 	boolean command(Player player, String[] args, CommandHandler main) {
 		try {
-			ItemStack curItem = player.getItemInHand();
+			ItemStack curItem = player.getInventory().getItemInMainHand();
 			if (!curItem.getType().isBlock()) {
 				PortalTool tool = new PortalTool(curItem.getType(), PortalTool.Action.DELETE);
 				main.mPortalManager.addTool(player.getUniqueId(), tool);

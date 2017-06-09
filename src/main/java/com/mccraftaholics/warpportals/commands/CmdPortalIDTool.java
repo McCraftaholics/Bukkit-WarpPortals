@@ -30,7 +30,7 @@ public class CmdPortalIDTool extends CommandHandlerObject {
 	@Override
 	boolean command(Player player, String[] args, CommandHandler main) {
 		try {
-			ItemStack curItem = player.getItemInHand();
+			ItemStack curItem = player.getInventory().getItemInMainHand();
 			if (!curItem.getType().isBlock()) {
 				if (main.mPortalManager.getTool(player.getUniqueId()) != null) {
 					main.mPortalManager.removeTool(player.getUniqueId());
