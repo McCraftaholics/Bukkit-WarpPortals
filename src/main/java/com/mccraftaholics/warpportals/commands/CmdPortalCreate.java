@@ -73,7 +73,7 @@ public class CmdPortalCreate extends CommandHandlerObject {
 										}
 										// Get current item in the player's
 										// hand
-										ItemStack curItem = sender.getItemInHand();
+										ItemStack curItem = sender.getInventory().getItemInMainHand();
 										/*
 										 * Test if curItem is a tool or other
 										 * non-block item

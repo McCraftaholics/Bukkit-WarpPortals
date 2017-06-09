@@ -1,29 +1,27 @@
 package com.mccraftaholics.warpportals.bukkit;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import com.mccraftaholics.warpportals.api.example.WarpPortalsEventListener;
 import com.mccraftaholics.warpportals.helpers.Defaults;
+import com.mccraftaholics.warpportals.helpers.Utils;
+import com.mccraftaholics.warpportals.manager.PortalManager;
+import org.bstats.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.MetricsLite;
 
-import com.mccraftaholics.warpportals.helpers.Utils;
-import com.mccraftaholics.warpportals.manager.PortalManager;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class PortalPlugin extends JavaPlugin {
-	CommandHandler mCommandHandler;
 	public PortalManager mPortalManager;
-
 	public File mPortalDataFile;
-	File mPortalConfigFile;
 	public YamlConfiguration mPortalConfig;
+	CommandHandler mCommandHandler;
+	File mPortalConfigFile;
 
 	@Override
 	public void onEnable() {
@@ -34,22 +32,19 @@ public class PortalPlugin extends JavaPlugin {
 		loadConfigs();
 		mPortalManager = new PortalManager(getLogger(), mPortalConfig, mPortalDataFile, this);
 		mCommandHandler = new CommandHandler(this, mPortalManager, mPortalConfig);
-		getServer().getPluginManager().registerEvents(new BukkitEventListener(this, mPortalManager, mPortalConfig), this);
+		getServer().getPluginManager()
+				.registerEvents(new BukkitEventListener(this, mPortalManager, mPortalConfig), this);
 		initMCStats();
 
 		// Register example WarpPortals Event API Listener
 		String tpMessage = mPortalConfig.getString("portals.teleport.message", Defaults.TP_MESSAGE);
-		ChatColor tpChatColor = ChatColor.getByChar(mPortalConfig.getString("portals.teleport.messageColor", Defaults.TP_MSG_COLOR));
+		ChatColor tpChatColor =
+				ChatColor.getByChar(mPortalConfig.getString("portals.teleport.messageColor", Defaults.TP_MSG_COLOR));
 		getServer().getPluginManager().registerEvents(new WarpPortalsEventListener(tpMessage, tpChatColor), this);
 	}
 
 	private void initMCStats() {
-		try {
-			MetricsLite metrics = new MetricsLite(this);
-			metrics.start();
-		} catch (IOException e) {
-			// Failed to submit the stats :-(
-		}
+		new Metrics(this);
 	}
 
 	private void initiateConfigFiles() {
