@@ -160,9 +160,9 @@ public class BukkitEventListener implements Listener {
 	public void onBlockPhysicsEvent(BlockPhysicsEvent e) {
         //The following check is to prevent physics when we initially change the template gold blocks to portals, which
         //causes only two portal blocks to appear and the rest to vanish immediately:
-		if ((e.getBlock().getType() == Material.PORTAL && e.getChangedType() == Material.GOLD_BLOCK) ||
+		if ((e.getBlock().getType() == Material.NETHER_PORTAL && e.getChangedType() == Material.GOLD_BLOCK) ||
                 //This checks for physics when we already have our portal standing:
-                (e.getBlock().getType() == Material.PORTAL && mPortalManager.isLocationInsidePortal(e.getBlock().getLocation()) != null)) {
+                (e.getBlock().getType() == Material.NETHER_PORTAL && mPortalManager.isLocationInsidePortal(e.getBlock().getLocation()) != null)) {
                 e.setCancelled(true);
         }
 	}

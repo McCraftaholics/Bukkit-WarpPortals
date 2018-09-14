@@ -41,7 +41,7 @@ public class PortalCDManager {
 	}
 
 	void possibleDeletePortal(Block block, Player player) {
-		if (block.getType() == Material.PORTAL || block.getType() == Material.ENDER_PORTAL) {
+		if (block.getType() == Material.NETHER_PORTAL || block.getType() == Material.END_PORTAL) {
 			deletePortal(block.getLocation());
 			mPTM.removeTool(player.getUniqueId());
 		} else
@@ -73,7 +73,7 @@ public class PortalCDManager {
 	}
 
 	void possibleCreatePortal(Block block, Player player, PortalCreate portalCreate) {
-		if (block.getType() == Material.GOLD_BLOCK || (block.getType() == Material.PORTAL || block.getType() == Material.ENDER_PORTAL)) {
+		if (block.getType() == Material.GOLD_BLOCK || (block.getType() == Material.NETHER_PORTAL || block.getType() == Material.END_PORTAL)) {
 			// Check to see if that Portal Name is already in use
 			if (mPDM.getPortalInfo(portalCreate.portalName) == null) {
 				// Check if Portal Name is valid
